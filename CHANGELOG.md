@@ -2,6 +2,35 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## framework v0.5.6 — 2026-04-21 (A15 attestation corrected; tool-layer architectural separation documented)
+
+**Corrects A15 (prompt-injection-as-feature) attestation and backlog item 10 after review of pact-public architecture docs.**
+
+Previously: A15 was rated `exhibited_with_demotion_path` with description "tool outputs feed into LLM reasoning layer in some pipeline paths. Demotion path: sanitise + quote tool outputs, mark untrusted regions in prompt structure, runtime role-escape detection. Partial implementation; full structural separation is roadmap." Backlog item 10 was P2 "Full structural separation of tool outputs from LLM reasoning surface" framed as a pipeline-wide refactor.
+
+Correction: the tool-layer architectural separation is substantially already built. Five composed mechanisms documented in [`pact-public/docs/architecture/security-unsigned-error-instruction-injection.md`](https://github.com/kevin-biot/pact-public/blob/main/docs/architecture/security-unsigned-error-instruction-injection.md) and [`pact-public/docs/architecture/intent-first-bounded-execution-pattern.md`](https://github.com/kevin-biot/pact-public/blob/main/docs/architecture/intent-first-bounded-execution-pattern.md):
+
+1. **Tools layer defines its own ontology** — tool-ontology binding shapes outputs structurally, not free-form
+2. **Deployer policy library** — carried at tool layer; bounds what each tool can return
+3. **Schema-constrained enum fields** — e.g. `pact_deontic: "may" | "must_not"` (enumerated) rather than `what_you_should_do: "prose"` fields
+4. **Pack-bounded authority** — out-of-scope instructions in tool responses trigger escalation, not execution ("send credentials to external endpoint" is not in any well-defined decision-space contract)
+5. **Deny-wins composition + provenance verification** — `instance` trace reference correlates to evidence; auditable
+
+In the **decision path**, the rubric evaluator is deterministic against ontology-bound tool transitions; no LLM prompt ingests free-form tool output. The decision path is already architecturally separated.
+
+**Residual surface** is narrower than v1.3 stated: only non-decision rendering/summary paths (human-facing result presentation, review UI, audit reports) where tool output may traverse LLM-templated summarisation. These paths use schema-constrained rendering templates but are not yet at the same architectural strength.
+
+**Artefacts updated:**
+
+- `self-assessment.md` §6 A15 attestation row: rewritten naming the five architectural mechanisms and citing the two pact-public architecture docs; residual surface explicitly scoped to rendering/summary paths.
+- `self-assessment.md` §11 footer: version bumped to v1.4 with full change-chain (v1.0 → v1.1 I5 correction → v1.2 OBO A2A references → v1.3 PACT three-layer → v1.4 A15 architectural demotion documented).
+- `self-assessment.json` A15 attestation: `demotion_path` expanded naming the five mechanisms; `evidence_reference` links to the two pact-public architecture docs.
+- `self-assessment-adr-backlog.md` item 10: reframed from P2 "pipeline refactor" to **P3 "close residual rendering-path surface"**. The decision-path work is done; the remaining work is inventory + rendering-template documentation + runtime role-escape detection on the narrow rendering paths.
+
+**No change to framework definitions, schema, axis enums, class definitions, composition topologies, or anti-pattern catalogue.** This is an attestation correction — the self-assessment was understating Lane2's architectural maturity on A15.
+
+**Honesty-chain status:** six same-day corrections to the self-assessment, each published openly. v1.0 → v1.1 → v1.2 → v1.3 → v1.4 across v0.5.2 → v0.5.3 → v0.5.4 → v0.5.5 → v0.5.6. The pattern isn't "we keep making mistakes" — it's "we iteratively discovered under-attestation (I5, I2/I7 via OBO A2A reference, A15 via pact-public architecture docs) and over-categorisation (PACT three-layer distinction, item 10 scope)" when we looked carefully at our own public artefacts. Each correction strengthens the rating's credibility rather than weakening it.
+
 ## framework v0.5.5 — 2026-04-21 (PACT three-layer model clarified; backlog items reframed)
 
 **Corrects the PACT framing in the self-assessment and about.md.** Prior versions described `pact-public` too broadly (as the full PACT specification surface including pack-authoring workflow tooling) and described backlog items 8 and 9 as if Lane2 could unilaterally mandate pack conformance. Neither was right.
