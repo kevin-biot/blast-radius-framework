@@ -2,6 +2,52 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## framework v0.5.10 — 2026-04-21 (completes v0.5.9 reorg — fixup commit for untracked files)
+
+**Honest correction.** The v0.5.9 commit and tag were incomplete. At commit time:
+
+- Six new files were untracked and not staged (the three new templates under `reports/templates/`, and the three READMEs at `reports/README.md`, `reports/templates/README.md`, `reports/lane2/README.md`)
+- Path updates applied via `sed` to the moved self-assessment files (rewriting `./framework.md` to `../../framework.md` and similar) were modifications applied *after* `git mv` staged the renames — those modifications were dirty in the working tree but not staged when the commit ran
+
+Result: the v0.5.9 tag points at a repo state where:
+- The four `reports/lane2/*` self-assessment files exist (renamed correctly) but contain broken links to root-level docs (`./framework.md` from a two-levels-deep location)
+- The `reports/templates/*` files are absent
+- The three new READMEs are absent
+
+v0.5.10 ships the missing files and the dirty modifications in a single fixup commit. The v0.5.9 tag is *not* moved (per the project's "no destructive git operations without explicit request" discipline); readers fetching v0.5.9 specifically will see the incomplete state, and should use v0.5.10 or later for the complete reorganisation.
+
+**Root-cause note for the authoring chain.** This is the tenth correction in the same-day correction chain (self-assessment v1.0 → v1.5 across v0.5.2 → v0.5.7; authoring-notes in v0.5.8; reorg in v0.5.9; this fixup in v0.5.10). The pattern difference: v1.1 through v1.5 were *under-attestation* corrections surfaced by the domain-holder's pointers. v0.5.10 is a *process error* correction — I ran `git commit` without checking `git status` showed `A ` (staged-add) for the new files before committing, and the sed-modified files were not re-staged after `git mv`. Both are my mistakes as the executing agent. Transparent correction ships the fix with an honest entry rather than silently rewriting history.
+
+**How to avoid this specific failure mode in future reorg operations** (feedback for session memory):
+1. Run `git status --short` *before* `git commit` and verify every intended change is in one of: `M ` (staged-modify), `A ` (staged-add), `D ` (staged-delete), or `R ` (staged-rename). Anything showing `??` (untracked) or ` M` (unstaged-modify) is being missed.
+2. After `git mv` followed by any content modification (e.g. `sed`), re-run `git add` on the modified files so the content change is staged alongside the rename.
+3. Prefer committing in smaller increments when a reorg is complex — separate the rename commit from the content-update commit, so each stage is verifiable.
+
+## framework v0.5.9 — 2026-04-21 (structural reorg — reports/templates/ and reports/lane2/)
+
+**No content changes. Directory reorganisation to reduce root-repo clutter for first-time readers.**
+
+- New [`reports/`](./reports/) directory at repo root with README explaining the structure
+- New [`reports/templates/`](./reports/templates/) directory containing the three per-tier templates as separate files (split from the previous monolithic `report-template.md` at root):
+  - [`executive-summary-template.md`](./reports/templates/executive-summary-template.md) (Tier 1)
+  - [`technical-findings-template.md`](./reports/templates/technical-findings-template.md) (Tier 2)
+  - [`adr-backlog-template.md`](./reports/templates/adr-backlog-template.md) (Tier 3)
+- New [`reports/lane2/`](./reports/lane2/) directory — the Lane2 self-assessment artefacts moved here with `README.md` making the worked-example framing explicit:
+  - `self-assessment.md` (technical findings, Tier 2 content)
+  - `self-assessment.json` (machine-readable profile)
+  - `self-assessment-exec-summary.md` (Tier 1 filled)
+  - `self-assessment-adr-backlog.md` (Tier 3 filled)
+- Old `report-template.md` at root: deleted (content redistributed to three per-tier templates with added per-template READMEs)
+- Root-relative links inside the moved self-assessment files updated from `./framework.md` style to `../../framework.md` style so they resolve correctly from the new location
+- Sibling-in-directory links (`./self-assessment.json` etc from `self-assessment.md`) unchanged — they are still siblings in `reports/lane2/`
+- Root `README.md` documents list restructured: single `reports/` entry with sub-bullets for `templates/` and `lane2/`, replacing the previous two entries for `report-template.md` and `self-assessment*`
+- No framework definition changes, no schema changes, no tier enum / class / invariant / anti-pattern changes
+- Git history preserved via `git mv` for the four self-assessment files; the three new template files do not carry history (they are the split of `report-template.md`, whose history is in the pre-0.5.9 tags)
+
+**Why this reorg now:** the root of the repo was becoming crowded enough that a first-time reader landing on it was overwhelmed before they could tell whether the framework was usable. Better separation of concerns: root carries the framework + manifesto + argumentation + about; `reports/` carries operational templates and the Lane2 worked example; `spec/` carries the machine-readable artefacts. Each concern in its own place, READMEs at each layer to navigate without re-reading the framework.
+
+**v0.5.9 is a patch version.** Content is unchanged; only structure moves. The v0.6 minor-bump slot remains reserved for the framework-content roadmap items (weight calibration, regulatory crosswalk, specialist-underwriter crosswalk, certification path) listed in `framework.md §19`.
+
 ## framework v0.5.8 — 2026-04-21 (authoring-notes added: epistemic-partner force function as explicit method)
 
 **New artefact.** [`authoring-notes.md`](./authoring-notes.md) at repo root documents the **human-domain-holder + AI-epistemic-partner force-function method** under which this repository and the Lane2 self-assessment artefacts were produced. Transparent provenance of method alongside transparent provenance of content.

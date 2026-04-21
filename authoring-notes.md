@@ -27,7 +27,7 @@ The pattern that produces credible output:
 
 ## Evidence this pattern operated on this repository
 
-The Lane2 [self-assessment](./self-assessment.md) went through **seven versions in one calendar day** (v1.0 through v1.5) across framework releases v0.5.2 through v0.5.7. Each version closed an under-attestation the AI could not have discovered alone. See [CHANGELOG.md](./CHANGELOG.md) for the correction chain. Examples of what the force function surfaced:
+The Lane2 [self-assessment](./reports/lane2/self-assessment.md) went through **seven versions in one calendar day** (v1.0 through v1.5) across framework releases v0.5.2 through v0.5.7. Each version closed an under-attestation the AI could not have discovered alone. See [CHANGELOG.md](./CHANGELOG.md) for the correction chain. Examples of what the force function surfaced:
 
 - **I5** upgraded from `partially_holds / structural` to `holds / architectural` after Kevin pointed at aARP + RTGF + Shared Ontology as the core jurisdictional mechanism
 - **I2 and I7** strengthened by citing the existing OBO + A2A reference implementation at [`kevin-biot/obo-standard/examples/integrations/a2a/`](https://github.com/kevin-biot/obo-standard/tree/main/examples/integrations/a2a) — which the AI had not opened until prompted to

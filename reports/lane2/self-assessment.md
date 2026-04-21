@@ -21,7 +21,7 @@ This is a self-assessment at the **public-observable level**, using only informa
 
 A self-assessment that came out perfectly clean would indicate the assessment was not applied honestly. This assessment surfaces **four named gaps** (§9) which seed the ADR backlog in [`self-assessment-adr-backlog.md`](./self-assessment-adr-backlog.md).
 
-IP boundaries are per [`SCOPE.md` §3](./SCOPE.md). Where a public attestation would require disclosing an out-of-scope item (specific code paths, cryptographic parameters, customer names, internal ADR numbers, Kalman R_K calibration values, adversarial threat-model details beyond framework §15), the attestation records the enforcement mode and status at the granularity the public evidence supports, and notes that stronger internal evidence exists.
+IP boundaries are per [`SCOPE.md` §3](../../SCOPE.md). Where a public attestation would require disclosing an out-of-scope item (specific code paths, cryptographic parameters, customer names, internal ADR numbers, Kalman R_K calibration values, adversarial threat-model details beyond framework §15), the attestation records the enforcement mode and status at the granularity the public evidence supports, and notes that stronger internal evidence exists.
 
 Where this self-assessment and the framework text disagree, the framework text is authoritative. Where this self-assessment and the machine-readable profile `self-assessment.json` disagree, the JSON is authoritative (the narrative here is a readable gloss on the profile).
 
@@ -314,17 +314,17 @@ Two Part B anti-patterns (B3 prompt storage governance, B5 authentication freshn
 ## 10. Evidence references
 
 - Machine-readable profile: [`self-assessment.json`](./self-assessment.json)
-- Framework version: [`framework.md v0.5.1`](./framework.md) (commit `d80db51`)
-- Lane2 positioning: [`about.md v0.3`](./about.md)
+- Framework version: [`framework.md v0.5.1`](../../framework.md) (commit `d80db51`)
+- Lane2 positioning: [`about.md v0.3`](../../about.md)
 - Public product descriptions: Kevin Brown, LinkedIn (as of 2026-04-21)
 - Open Lane2 repositories: [kevin-biot/pact-public](https://github.com/kevin-biot/pact-public), [kevin-biot/obo-standard](https://github.com/kevin-biot/obo-standard), [kevin-biot/Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate)
 - Working reference implementation: [obo-standard/examples/integrations/a2a/](https://github.com/kevin-biot/obo-standard/tree/main/examples/integrations/a2a) (OBO + A2A composed, runnable end-to-end; live DNS trust anchor; Merkle evidence anchor; seven captured test scenarios)
 - Negative control for T2 super-additive composition: [obo-standard/examples/integrations/a2a-multi-hop/](https://github.com/kevin-biot/obo-standard/tree/main/examples/integrations/a2a-multi-hop) (deliberately NL-coupled agent-agent-agent chain; feeds DOP-side Sentinel replication at `research/sentinel-a2a/agent-topology-comparison/`)
-- This assessment produces **no signed attestation** at publication time. A signed attestation per [`spec/attestation-format.md`](./spec/attestation-format.md) is an ADR candidate in the backlog. (The OBO A2A reference implementation does produce signed evidence envelopes + anchor JWS proofs in its captures; those are demonstrable but are demo-grade, not a production attestation signed by Lane2 as a legal entity.)
+- This assessment produces **no signed attestation** at publication time. A signed attestation per [`spec/attestation-format.md`](../../spec/attestation-format.md) is an ADR candidate in the backlog. (The OBO A2A reference implementation does produce signed evidence envelopes + anchor JWS proofs in its captures; those are demonstrable but are demo-grade, not a production attestation signed by Lane2 as a legal entity.)
 
 ## 11. Assessor attestation
 
-The assessor (Lane2, self-attesting via Kevin Brown) attests that the rating above reflects honest application of framework v0.5.1 against the Lane2 stack as publicly disclosed on 2026-04-21, within the IP and scope boundaries stated in [`SCOPE.md §3`](./SCOPE.md). Stronger internal evidence exists for several invariants; where that is the case, the assessment records the weaker public-observable claim and flags the stronger internal-instrumented claim as private.
+The assessor (Lane2, self-attesting via Kevin Brown) attests that the rating above reflects honest application of framework v0.5.1 against the Lane2 stack as publicly disclosed on 2026-04-21, within the IP and scope boundaries stated in [`SCOPE.md §3`](../../SCOPE.md). Stronger internal evidence exists for several invariants; where that is the case, the assessment records the weaker public-observable claim and flags the stronger internal-instrumented claim as private.
 
 Residual uncertainty is not expressed as σ_B(t) because Kalman Phase 1 is not implemented (Gap-1); residual uncertainty is captured qualitatively in §9 gaps and in the `exhibited_with_demotion_path` attestations of §6.
 

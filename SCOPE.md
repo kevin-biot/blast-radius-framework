@@ -1,9 +1,21 @@
 # Scope of Work — Lane2 Self-Assessment and Reusable Report Template
 
-**Status:** Planned — awaiting go-ahead to execute
+**Status:** Executed (v0.5.2 through v0.5.7); subsequently reorganised in v0.5.9.
 **Date opened:** 2026-04-21
-**Framework version target:** v0.5.2 (patch — adds artefacts, changes no definitions)
-**Expected execution window:** ~4 focused working days across three deliverables
+**Framework version target at time of writing:** v0.5.2 (patch — adds artefacts, changes no definitions)
+**Actual execution:** v0.5.2 (initial publication) → v0.5.7 (seven same-day corrections under the force-function method); structural reorganisation in v0.5.9.
+
+**Post-execution note (v0.5.9 reorganisation).** This document describes the plan as written, with file locations that matched the initial execution in v0.5.2. In v0.5.9 the artefacts were reorganised to reduce root-repo clutter:
+
+- `report-template.md` at root → split into three per-tier templates at [`reports/templates/`](./reports/templates/)
+- `self-assessment.md` at root → [`reports/lane2/self-assessment.md`](./reports/lane2/self-assessment.md)
+- `self-assessment.json` at root → [`reports/lane2/self-assessment.json`](./reports/lane2/self-assessment.json)
+- `self-assessment-exec-summary.md` at root → [`reports/lane2/self-assessment-exec-summary.md`](./reports/lane2/self-assessment-exec-summary.md)
+- `self-assessment-adr-backlog.md` at root → [`reports/lane2/self-assessment-adr-backlog.md`](./reports/lane2/self-assessment-adr-backlog.md)
+
+The body of this document is retained as historical record of the plan; when reading file paths mentioned below, apply the above redirection.
+
+---
 
 ---
 
