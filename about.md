@@ -3,7 +3,7 @@
 *A living statement. Updates when the business changes.*
 
 **Last updated:** 2026-04-21
-**Version:** 0.2
+**Version:** 0.3
 **Homepage:** [lane2.ai](https://lane2.ai)
 
 ---
@@ -40,14 +40,20 @@ Lane2 operates a dual-mode strategy: **open the shapes that should be standards,
 
 ### 4.1 Open — public repositories under CC-BY-4.0
 
-| Repository | Contents |
-|---|---|
-| [kevin-biot/blast-radius-framework](https://github.com/kevin-biot/blast-radius-framework) *(this repo)* | The Blast Radius classification framework; manifesto (*Law as Pattern*); anti-pattern catalogue; insurability companion; machine-readable conformance spec (JSON Schema, per-invariant tests, attestation format, worked examples); acknowledgements |
-| [kevin-biot/obo-standard](https://github.com/kevin-biot/obo-standard) | Our narrow ontology released as an open standard — the semantic primitives that anchor capability verbs, evidence classes, policy concepts, and cross-domain links in a machine-readable form |
-| [kevin-biot/pact-public](https://github.com/kevin-biot/pact-public) | Reference PACT pack implementations, starting with legal-citation-review as the worked example of the governance-only + vertical-pack positioning |
-| [kevin-biot/Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate) | European cloud substrate work — deployment-substrate considerations for EU-jurisdiction governance-conformant AI operations |
+The four open repositories are not a single project split into pieces. They are four *distinct* contributions, each solving a different industry gap, each composable with the others.
 
-Use freely. No contact required. Cite per the README citation block of the relevant repo.
+| Repository | What it is |
+|---|---|
+| [kevin-biot/blast-radius-framework](https://github.com/kevin-biot/blast-radius-framework) *(this repo)* | **Blast Radius classification framework** — how to rate agentic AI systems for operational impact. Six axes, seven invariants, four composition topologies, machine-readable conformance spec. Answers *"what would we score you if a specialist underwriter asked?"* |
+| [kevin-biot/obo-standard](https://github.com/kevin-biot/obo-standard) | **OBO (On Behalf Of) minimum evidence standard** for agentic transactions crossing organisational and jurisdictional boundaries *without a shared authorisation server*. DNS-anchored trust (DKIM pattern). Two JSON artefacts: Credential (pre-transaction, "who authorised what scope") + Evidence Envelope (post-transaction, "what actually happened, sealed"). Draft: `draft-obo-agentic-evidence-envelope-01`. Composes with OAuth / WIMSE / SPIFFE / W3C VCs / A2A / AGNTCY — fills the cross-org accountability gap they leave rather than competing with them. Answers *"how does a Ryanair back-office prove in court what a travel-planning agent it never met did on a customer's behalf?"* |
+| [kevin-biot/pact-public](https://github.com/kevin-biot/pact-public) | **PACT (Pack-based Agentic Contract for Trust)** specification bundle. Governance invariants and artifact contracts for deterministic, regulated agent execution. Closed-world, bounded-intent, signed, time-bounded ontology *packs* as the alternative to classical open-world ontologies at runtime. Drafts include: pack conformance, pack authoring/approval workflow, operational ontology profile, certification + trust-mark, open-standard transition path. JSON Schemas, OCI-1 profile, reference pack registry. Answers *"how do we keep agents bounded to a declared intent scope when regulators ask?"* |
+| [kevin-biot/Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate) | **Euro Cloud Substrate (ECS)** — portable, governable, European cloud substrate specification. Minimal shared contracts European providers can implement to export verifier-friendly evidence. Evidence profiles, golden bundles, reference adapters (k8s-admission, ML-inference-sidecar, object-storage-proxy), RFP guide, pilot pack. Its position: *"if you cannot export verifier-friendly evidence, you do not have sovereignty — you have hosting."* Answers *"what is the minimum contract that makes EU-jurisdiction AI deployment substrate actually sovereign, not cosmetically sovereign?"* |
+
+**How the four compose.** The framework here (blast-radius) is the rating surface. OBO is the cross-organisational accountability layer agents carry when they cross trust boundaries. PACT is the closed-world intent scope each agent operates inside. ECS is the jurisdiction-aware substrate underneath. A deployer can adopt any subset — the dependency graph is explicit but loose.
+
+**On OBO and aARP.** OBO and Lane2's aARP (§4.2) are not competitors; they solve adjacent problems. **OBO** is for free-roaming agents crossing organisational boundaries with no shared authorisation server — DNS-anchored evidence that any counterparty can verify offline. **aARP** is for intent discovery and routing *within* Lane2-governed deployments — scoped capability requests across domains with provable lawful-route validation. Lane2 can use and does compose with OBO (it is an open standard we contribute to); we prefer aARP as the ground-truth mechanism for agents to find and pass intent because it gives the integrator typed-protocol guarantees that OBO's envelope-form does not. Put differently: OBO is the evidence a free-roaming agent leaves behind; aARP is the typed channel a governed agent routes through. Both are valid; which one to use depends on whether the integrator can define the intent space structurally or must accept arbitrary agents arriving from outside.
+
+Use all four freely. No contact required. Cite per the README citation block of the relevant repo.
 
 ### 4.2 Private — Lane2 commercial IP, available for pre-launch PoC validation engagements
 
@@ -122,6 +128,7 @@ Three tiers, in increasing intensity:
 
 ## Change log for this statement
 
+- **v0.3, 2026-04-21** — Corrected the descriptions of the four open repositories. v0.2 described obo-standard as "narrow ontology as open standard" and pact-public as "PACT pack reference implementations"; both were wrong. Correct: obo-standard is the OBO (On Behalf Of) minimum evidence standard for cross-organisational agentic transactions without shared authorisation servers, DNS-anchored and composable with OAuth/WIMSE/SPIFFE/W3C VCs/A2A/AGNTCY; pact-public is the PACT specification bundle — governance invariants, pack conformance, authoring workflow, certification/trust-mark — with closed-world bounded-intent packs as the alternative to classical open-world ontologies at runtime; Euro-Cloud-Substrate (ECS) is a sovereignty specification: minimum contracts for EU cloud providers to export verifier-friendly evidence. Added a paragraph clarifying how the four open repos compose, and a paragraph on the OBO↔aARP relationship (OBO for free-roaming cross-org agents, aARP for typed-protocol intent routing within Lane2-governed deployments; they compose rather than compete).
 - **v0.2, 2026-04-21** — Expanded §4 to cover the full Lane2 product suite (DOP, aARP, SAPP, CaaS, RTGF, Shared Ontology) with correct public expansions per the founder's canonical product descriptions: DOP = Deterministic Orchestration Pipeline, aARP = Autonomous Agent Routing Protocol, SAPP = Secure Agent Payment Protocol. Added §4.1 open-repository listing (blast-radius-framework, obo-standard, pact-public, Euro-Cloud-Substrate). Reframed as "knowledge sharing while competing commercially as an infra startup". Prior v0.1 referred to SAPP as "Settlement Anchor Protocol Platform" (an internal working name); the public-facing product is SAPP = Secure Agent Payment Protocol, and the framework references specifically its evidence-anchoring layer.
 - **v0.1, 2026-04-21** — Initial positioning. Pre-launch. DOP and SAPP named as private IP available for PoC engagement. Historical genesis of the integration-pattern rejection documented.
 

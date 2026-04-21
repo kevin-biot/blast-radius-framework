@@ -416,7 +416,7 @@ Jurisdictional constraints on data flow, decision authority, and regulatory requ
 
 **Supports:** K sub-tags (K3-P, K4-R, K4-F), R (cross-border reach).
 **Anti-pattern complement:** A13 (BYOA into corp data).
-**Reference implementation pattern:** policy hierarchy with fixed precedence (regulatory > corporate > manager > local > user), regulatory tier unoverridable; jurisdictional conflict resolution that fails closed and escalates; DNS-anchored on-behalf-of verification for cross-border admission.
+**Reference implementation pattern:** policy hierarchy with fixed precedence (regulatory > corporate > manager > local > user), regulatory tier unoverridable; jurisdictional conflict resolution that fails closed and escalates; DNS-anchored on-behalf-of verification for cross-border admission (the OBO open standard — [kevin-biot/obo-standard](https://github.com/kevin-biot/obo-standard) — is the composable public form of this pattern).
 
 ### Invariant 6 — Fail-closed execution control
 

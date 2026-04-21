@@ -4,7 +4,16 @@
 
 Tool-enabled large language models have shifted AI systems from bounded reasoning to real-world action. Evaluation practice has not kept pace: accuracy benchmarks and model-level guardrails do not capture system-level impact. This repository proposes a framework that does.
 
-Published by **[Lane2](https://lane2.ai)** — a small AI infrastructure startup, pre-launch. The framework is licensed under CC-BY-4.0 and usable without engagement. Lane2 also publishes open sibling repositories: [obo-standard](https://github.com/kevin-biot/obo-standard) (narrow ontology as open standard), [pact-public](https://github.com/kevin-biot/pact-public) (PACT pack reference implementations), and [Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate). Our integrated commercial product suite — DOP (Deterministic Orchestration Pipeline), aARP (Autonomous Agent Routing Protocol), SAPP (Secure Agent Payment Protocol), CaaS (Context-as-a-Service), RTGF (Reference Token Generation Framework), and the Shared Ontology — is available for validation PoC engagements during pre-launch. See [about.md](./about.md) for full positioning and commercial framing.
+Published by **[Lane2](https://lane2.ai)** — a small AI infrastructure startup, pre-launch. The framework is licensed under CC-BY-4.0 and usable without engagement.
+
+Lane2 publishes four open repositories solving distinct industry gaps:
+
+- this one (blast-radius-framework) — rating agentic AI for operational impact
+- [obo-standard](https://github.com/kevin-biot/obo-standard) — OBO minimum evidence standard for cross-organisational agentic transactions with no shared authorisation server (DNS-anchored, composes with OAuth/WIMSE/SPIFFE/W3C VCs/A2A/AGNTCY)
+- [pact-public](https://github.com/kevin-biot/pact-public) — PACT specification bundle: closed-world bounded-intent ontology packs for regulated agent execution
+- [Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate) — ECS minimum contracts for EU cloud providers to export verifier-friendly evidence ("if you cannot export verifier-friendly evidence, you do not have sovereignty — you have hosting")
+
+Our integrated commercial product suite — DOP (Deterministic Orchestration Pipeline), aARP (Autonomous Agent Routing Protocol), SAPP (Secure Agent Payment Protocol), CaaS (Context-as-a-Service), RTGF (Reference Token Generation Framework), and the Shared Ontology — is available for validation PoC engagements during pre-launch. See [about.md](./about.md) for full positioning, how the four open repos compose, and the OBO↔aARP relationship.
 
 ## The framework in one paragraph
 
