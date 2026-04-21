@@ -4,6 +4,8 @@
 
 Tool-enabled large language models have shifted AI systems from bounded reasoning to real-world action. Evaluation practice has not kept pace: accuracy benchmarks and model-level guardrails do not capture system-level impact. This repository proposes a framework that does.
 
+Published by **[Lane2](https://lane2.ai)** — a small AI infrastructure startup. The framework is licensed under CC-BY-4.0 and usable without engagement. Our private reference implementation (DOP) and externally-anchored evidence engine (SAPP) are available for validation PoC engagements during pre-launch — see [about.md](./about.md) for the full positioning.
+
 ## The framework in one paragraph
 
 Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** consequence, **O**bservability) with three modifiers (attack-accessibility, trajectory, residual-vs-inherent), five blast-radius classes (BR-1 through BR-5), an ordinal aggregation rule with explicit interaction overrides, a cardinal Kalman-extended Expected Compliance Risk score `B̂(t|t) ± σ_B(t)`, a composition rule for multi-vendor stacks with four named topology classes (sub-additive / super-additive / multiplicative / exponential-reducing), and seven architectural invariants that a BR profile must satisfy to be genuine rather than nominal. The central claim: system architecture, not model capability, determines operational risk — a claim that holds from engineering, regulatory, and actuarial directions simultaneously.
@@ -12,10 +14,11 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 
 1. **[framework.md](./framework.md)** — the rating framework itself (current version: v0.5). Start here for the specification.
 2. **[manifesto.md](./manifesto.md)** — *Law as Pattern*. The argument for why a framework like this must exist. Read this if you are asking why prose governance fails, why insurers have stayed silent, and what "law as machine code as pattern" means in practice.
-3. **[antipatterns.md](./antipatterns.md)** — 26 named anti-patterns that inflate blast radius and currently ship as "progress". Use for vendor diligence.
-4. **[insurability.md](./insurability.md)** — actuarial companion mapping the framework onto specialist underwriter requirements (Munich Re aiSure, AIUC-1, Armilla/Lloyd's) and the λ/σ/υ variables their pricing needs.
-5. **[spec/](./spec/)** — machine-readable conformance artefacts: JSON Schema for BR profiles, per-invariant test specifications, signed-attestation format, worked examples. This is what makes the framework adoptable, not just readable.
-6. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Jason Gagne's multi-agent drift corpus (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, a private reference implementation whose architectural primitives are generalised here, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
+3. **[about.md](./about.md)** — who we are (Lane2, pre-launch), what is open and what is private (DOP, SAPP, PACT packs available for PoC engagement), and the historical genesis of why we rejected direct-LLM-tool coupling.
+4. **[antipatterns.md](./antipatterns.md)** — 26 named anti-patterns that inflate blast radius and currently ship as "progress". Use for vendor diligence.
+5. **[insurability.md](./insurability.md)** — actuarial companion mapping the framework onto specialist underwriter requirements (Munich Re aiSure, AIUC-1, Armilla/Lloyd's) and the λ/σ/υ variables their pricing needs.
+6. **[spec/](./spec/)** — machine-readable conformance artefacts: JSON Schema for BR profiles, per-invariant test specifications, signed-attestation format, worked examples. This is what makes the framework adoptable, not just readable.
+7. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Jason Gagne's Sentinel programme (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
 
 ## Reading guide by role
 
@@ -29,6 +32,7 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 | Insurer / underwriter | `framework.md` §§5, 9, 14; `insurability.md` entire |
 | Regulator | `framework.md` §§4, 9, 10, 13, 14; `insurability.md` §4 Quadrant mapping; `manifesto.md` §§8–9 on composition with eIDAS / PSD2 / Basel |
 | Anyone asking "why does this exist?" | `manifesto.md` — the argument, read standalone |
+| Anyone asking "who are you and what do you sell?" | `about.md` — Lane2 positioning, private IP, how to engage for PoC |
 | Anyone asking "who did the empirical work?" | `ACKNOWLEDGEMENTS.md` — Jason Gagne's **Sentinel** programme at PreneurialWorks is the empirical catalyst. Repo: [github.com/jasongagne-git/sentinel](https://github.com/jasongagne-git/sentinel). Cite Gagne 2026 (DOI [10.5281/zenodo.19477188](https://doi.org/10.5281/zenodo.19477188) preprint; [10.5281/zenodo.19476723](https://doi.org/10.5281/zenodo.19476723) dataset) whenever using Invariant 7 or the C4a claims |
 
 ## Status

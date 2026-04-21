@@ -26,16 +26,26 @@ All three works should be read by anyone implementing against the framework. Cit
 
 Sentinel is explicitly *not* a pre-deployment certification framework or a production monitoring platform — Gagne frames it as a controlled laboratory. Its findings are about one specific coupling pattern (conversational NL coupling); they do not test typed-capability-routing architectures, shared-weights latent coupling, or ontology-vocabulary attractors. When citing Sentinel as evidence, preserve the scope: it is evidence about NL-coupled multi-agent systems, not about multi-agent systems in general.
 
-## Private reference implementation
+## Lane2 private reference implementations
 
-A proprietary governance platform (not publicly available) provided the majority of the architectural primitives the framework generalises:
+The framework's architectural primitives are generalised from two Lane2 products, both currently private IP and both available for pre-launch PoC validation engagements (see [about.md](./about.md) for commercial framing and contact).
+
+**DOP** — our governance platform. Source for:
 
 - The compositional ontology-as-firewall pattern (`framework.md §15`) and its formal Bayesian validation
 - The cardinal Expected Compliance Risk formalism that the Kalman extension in `framework.md §5.4` generalises
-- The session-execution attestation pattern, capability-routing broker pattern, and action-class taxonomy cited throughout
-- The EU AI Act minimum evidence profile (referenced in `framework.md §5.4` via the evidence-tier → R mapping)
+- The session-execution attestation pattern, capability-routing broker pattern (AARP), and action-class taxonomy cited throughout the framework
+- The seven-invariant architectural decomposition as it appears in `framework.md §9`
+- Evidence-tier → Kalman measurement-noise calibration referenced in `framework.md §5.4`
 
-The framework here distils those primitives into a form that can be adopted, critiqued, and extended by practitioners without access to the private implementation. References to "an internal reference implementation" in the framework text point to this work. Specific architectural decision records (ADRs), code paths, and implementation details remain private.
+**SAPP (Settlement Anchor Protocol Platform)** — our externally-anchored evidence engine. Source for:
+
+- Invariant 2 (evidence binding, `framework.md §9`) — externally-anchored Merkle-proof evidence with independent signing keys
+- The minimum evidence profile mapped to EU AI Act Articles 12, 15, 19, 26(6), 72, 73
+- Ten-category evidence scoring that supports the Kalman R_K calibration
+- Deterministic liability-allocation semantics that inform the cardinal score
+
+The framework distils the portable *patterns* from these implementations. A practitioner does not need access to DOP or SAPP to use the framework; any conformant implementation of the patterns is acceptable. References in the framework text to "an internal reference implementation" point to one of these two products. Specific architectural decision records, code paths, and product-internal details remain private.
 
 ## Prior published work — insurability framing
 
