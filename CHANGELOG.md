@@ -2,7 +2,22 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
-## framework v0.5.1 — 2026-04-21
+## framework v0.5.2 — 2026-04-21
+
+**Artefacts added (no definition changes)** — executes the plan in [`SCOPE.md`](./SCOPE.md):
+
+- **[`report-template.md`](./report-template.md)** — reusable three-tier report format (executive summary / technical findings / ADR remediation backlog). Template version 1.0. Designed for third-party deployer reuse without Lane2-specific assumptions.
+- **[`self-assessment.md`](./self-assessment.md)** — Lane2's own self-assessment against framework v0.5.1. Closed-world T1 sub-additive composition of DOP + aARP + SAPP evidence-anchoring layer + PACT pack for a canonical regulated-operational-workflow deployment. Final rating **BR-4** (residual; inherent BR-5 compressed by architectural controls). Surfaces four named gaps: cross-border I5 is structural not architectural; Kalman Phase 1 not yet implemented (σ_B theoretical); τ cadence nominal pending operational trajectory record; principal-population accounting not instrumented in evidence schema.
+- **[`self-assessment.json`](./self-assessment.json)** — machine-readable profile conformant to `spec/br-profile.schema.json`. Per-component tiers, composition topology, all seven invariant attestations, all 26 anti-pattern attestations, aggregation with interaction-overrides fired.
+- **[`self-assessment-exec-summary.md`](./self-assessment-exec-summary.md)** — Tier 1 executive summary for decision-making managers. Non-technical. Three business impacts, three remediation priorities, insurability posture, recommendation, sign-off.
+- **[`self-assessment-adr-backlog.md`](./self-assessment-adr-backlog.md)** — Tier 3 remediation backlog. 12 ADR candidates, prioritised P0–P3, with dependencies and cross-references.
+- **[`SCOPE.md`](./SCOPE.md)** — planning artefact written before execution to keep the work against a written plan.
+
+**Honesty posture of the self-assessment:** published with four named gaps and six anti-patterns marked `exhibited_with_demotion_path`. A self-assessment that came out perfectly clean would indicate the assessment was not applied honestly. The framework's own authors apply the framework to themselves and find maturity items; those items become the remediation backlog rather than being papered over.
+
+No change to framework definitions, axis enums, class definitions, composition topologies, invariants, anti-patterns, or the schema. v0.5.2 is strictly additive artefacts.
+
+
 
 **Three additions in response to external review** (the changes external readers would need before adopting):
 

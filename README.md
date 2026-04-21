@@ -28,7 +28,9 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 5. **[antipatterns.md](./antipatterns.md)** — 26 named anti-patterns that inflate blast radius and currently ship as "progress". Use for vendor diligence.
 6. **[insurability.md](./insurability.md)** — actuarial companion mapping the framework onto specialist underwriter requirements (Munich Re aiSure, AIUC-1, Armilla/Lloyd's) and the λ/σ/υ variables their pricing needs.
 7. **[spec/](./spec/)** — machine-readable conformance artefacts: JSON Schema for BR profiles, per-invariant test specifications, signed-attestation format, worked example profiles (closed-world BR-2 and open-world BR-4).
-8. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Jason Gagne's Sentinel programme (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
+8. **[report-template.md](./report-template.md)** — reusable three-tier report format (executive summary / technical findings / ADR remediation backlog) for applying the framework to any deployed or proposed agentic system. CC-BY-4.0.
+9. **[self-assessment.md](./self-assessment.md)** + **[self-assessment.json](./self-assessment.json)** — Lane2 applying the framework to its own integrated stack. Published with honest gaps as a worked example. Companion tier files: [`self-assessment-exec-summary.md`](./self-assessment-exec-summary.md), [`self-assessment-adr-backlog.md`](./self-assessment-adr-backlog.md).
+10. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Jason Gagne's Sentinel programme (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
 
 ## Reading guide by role
 
@@ -47,11 +49,11 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 
 ## Status
 
-- **Current version:** v0.5.1 (2026-04-21)
+- **Current version:** v0.5.2 (2026-04-21) — adds report template, Lane2 self-assessment, and worked application of the template to the self-assessment. No definition changes since v0.5.1.
 - **Maturity:** research draft; open for comment
 - **Stability:** major-version increments preserve section numbering; minor revisions may refine equations and add open questions; patch versions (v0.5.1, v0.5.2, …) clarify and reorganise without changing definitions.
 - **Spec v0.1 has shipped** as of 2026-04-21 — see [spec/](./spec/). Includes JSON Schema for BR profiles, per-invariant conformance tests, signed-attestation format, and two worked example profiles (closed-world BR-2; open-world BR-4). Axis-scoring rubric and third-party certification format remain v0.6+ work.
-- **Tags:** `v0.5` (initial public release, 2026-04-21 initial commit), `v0.5.1` (this release — notation extracted to [NOTATION.md](./NOTATION.md), §5.5 worked examples added, §12 observability strengthened). External citations should use explicit version tags — e.g. `framework.md v0.5.1 §5.1` — rather than tracking `main`.
+- **Tags:** `v0.5` (initial public release), `v0.5.1` (notation extracted, worked examples added, observability strengthened), `v0.5.2` (report template, Lane2 self-assessment, worked template application). External citations should use explicit version tags — e.g. `framework.md v0.5.1 §5.1` — rather than tracking `main`.
 
 ## Versioning policy
 

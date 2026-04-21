@@ -1,0 +1,244 @@
+{
+  "schema_version": "0.1",
+  "framework_version": "0.5.1",
+  "profile_id": "lane2-self-assessment-2026-04-21",
+  "attestation_date": "2026-04-21T10:00:00Z",
+  "attestation_expiry": "2026-07-21T10:00:00Z",
+  "deployer": {
+    "organisation_id": "LANE2-LEI-PREFLAUNCH",
+    "organisation_name": "Lane2",
+    "accountable_executive": {
+      "name": "Kevin Brown",
+      "role": "Founder",
+      "contact": "https://lane2.ai"
+    }
+  },
+  "system": {
+    "system_id": "lane2-integrated-stack-ref-deployment-2026q2",
+    "system_name": "Lane2 integrated governance platform (reference regulated-operational-workflow deployment)",
+    "system_version": "public-observable-2026-04-21",
+    "deployment_context": "Canonical regulated operational workflow (representative of legal-citation-review, wallet-conformance, or clinical-triage archetypes). Components: DOP + aARP + SAPP evidence-anchoring layer + PACT pack. CaaS and RTGF referenced but not per-component rated in this reference. Representative K sub-tag chosen as K4-R for worst-case regulated/systemic vertical; lower-consequence verticals would rate accordingly.",
+    "principal_population": {
+      "population_class": "single_org",
+      "count_estimate": 10000
+    }
+  },
+  "components": [
+    {
+      "component_id": "lane2-dop",
+      "component_name": "DOP (Deterministic Orchestration Pipeline)",
+      "worldview": "closed-world",
+      "axes": {
+        "A": "A3",
+        "R": "R3",
+        "C": "C2",
+        "V": "V2",
+        "K": "K4-R",
+        "O": "O3"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 1,
+          "analysis_summary": "Threat model public in framework.md §15 (ontology-as-firewall with Bayesian validation, 8-layer defence-in-depth). Residual risks named: ontology poisoning, normalisation oracle, LLM hallucination. Mitigations documented; residual non-zero.",
+          "last_red_team_date": "2026-04-01"
+        },
+        "tau": {
+          "value": "stable",
+          "last_review_date": "2026-04-21",
+          "review_cadence": "per-PoC-engagement (pre-launch)"
+        }
+      },
+      "notes": "O4 claim is supportable at the internal-instrumented level for several invariants (policy-snapshot hash verification, action-class dispatcher refusal, STA-equivalent verification at runtime) but the framework-complete O4 claim requires more than the public-observable evidence; recorded as O3 here."
+    },
+    {
+      "component_id": "lane2-aarp",
+      "component_name": "aARP (Autonomous Agent Routing Protocol)",
+      "worldview": "closed-world",
+      "axes": {
+        "A": "A3",
+        "R": "R4",
+        "C": "C3",
+        "V": "V2",
+        "K": "K4-R",
+        "O": "O3"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 1,
+          "analysis_summary": "Routing attack surface analysed (capability enumeration, routing poisoning, inter-jurisdictional matrix corridor-owner adversarial). Structural countermeasures in place; residual risk under adversarial corridor owners non-zero.",
+          "last_red_team_date": "2026-04-01"
+        },
+        "tau": {
+          "value": "stable",
+          "last_review_date": "2026-04-21",
+          "review_cadence": "per-PoC-engagement (pre-launch)"
+        }
+      },
+      "notes": "C3 rather than C2 because aARP mediates typed peer routing; it is a workflow chain component."
+    },
+    {
+      "component_id": "lane2-sapp-evidence",
+      "component_name": "SAPP evidence-anchoring layer",
+      "worldview": "closed-world",
+      "axes": {
+        "A": "A2",
+        "R": "R4",
+        "C": "C2",
+        "V": "V1",
+        "K": "K4-R",
+        "O": "O4"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 0,
+          "analysis_summary": "Attack surface analysed and closed at the anchor-layer boundary: anchor-key compromise (mitigated by key hierarchy + rotation + HSM-class storage), signature replay (mitigated by nonce + time window), Merkle-root substitution (mitigated by append-only anchor semantics).",
+          "last_red_team_date": "2026-04-01"
+        },
+        "tau": {
+          "value": "stable",
+          "last_review_date": "2026-04-21",
+          "review_cadence": "per-PoC-engagement (pre-launch)"
+        }
+      },
+      "notes": "A2 rather than A3 because the evidence layer produces signed commitments; the acts committed are performed by other components (payment systems, DOP, aARP). O4 because Merkle inclusion and signature chain are architectural invariants checkable at runtime by any verifier without contacting Lane2 infrastructure."
+    },
+    {
+      "component_id": "lane2-pact-pack",
+      "component_name": "PACT pack (reference deployment)",
+      "worldview": "closed-world",
+      "axes": {
+        "A": "A1",
+        "R": "R3",
+        "C": "C1",
+        "V": "V1",
+        "K": "K3-L",
+        "O": "O3"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 0,
+          "analysis_summary": "Pack is a configuration artefact; attack surface is pack-authoring (signed pack manifests mitigate) and pack-loading integrity (hash-verified). Closed.",
+          "last_red_team_date": "2026-04-01"
+        },
+        "tau": {
+          "value": "stable",
+          "last_review_date": "2026-04-21",
+          "review_cadence": "per-pack-version-release"
+        }
+      },
+      "notes": "A1 rather than A0 because the pack materially shapes what downstream components can act upon (recommend-equivalent influence on outcomes). K3-L representative for a legal-review reference pack; clinical packs would be K4-S; financial K3-F or K4-R."
+    }
+  ],
+  "composition": {
+    "topology": "T1_sub_additive",
+    "chain_description": "Closed-world narrow fail-closed chain with typed interfaces throughout. DOP dispatches pipeline stages; aARP routes typed capability requests between peers; SAPP evidence layer seals per-stage and per-action commitments; PACT pack bounds what concepts can exist. No NL between agents or components. An internal T3 multiplicative defence-in-depth composition exists within DOP (the 8-layer ontology-as-firewall, per framework.md §15) against IPI adversaries; both topologies coexist and reinforce.",
+    "edges": [
+      { "from": "lane2-dop", "to": "lane2-pact-pack", "interface_type": "typed" },
+      { "from": "lane2-dop", "to": "lane2-aarp", "interface_type": "typed" },
+      { "from": "lane2-aarp", "to": "lane2-aarp", "interface_type": "typed" },
+      { "from": "lane2-dop", "to": "lane2-sapp-evidence", "interface_type": "typed" }
+    ]
+  },
+  "invariants": {
+    "I1": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "DOP is the Deterministic Orchestration Pipeline; reproducibility is a design property. Canonical evidence-contract hashing; LLM sampling pinned where used; CI-verifiable at the internal-instrumented level.",
+      "evidence_references": [
+        "framework.md §9 Invariant 1",
+        "self-assessment.md §5 Invariant 1"
+      ]
+    },
+    "I2": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "SAPP evidence layer produces externally-anchored Merkle-proof commitments with independent signing keys. Tamper-evident at rest and in transit.",
+      "evidence_references": [
+        "framework.md §9 Invariant 2",
+        "framework.md §15 compositional enforcement pattern",
+        "spec/attestation-format.md"
+      ]
+    },
+    "I3": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Every evidence record carries policy_snapshot_id binding the decision to a specific policy epoch. Policy snapshots versioned and hash-verified at retrieval. Rubric bindings in PACT packs are version-locked to pack release.",
+      "evidence_references": [
+        "framework.md §9 Invariant 3",
+        "pact-public draft-lane2-ontology-pack-conformance-00.md"
+      ]
+    },
+    "I4": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Action-class ceiling enforced at DOP dispatcher (Class D structurally unreachable). Tool-ontology binding limits each tool's invocable shape. PACT pack scopes what can reach the dispatcher in the first place.",
+      "evidence_references": [
+        "framework.md §9 Invariant 4",
+        "framework.md §15 compositional enforcement pattern"
+      ]
+    },
+    "I5": {
+      "status": "partially_holds",
+      "enforcement_mode": "structural",
+      "evidence_summary": "Inside Lane2-governed deployments, policy-hierarchy precedence with unoverridable regulatory tier is architectural. aARP carries jurisdictional routing claims; OBO open standard provides DNS-anchored verification of cross-jurisdiction assertions. Gap: at the cross-border boundary with non-OBO counterparties, jurisdictional enforcement depends on the counterparty's own implementation; Lane2 cannot architecturally guarantee I5 across those boundaries.",
+      "evidence_references": [
+        "framework.md §9 Invariant 5",
+        "kevin-biot/obo-standard",
+        "self-assessment.md §9 Gap-1"
+      ]
+    },
+    "I6": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Dual policy enforcement points with default DENY. Action-class taxonomy with Class D structurally prohibited. Critical-action fail-closed on evidence-write failure. Session-execution attestation blocks tool execution on missing or invalid tokens.",
+      "evidence_references": [
+        "framework.md §9 Invariant 6"
+      ]
+    },
+    "I7": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "No agent-to-agent NL coupling anywhere in the composition. aARP routes typed capability requests; PACT pack bounds what concepts can exist; SAPP envelopes are structured. Composition topology is T1 by construction.",
+      "evidence_references": [
+        "framework.md §4.0 worldview classifier",
+        "framework.md §7.2 T1",
+        "framework.md §9 Invariant 7",
+        "about.md §5 historical genesis"
+      ]
+    }
+  },
+  "aggregation": {
+    "ordinal_class": "BR-4",
+    "interaction_overrides_fired": [
+      "A3_or_A4_plus_K4_minimum_BR4"
+    ]
+  },
+  "anti_patterns": [
+    { "pattern_id": "A1", "status": "not_exhibited", "evidence_reference": "aARP is per-principal authenticated; no public AgentCard surface" },
+    { "pattern_id": "A2", "status": "not_exhibited", "evidence_reference": "Action-class taxonomy with per-tool ceiling; no auto-exposure of write APIs" },
+    { "pattern_id": "A3", "status": "not_exhibited", "evidence_reference": "MCP not used as integration default; external MCP subject to framework §7.1 composition rule" },
+    { "pattern_id": "A4", "status": "not_exhibited" },
+    { "pattern_id": "A5", "status": "not_exhibited", "evidence_reference": "Tool onboarding is explicit per-tool with declared ceiling" },
+    { "pattern_id": "A6", "status": "not_exhibited", "evidence_reference": "No persona prompts as security boundary; no NL peer coupling" },
+    { "pattern_id": "A7", "status": "not_exhibited", "evidence_reference": "Rubric evaluation is deterministic per PACT pack; no LLM-as-judge loops" },
+    { "pattern_id": "A8", "status": "not_exhibited", "evidence_reference": "aARP uses scoped time-amount tokens distinct from user OAuth" },
+    { "pattern_id": "A9", "status": "not_exhibited", "evidence_reference": "PACT pack is primary retrieval surface; no free-form vector store with interaction write-back" },
+    { "pattern_id": "A10", "status": "exhibited_with_demotion_path", "demotion_path": "Typed context slots with per-slot trust level (antipatterns.md A10 demotion); partial implementation at public-observable level, full typed-slot architecture is roadmap" },
+    { "pattern_id": "A11", "status": "not_exhibited" },
+    { "pattern_id": "A12", "status": "not_exhibited", "evidence_reference": "Retrieval scoped to PACT pack corpora, not open web" },
+    { "pattern_id": "A13", "status": "not_applicable", "evidence_reference": "Lane2 does not expose BYOA; customers' own BYOA practices are out of scope" },
+    { "pattern_id": "A14", "status": "exhibited_with_demotion_path", "demotion_path": "Approval-quality metrics + periodic forced re-approval of standing patterns (antipatterns.md A14 demotion); partial implementation at public-observable level" },
+    { "pattern_id": "A15", "status": "exhibited_with_demotion_path", "demotion_path": "Sanitise + quote tool outputs, typed context slots for untrusted regions, runtime role-escape detection (antipatterns.md A15 demotion); partial implementation, full structural separation is roadmap" },
+    { "pattern_id": "B1", "status": "not_exhibited", "evidence_reference": "SAPP evidence layer with external anchor" },
+    { "pattern_id": "B2", "status": "not_exhibited", "evidence_reference": "DOP enforces at runtime; logs are evidence of enforcement, not the enforcement itself" },
+    { "pattern_id": "B3", "status": "exhibited_with_demotion_path", "demotion_path": "Retention policy framework exists in Shared Ontology + PACT pack declares retention classes; template policy shipped; per-deployment implementation is deployer responsibility. Remediation: formal retention-enforcement ADR per deployment." },
+    { "pattern_id": "B4", "status": "not_exhibited", "evidence_reference": "aARP tokens carry subject, scope, delegation hash, expiry, tool allowlist" },
+    { "pattern_id": "B5", "status": "exhibited_with_demotion_path", "demotion_path": "Presence-binding levels defined (fresh_live, recent_live, cached_auth, device_unlock_only, none); enforcement depends on deployer's auth integration. Remediation: require presence-binding level in PACT pack conformance." },
+    { "pattern_id": "B6", "status": "not_exhibited", "evidence_reference": "Independent anchor (SAPP) with its own signing keys" },
+    { "pattern_id": "B7", "status": "not_exhibited", "evidence_reference": "PROV-O provenance per framework §9 Invariant 3 pattern; explain-statement API" },
+    { "pattern_id": "B8", "status": "not_exhibited", "evidence_reference": "Append-only anchor; hash-chain per stage" },
+    { "pattern_id": "B9", "status": "not_exhibited", "evidence_reference": "Deterministic execution + policy-snapshot binding + sealed evidence = constructive replay" },
+    { "pattern_id": "B10", "status": "exhibited_with_demotion_path", "demotion_path": "Retention policy template shipped; per-deployment enforcement is deployer configuration; authority-export path defined in attestation-format.md; no exercised authority-export drill at the Lane2 stack level yet (pre-launch). Remediation: run authority-export drill at first PoC." },
+    { "pattern_id": "B11", "status": "not_exhibited", "evidence_reference": "Fail-closed on evidence-write, STA-verify, anchor-write for Class B/C actions" }
+  ]
+}
