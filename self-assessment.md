@@ -118,6 +118,14 @@ All components closed-world. Pre-rating gate does not force BR-4 floor.
 
 *Note: PACT packs are configuration artefacts, not agents. They do not act; they bound what other components can act on. The "authority" attribution here reflects that a pack can — via its ontology definition — cause downstream components to accept or refuse inputs, which is an A1-equivalent influence on outcomes.*
 
+**Three-layer distinction (clarified in v1.3 — see §11 change log).** PACT has three distinct layers that this self-assessment keeps separate:
+
+1. **PACT specification surface** — in [`kevin-biot/pact-public`](https://github.com/kevin-biot/pact-public). IETF-style drafts (pack conformance, authoring workflow, governance, certification/trust-mark, operational profile), public JSON Schemas (pack descriptor, intent mappings, entity patterns, manifest, promotion gate result), conformance fixture tooling, demo verticals. This is deliberately a **partial public extraction** from Lane2's internal ontology repo.
+2. **Internal ontology repo + acceptance tooling** — private to Lane2. Defines Lane2's internal operational ontology; DOP loads from it in the MVP. The phased acceptance workflow *tooling* is never passed into public work (the workflow *specification* is public; the operational tools that run it are private).
+3. **Deployer production packs** — authored by deployers against the PACT spec, for their own regulated verticals. Lane2 provides candidate shapes, demo verticals, and (in commercial engagements) authoring tools. Authoring production packs is explicitly a deployer concern; Lane2 does not author customer packs.
+
+In this self-assessment's reference deployment, "the PACT pack" is a deployer-authored production pack consuming the public PACT spec, loaded by DOP from the private internal ontology backing store. The rating above is at the component boundary — the pack as loaded into DOP — rather than rating the public spec artefacts or the internal ontology repo as separate components.
+
 | Axis | Tier | Justification |
 |---|---|---|
 | A | **A1** | Recommends (via ontology membership) what can and cannot reach templates; no direct execution |
@@ -317,7 +325,7 @@ The assessor (Lane2, self-attesting via Kevin Brown) attests that the rating abo
 
 Residual uncertainty is not expressed as σ_B(t) because Kalman Phase 1 is not implemented (Gap-1); residual uncertainty is captured qualitatively in §9 gaps and in the `exhibited_with_demotion_path` attestations of §6.
 
-This self-assessment is a **living document** tied to a framework version. When framework v0.6+ ships, or when any of Gap-1 through Gap-3 closes, this assessment is re-run. Self-assessment version: **v1.2** (2026-04-21; strengthens I2 and I7 evidence by citing the existing OBO + A2A reference implementation at obo-standard/examples/integrations/a2a/ and the T2 negative control at a2a-multi-hop/; backlog item 4 reframed from "first composition" to "productionise existing reference for cross-org pilot"). Prior: v1.1 (corrects I5 rating, see §9 correction note), v1.0 (initial publication in framework v0.5.2).
+This self-assessment is a **living document** tied to a framework version. When framework v0.6+ ships, or when any of Gap-1 through Gap-3 closes, this assessment is re-run. Self-assessment version: **v1.3** (2026-04-21; clarifies PACT three-layer distinction — public spec, private internal ontology + acceptance tooling, deployer-authored production packs; reframes backlog items 8 and 9 accordingly because Lane2 cannot unilaterally mandate pack conformance for deployer-authored packs, only extend the public spec and DOP runtime). Prior: v1.2 (OBO A2A reference implementation citations), v1.1 (I5 correction), v1.0 (initial publication in framework v0.5.2).
 
 **Signed** (attestation): Kevin Brown, Founder, Lane2 — 2026-04-21
 **Signed** (drafting assessor): Lane2 self-attestation with AI-assisted framework application; sign-off is Kevin Brown's as principal.

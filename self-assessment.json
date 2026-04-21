@@ -126,7 +126,7 @@
           "review_cadence": "per-pack-version-release"
         }
       },
-      "notes": "A1 rather than A0 because the pack materially shapes what downstream components can act upon (recommend-equivalent influence on outcomes). K3-L representative for a legal-review reference pack; clinical packs would be K4-S; financial K3-F or K4-R."
+      "notes": "A1 rather than A0 because the pack materially shapes what downstream components can act upon (recommend-equivalent influence on outcomes). K3-L representative for a legal-review reference pack; clinical packs would be K4-S; financial K3-F or K4-R. PACT has three layers: (1) public spec surface in kevin-biot/pact-public — IETF-style drafts, JSON schemas, demo verticals, fixture tools — a partial public extraction; (2) internal ontology repo + acceptance-workflow tooling, private to Lane2, never passed to public; (3) deployer-authored production packs consuming the public spec, deployer-owned. This component's rating is at the pack-as-loaded-by-DOP boundary."
     }
   ],
   "composition": {

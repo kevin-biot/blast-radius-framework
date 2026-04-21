@@ -49,11 +49,11 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 
 ## Status
 
-- **Current version:** v0.5.4 (2026-04-21) — strengthens the self-assessment by citing the working OBO + A2A reference implementation in `obo-standard/examples/integrations/` (I2 and I7 evidence no longer theoretical; live public DNS trust anchor + Merkle evidence + seven captured scenarios; paired T2 negative control). Backlog item 4 reframed to "productionise existing reference". Self-assessment v1.2. No framework definition changes.
+- **Current version:** v0.5.5 (2026-04-21) — clarifies the PACT three-layer model (public spec extraction / private internal ontology + tooling / deployer-authored production packs). Backlog items 8 and 9 reframed: Lane2 extends public schema + DOP runtime, deployers choose to adopt. Self-assessment v1.3. No framework definition changes.
 - **Maturity:** research draft; open for comment
 - **Stability:** major-version increments preserve section numbering; minor revisions may refine equations and add open questions; patch versions (v0.5.1, v0.5.2, …) clarify and reorganise without changing definitions.
 - **Spec v0.1 has shipped** as of 2026-04-21 — see [spec/](./spec/). Includes JSON Schema for BR profiles, per-invariant conformance tests, signed-attestation format, and two worked example profiles (closed-world BR-2; open-world BR-4). Axis-scoring rubric and third-party certification format remain v0.6+ work.
-- **Tags:** `v0.5` (initial public release), `v0.5.1` (notation extracted, worked examples added, observability strengthened), `v0.5.2` (report template, Lane2 self-assessment, worked template application), `v0.5.3` (self-assessment I5 correction), `v0.5.4` (self-assessment strengthened with existing OBO A2A reference evidence). External citations should use explicit version tags — e.g. `framework.md v0.5.1 §5.1` — rather than tracking `main`.
+- **Tags:** `v0.5` (initial public release), `v0.5.1` (notation extracted, worked examples added, observability strengthened), `v0.5.2` (report template, Lane2 self-assessment, worked template application), `v0.5.3` (self-assessment I5 correction), `v0.5.4` (OBO A2A reference implementation evidence added), `v0.5.5` (PACT three-layer model clarified; backlog items 8 and 9 reframed). External citations should use explicit version tags — e.g. `framework.md v0.5.1 §5.1` — rather than tracking `main`.
 
 ## Versioning policy
 

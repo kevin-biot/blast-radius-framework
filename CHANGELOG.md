@@ -2,6 +2,27 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## framework v0.5.5 — 2026-04-21 (PACT three-layer model clarified; backlog items reframed)
+
+**Corrects the PACT framing in the self-assessment and about.md.** Prior versions described `pact-public` too broadly (as the full PACT specification surface including pack-authoring workflow tooling) and described backlog items 8 and 9 as if Lane2 could unilaterally mandate pack conformance. Neither was right.
+
+**PACT has three layers, kept distinct in v1.3 of the self-assessment:**
+
+1. **Public spec surface** (in `kevin-biot/pact-public`): IETF-style draft specifications, public JSON Schemas, conformance fixture tooling, demo verticals. This is deliberately a **partial public extraction** from Lane2's internal ontology repo.
+2. **Internal ontology repo + acceptance-workflow tooling**: private to Lane2. Defines Lane2's internal operational ontology; DOP loads from it in the MVP. The phased acceptance-workflow *specification* is public; the *operational tooling* that runs it is private and remains private.
+3. **Deployer production packs**: authored by deployers against the PACT spec, for their own regulated verticals. Lane2 provides candidate shapes, demo verticals, and (in commercial engagements) authoring tools. Authoring production packs is a deployer concern; Lane2 does not author customer packs.
+
+**Artefacts updated:**
+
+- `self-assessment.md` §3.4 PACT pack component: adds the three-layer clarification paragraph naming public spec, private internal ontology + tooling, and deployer-authored production packs.
+- `self-assessment.md` §11 living-document footer: version bumped to v1.3 with the change-chain (v1.0 → v1.1 I5 correction → v1.2 OBO A2A references → v1.3 PACT three-layer clarification).
+- `self-assessment.json` PACT pack component `notes` field: updated to name the three layers.
+- `self-assessment-adr-backlog.md` items 8 (retention) and 9 (presence-binding) reframed to show the three-layer implementation: public-spec extension + internal-ontology encoding + DOP-runtime enforcement + demo-pack candidate shapes. The original framing implied Lane2 could unilaterally mandate conformance on deployer-authored packs, which is not the model. The corrected framing: Lane2 extends the public schema and the DOP runtime (both Lane2-scoped work); deployers choose whether their packs adopt the extended conformance. For Lane2-stack deployments the closure is architectural; for deployers adopting the extended schema it is achievable structurally.
+- `about.md` §4.1 pact-public description: rewritten as "partial public extraction" rather than "specification bundle"; demo verticals named as Lane2-authored reference implementations; operational tooling explicitly noted as private.
+- `about.md` §4.2 Lane2 private product suite: Shared Ontology description now explicitly says the full internal ontology is private, partial extraction ships in pact-public, DOP loads from the internal ontology in MVP. New bullet for "Internal acceptance workflow + authoring tools" noting their private status. PACT demo packs bullet revised to acknowledge that Lane2-authored demo packs are distinct from deployer-authored production packs.
+
+**No change to framework definitions, schema, axis enums, class definitions, composition topologies, or anti-pattern catalogue.** This is a framing correction on how Lane2's PACT relates to deployer-authored packs, not a change to the framework itself.
+
 ## framework v0.5.4 — 2026-04-21 (self-assessment strengthened with existing OBO A2A reference)
 
 **Strengthens the Lane2 self-assessment by citing existing working evidence that was not referenced in prior versions.** The OBO public repository ships two Python reference implementations under `examples/integrations/` that were missing from v0.5.3's self-assessment:
