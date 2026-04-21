@@ -18,6 +18,8 @@ The Lane2 stack — when deployed for a canonical regulated operational workflow
 
 BR-4 is the right rating for what we do. A stack in this consequence domain that rated BR-2 would be lying; a stack that rated BR-5 without demotion paths would be uninsurable. BR-4 with Invariants 1–7 held, composition topology T1 sub-additive, and no material anti-patterns without demotion paths is the **Consolidation Zone** (framework §14 Quadrant IV).
 
+**Evidence anchors are demonstrable, not just claimed.** The OBO public reference implementation at [`obo-standard/examples/integrations/a2a/`](https://github.com/kevin-biot/obo-standard/tree/main/examples/integrations/a2a) ships a runnable end-to-end OBO + A2A composition with Ed25519 keys, a live public DNS trust anchor (`_obo-key.lane2.ai`), and Merkle evidence. Third parties can verify the DNS anchor with `dig` and run the composition themselves. A companion negative control at `examples/integrations/a2a-multi-hop/` deliberately ships the NL-coupled agent-agent-agent architecture the framework rejects; it is the measurable substrate against which the DOP-side Sentinel experiments demonstrate that typed topologies read zero drift where NL-coupled topologies read positive. The framework's T1-vs-T2 composition-class claim is empirically grounded, not theoretical.
+
 ---
 
 ## 2. What this means for the business

@@ -152,11 +152,12 @@
     "I2": {
       "status": "holds",
       "enforcement_mode": "architectural",
-      "evidence_summary": "SAPP evidence layer produces externally-anchored Merkle-proof commitments with independent signing keys. Tamper-evident at rest and in transit.",
+      "evidence_summary": "SAPP evidence layer produces externally-anchored Merkle-proof commitments with independent signing keys. Tamper-evident at rest and in transit. Demonstrable in the OBO A2A reference implementation: live public DNS trust anchor (_obo-key.lane2.ai IN TXT), Ed25519 keys, Merkle evidence via Evidence Anchor stub, seven captured test scenarios — third-party verifier can dig the DNS record and verify independently.",
       "evidence_references": [
         "framework.md §9 Invariant 2",
         "framework.md §15 compositional enforcement pattern",
-        "spec/attestation-format.md"
+        "spec/attestation-format.md",
+        "kevin-biot/obo-standard examples/integrations/a2a/ (runnable reference implementation)"
       ]
     },
     "I3": {
@@ -199,12 +200,14 @@
     "I7": {
       "status": "holds",
       "enforcement_mode": "architectural",
-      "evidence_summary": "No agent-to-agent NL coupling anywhere in the composition. aARP routes typed capability requests; PACT pack bounds what concepts can exist; SAPP envelopes are structured. Composition topology is T1 by construction.",
+      "evidence_summary": "No agent-to-agent NL coupling anywhere in the composition. aARP routes typed capability requests; PACT pack bounds what concepts can exist; SAPP envelopes are structured. Composition topology is T1 by construction. Demonstrable via paired reference implementations: T1 composition in obo-standard/examples/integrations/a2a/ (typed A2A tasks + OBO envelope); T2 super-additive negative control in obo-standard/examples/integrations/a2a-multi-hop/ (deliberately NL-coupled agent-agent-agent chain with LM Studio). The DOP-side Sentinel replication against typed topology reads S1=S4=CPL=0 across 300 windows × 5 seeds, vs positive measurement on the NL-coupled substrate — empirical validation of the framework's T1-vs-T2 distinction.",
       "evidence_references": [
         "framework.md §4.0 worldview classifier",
         "framework.md §7.2 T1",
         "framework.md §9 Invariant 7",
-        "about.md §5 historical genesis"
+        "about.md §5 historical genesis",
+        "kevin-biot/obo-standard examples/integrations/a2a/ (T1 reference)",
+        "kevin-biot/obo-standard examples/integrations/a2a-multi-hop/ (T2 negative control)"
       ]
     }
   },

@@ -165,6 +165,7 @@ No T2 super-additive substrate anywhere. No T4 voting composition (Lane2's archi
 - **Status:** holds
 - **Enforcement mode:** architectural
 - **Evidence summary:** SAPP evidence layer produces externally-anchored Merkle-proof commitments with independent signing keys. Every decision output is bound to a policy snapshot hash + an evidence envelope. Tamper-evident at rest (append-only anchor); tamper-evident in transit (signed envelope).
+- **Demonstrable in working reference:** the OBO repo's `examples/integrations/a2a/` ships a runnable end-to-end OBO + A2A reference implementation with Ed25519 keys, a live public DNS trust anchor (`_obo-key.lane2.ai IN TXT "v=obo1 ed25519=…"`), and Merkle evidence via an Evidence Anchor stub. Three Docker containers; no pre-shared config; no crypto mocks; seven captured test scenarios. A third-party verifier can `dig _obo-key.lane2.ai` and independently verify the DNS trust anchor without contacting Lane2 infrastructure.
 - **EU AI Act mapping:** Art. 12 (automatic logging), Art. 15 (robustness integrity), Art. 19 (retention) supported by the anchor's retention and export semantics.
 
 ### I3 — Policy snapshot coherence
@@ -200,7 +201,8 @@ No T2 super-additive substrate anywhere. No T4 voting composition (Lane2's archi
 - **Status:** holds
 - **Enforcement mode:** architectural
 - **Evidence summary:** No agent-to-agent NL coupling anywhere in the composition. aARP routes typed capability requests; PACT pack bounds what concepts can exist; SAPP envelopes are structured. Composition topology is T1 by construction.
-- **Public evidence:** framework §4.0 worldview classifier, §7.2 T1 definition, §9 Invariant 7. Lane2 about.md §5 historical genesis documents the a priori rejection of NL-coupling as a composition primitive.
+- **Demonstrable via composed reference and negative control:** the OBO repo ships *both* a T1 composition (OBO + A2A with typed task payloads — `examples/integrations/a2a/`) *and* a T2 super-additive negative control (`examples/integrations/a2a-multi-hop/` with NL-coupled agent-agent-agent chain feeding LM Studio). The negative control is explicitly labelled "the architecture DOP was designed to reject; here to be measured, not emulated". This pair of references is empirical substrate for the framework's T1-vs-T2 composition-class distinction: DOP-side Sentinel replication on typed topology reads S1=S4=CPL=0 across 300 windows × 5 RNG seeds, vs the NL-coupled substrate as positive measurement.
+- **Public evidence:** framework §4.0 worldview classifier, §7.2 T1 definition, §9 Invariant 7. Lane2 about.md §5 historical genesis documents the a priori rejection of NL-coupling as a composition primitive. OBO repo `examples/integrations/a2a/` is the working demonstration; `examples/integrations/a2a-multi-hop/` is the negative control.
 
 ## 6. Anti-pattern attestations
 
@@ -305,7 +307,9 @@ Two Part B anti-patterns (B3 prompt storage governance, B5 authentication freshn
 - Lane2 positioning: [`about.md v0.3`](./about.md)
 - Public product descriptions: Kevin Brown, LinkedIn (as of 2026-04-21)
 - Open Lane2 repositories: [kevin-biot/pact-public](https://github.com/kevin-biot/pact-public), [kevin-biot/obo-standard](https://github.com/kevin-biot/obo-standard), [kevin-biot/Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate)
-- This assessment produces **no signed attestation** at publication time. A signed attestation per [`spec/attestation-format.md`](./spec/attestation-format.md) is an ADR candidate in the backlog.
+- Working reference implementation: [obo-standard/examples/integrations/a2a/](https://github.com/kevin-biot/obo-standard/tree/main/examples/integrations/a2a) (OBO + A2A composed, runnable end-to-end; live DNS trust anchor; Merkle evidence anchor; seven captured test scenarios)
+- Negative control for T2 super-additive composition: [obo-standard/examples/integrations/a2a-multi-hop/](https://github.com/kevin-biot/obo-standard/tree/main/examples/integrations/a2a-multi-hop) (deliberately NL-coupled agent-agent-agent chain; feeds DOP-side Sentinel replication at `research/sentinel-a2a/agent-topology-comparison/`)
+- This assessment produces **no signed attestation** at publication time. A signed attestation per [`spec/attestation-format.md`](./spec/attestation-format.md) is an ADR candidate in the backlog. (The OBO A2A reference implementation does produce signed evidence envelopes + anchor JWS proofs in its captures; those are demonstrable but are demo-grade, not a production attestation signed by Lane2 as a legal entity.)
 
 ## 11. Assessor attestation
 
@@ -313,7 +317,7 @@ The assessor (Lane2, self-attesting via Kevin Brown) attests that the rating abo
 
 Residual uncertainty is not expressed as σ_B(t) because Kalman Phase 1 is not implemented (Gap-1); residual uncertainty is captured qualitatively in §9 gaps and in the `exhibited_with_demotion_path` attestations of §6.
 
-This self-assessment is a **living document** tied to a framework version. When framework v0.6+ ships, or when any of Gap-1 through Gap-3 closes, this assessment is re-run. Self-assessment version: v1.1 (2026-04-21; corrects I5 rating per review; see §9 correction note).
+This self-assessment is a **living document** tied to a framework version. When framework v0.6+ ships, or when any of Gap-1 through Gap-3 closes, this assessment is re-run. Self-assessment version: **v1.2** (2026-04-21; strengthens I2 and I7 evidence by citing the existing OBO + A2A reference implementation at obo-standard/examples/integrations/a2a/ and the T2 negative control at a2a-multi-hop/; backlog item 4 reframed from "first composition" to "productionise existing reference for cross-org pilot"). Prior: v1.1 (corrects I5 rating, see §9 correction note), v1.0 (initial publication in framework v0.5.2).
 
 **Signed** (attestation): Kevin Brown, Founder, Lane2 — 2026-04-21
 **Signed** (drafting assessor): Lane2 self-attestation with AI-assisted framework application; sign-off is Kevin Brown's as principal.

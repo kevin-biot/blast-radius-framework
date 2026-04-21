@@ -2,6 +2,24 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## framework v0.5.4 — 2026-04-21 (self-assessment strengthened with existing OBO A2A reference)
+
+**Strengthens the Lane2 self-assessment by citing existing working evidence that was not referenced in prior versions.** The OBO public repository ships two Python reference implementations under `examples/integrations/` that were missing from v0.5.3's self-assessment:
+
+- **`obo-standard/examples/integrations/a2a/`** — full end-to-end OBO + A2A reference: two autonomous agents (TravelAgent, FlightSearchAgent), real Ed25519 keys, **live public DNS trust anchor (`_obo-key.lane2.ai IN TXT`)**, Merkle evidence via Evidence Anchor stub, three Docker containers, no pre-shared config, no crypto mocks, seven captured test scenarios. Third-party verifiers can `dig _obo-key.lane2.ai` and independently verify the trust anchor.
+- **`obo-standard/examples/integrations/a2a-multi-hop/`** — deliberate T2 super-additive negative control: NL-coupled agent-agent-agent chain with LM Studio, explicitly "the architecture DOP was designed to reject; here to be measured, not emulated". Feeds the DOP-side `research/sentinel-a2a/agent-topology-comparison/` 5-run Sentinel replication where the monitor reads S1=S4=CPL=0 on DOP typed topology and positive on NL-coupled substrate.
+
+**Artefacts updated:**
+
+- `self-assessment.md` §5 Invariant 2 entry: adds "Demonstrable in working reference" paragraph citing the OBO A2A reference implementation; §5 Invariant 7 entry: adds paired-reference (T1 composition + T2 negative control) evidence; §10 evidence references: adds both reference implementation paths; self-assessment version bumped to v1.2.
+- `self-assessment.json` I2 and I7 entries: `evidence_summary` updated and `evidence_references` extended to cite the reference-implementation paths in obo-standard.
+- `self-assessment-exec-summary.md` §1: headline strengthened with "Evidence anchors are demonstrable, not just claimed" paragraph; cites the DNS trust anchor + Merkle evidence and the negative control.
+- `self-assessment-adr-backlog.md` item 4: reframed from "first OBO-conformant cross-border composition" to "productionise the existing OBO + A2A reference implementation for a cross-organisational pilot". The ADR candidate now acknowledges the existing reference and names the productionisation work (HSM-class signing, external counterparty, regulated-vertical scenario).
+
+**Honesty-discipline note.** Version chain for the self-assessment is now v1.0 (initial, v0.5.2) → v1.1 (I5 correction, v0.5.3) → v1.2 (reference-implementation citations, v0.5.4). Each correction published openly in CHANGELOG + in-document correction note, prior versions retained in git history. The pattern is the framework's own honesty discipline being exercised on the framework's own self-assessment, across same-day corrections.
+
+No change to framework definitions, schema, axis enums, class definitions, composition topologies, or anti-pattern catalogue.
+
 ## framework v0.5.3 — 2026-04-21 (self-assessment correction)
 
 **Corrects the Invariant 5 rating in the Lane2 self-assessment.** v0.5.2 rated I5 as `partially_holds / structural` on the argument that cross-border composition with non-OBO counterparties could not be architecturally guaranteed. That was wrong.
