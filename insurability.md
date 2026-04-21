@@ -68,7 +68,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 |---|---|
 | v0.2 §4.6 O axis | O2 requires action-level logs with replay; O3+ requires tamper-evidence |
 | Anti-pattern catalogue B1, B6, B8 | Logs-as-evidence, unsigned evidence, mutable at rest — all direct anti-patterns |
-| Reference implementation pattern | Externally-anchored Merkle-proof evidence with independent signing keys (e.g. SAPP — Settlement Anchor Protocol Platform design) |
+| Reference implementation pattern | Externally-anchored Merkle-proof evidence with independent signing keys (e.g. Lane2's SAPP — Secure Agent Payment Protocol — evidence-anchoring layer) |
 | SAPP specifically | External anchor, independent signing keys, three-level Merkle proofs, evidence scoring |
 
 ### Invariant 3 — Policy snapshot coherence
@@ -90,7 +90,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 | v0.2 §4 entire framework | Blast radius *is* the property; tuple quantifies it |
 | Cardinal formulation | `B(t) = w_d·D + w_r·R + w_v·(1−V) + w_c·C` — the Expected Compliance Risk operational formula; v0.5 extends to all six axes (framework.md §5.2) |
 | Anti-pattern catalogue A1–A7, A9, A11–A13 | Each breaks the bound in a specific architectural way |
-| DOP positive reference | AARP narrow closed-world routing; Action Classes A/B/C/D with D structurally unreachable; tool-ontology binding limits reach per tool; R-axis principal-population accounting (acknowledged gap in audit) |
+| Reference implementation pattern | aARP-style (Autonomous Agent Routing Protocol) narrow closed-world routing; Action Classes A/B/C/D with D structurally unreachable; tool-ontology binding limits reach per tool; R-axis principal-population accounting |
 
 ### Invariant 5 — Jurisdictional awareness
 

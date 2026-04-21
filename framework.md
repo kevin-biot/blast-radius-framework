@@ -65,7 +65,7 @@ Four explicit parameters — scope, threat model, recovery horizon, evidence suf
 
 Before the six-axis tuple is assigned, each component of the system must be classified as either **closed-world** or **open-world**. This is not a rating adjustment; it is a *pre-rating gate* that determines which axes and which composition mathematics (§7.2) apply.
 
-**Closed-world (ontology-bounded).** Inputs are normalised to a controlled vocabulary before entering agent context; an ontology defines which concepts can exist; inter-component interfaces are typed (structured capability requests, not NL); scope is declared per component and structurally enforced. Reference: DOP narrow closed-world agents with AARP routing, phrase normalisation, and the 8-layer ontology-as-firewall composition (§15). Closed-world systems can claim Invariants 1–7 and can reach BR-2/BR-3 with full evidence.
+**Closed-world (ontology-bounded).** Inputs are normalised to a controlled vocabulary before entering agent context; an ontology defines which concepts can exist; inter-component interfaces are typed (structured capability requests, not NL); scope is declared per component and structurally enforced. Reference: narrow closed-world agents with aARP-style (Autonomous Agent Routing Protocol) capability routing, phrase normalisation, and the 8-layer ontology-as-firewall composition (§15). Closed-world systems can claim Invariants 1–7 and can reach BR-2/BR-3 with full evidence.
 
 **Open-world (NL-unbounded).** Any natural-language content can reach agent context; inter-component interfaces are NL or free-form prompt; scope is declared as a persona prompt but not structurally enforced; context window is the trust boundary or absent entirely. Reference: A2A (AgentCards + NL peer calls), CrewAI / AutoGen / LangGraph default patterns, MCP server ecosystems without composition rule, LLM-as-judge recursion, any agent that consumes untrusted NL as context.
 
@@ -320,7 +320,7 @@ Components are closed-world (§4.0), each fail-closed, connected by typed interf
 - **BR(compound | failure)** ≤ max(BRᵢ) — blast radius is bounded by the worst component's individual BR because the typed boundary stops propagation
 - **Expected compound BR** is bounded, not divergent with chain length
 
-Reference: DOP multi-agent deployment with AARP routing. Each agent's ontology firewall halts on ambiguity; the next agent never sees NL output.
+Reference: multi-agent deployment with aARP routing. Each agent's ontology firewall halts on ambiguity; the next agent never sees NL output.
 
 **T2. Super-additive — open-world NL-coupled chain.**
 
@@ -392,7 +392,7 @@ Every decision must produce immutable policy state, execution context, and outpu
 
 **Supports:** O (evidence is the observable surface), K (regulatory evidence requirements).
 **Anti-pattern complement:** B1 (logs-as-evidence), B6 (unsigned or self-signed-only), B8 (mutable at rest).
-**Reference implementation pattern:** externally-anchored Merkle-proof evidence with independent signing keys (Ed25519/ES256/HMAC). SAPP (Settlement Anchor Protocol Platform) is one such design; the essential properties are that the anchor's signing keys are independent of the system under audit, and that evidence commitments are append-only and verifiable by third parties.
+**Reference implementation pattern:** externally-anchored Merkle-proof evidence with independent signing keys (Ed25519/ES256/HMAC). Lane2's SAPP (Secure Agent Payment Protocol) — a compliant payment protocol whose evidence-anchoring layer provides the properties this invariant requires — is one such design; the essential properties are that the anchor's signing keys are independent of the system under audit, and that evidence commitments are append-only and verifiable by third parties.
 
 ### Invariant 3 — Policy snapshot coherence
 

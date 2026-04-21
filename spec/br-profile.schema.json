@@ -445,7 +445,7 @@
         "anchor_type": {
           "type": "string",
           "enum": ["SAPP", "OpenTimestamps", "RFC3161-TSA", "MerkleProof-Custom"],
-          "description": "External anchor type. SAPP (Settlement Anchor Protocol Platform) for the reference design."
+          "description": "External anchor type. SAPP (Lane2's Secure Agent Payment Protocol) provides the reference evidence-anchoring design."
         },
         "anchor_commitment": {
           "type": "string",

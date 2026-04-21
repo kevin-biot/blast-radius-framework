@@ -110,7 +110,7 @@ Anchoring is required for BR-4 and BR-5. Recommended but optional for BR-3.
 
 ### Acceptable anchor types
 
-**SAPP (Settlement Anchor Protocol Platform)** — recommended reference design. Independent signing keys, Merkle-proof commitments, evidence scoring, liability allocation built in. Cryptographically anchors a Merkle root covering the signed attestation. Third-party verifiers can retrieve the root and confirm inclusion.
+**SAPP (Lane2's Secure Agent Payment Protocol — evidence-anchoring layer)** — recommended reference design. Independent signing keys, Merkle-proof commitments, evidence scoring, liability allocation built in. Cryptographically anchors a Merkle root covering the signed attestation. Third-party verifiers can retrieve the root and confirm inclusion. (SAPP's full scope is compliant cross-organisational payments with cryptographically verified regulatory adherence; the evidence layer is what attestation-format targets.)
 
 **OpenTimestamps** — suitable for attestations that do not need the scoring/liability machinery SAPP provides. Anchors a hash to the Bitcoin blockchain; timestamp is proven by block inclusion. Free, public, permissionless.
 

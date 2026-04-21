@@ -28,24 +28,36 @@ Sentinel is explicitly *not* a pre-deployment certification framework or a produ
 
 ## Lane2 private reference implementations
 
-The framework's architectural primitives are generalised from two Lane2 products, both currently private IP and both available for pre-launch PoC validation engagements (see [about.md](./about.md) for commercial framing and contact).
+The framework's architectural primitives are generalised from the Lane2 product suite. Each component below is private IP, currently available for pre-launch PoC validation engagements. See [about.md](./about.md) for commercial framing and contact; full product descriptions live in `about.md §4.2`.
 
-**DOP** — our governance platform. Source for:
+**DOP (Deterministic Orchestration Pipeline)** — reproducible AI operations with cryptographic evidence contracts and fail-closed quality gates. Source for:
 
 - The compositional ontology-as-firewall pattern (`framework.md §15`) and its formal Bayesian validation
 - The cardinal Expected Compliance Risk formalism that the Kalman extension in `framework.md §5.4` generalises
-- The session-execution attestation pattern, capability-routing broker pattern (AARP), and action-class taxonomy cited throughout the framework
+- The session-execution attestation pattern and action-class taxonomy (A/B/C/D) cited throughout the framework
 - The seven-invariant architectural decomposition as it appears in `framework.md §9`
 - Evidence-tier → Kalman measurement-noise calibration referenced in `framework.md §5.4`
 
-**SAPP (Settlement Anchor Protocol Platform)** — our externally-anchored evidence engine. Source for:
+**aARP (Autonomous Agent Routing Protocol)** — scoped capability routing across domains and jurisdictions. Source for:
+
+- The capability-routing broker pattern that satisfies Invariant 7 (bounded coupling) structurally
+- The sub-additive T1 composition class (`framework.md §7.2`) as it appears when typed inter-component interfaces replace NL coupling
+- The protocol shape that makes peer-to-peer NL exchange structurally impossible, not merely discouraged
+
+**SAPP (Secure Agent Payment Protocol)** — compliant cross-organisational payments with cryptographically verified regulatory adherence. The framework references SAPP's *evidence-anchoring layer* specifically:
 
 - Invariant 2 (evidence binding, `framework.md §9`) — externally-anchored Merkle-proof evidence with independent signing keys
 - The minimum evidence profile mapped to EU AI Act Articles 12, 15, 19, 26(6), 72, 73
 - Ten-category evidence scoring that supports the Kalman R_K calibration
-- Deterministic liability-allocation semantics that inform the cardinal score
+- Dynamic threshold-based liability-allocation semantics that inform the cardinal score
 
-The framework distils the portable *patterns* from these implementations. A practitioner does not need access to DOP or SAPP to use the framework; any conformant implementation of the patterns is acceptable. References in the framework text to "an internal reference implementation" point to one of these two products. Specific architectural decision records, code paths, and product-internal details remain private.
+**CaaS (Context-as-a-Service)** — edge-deployed cryptographically signed context evidence. Relevant to framework axes O (observability) and R (reach) in telecom / IoT scenarios.
+
+**RTGF (Reference Token Generation Framework)** — the integration fabric binding DOP / aARP / SAPP / CaaS into a unified policy-driven operating layer that is lawful by design.
+
+**Shared Ontology** — the formal semantic model underlying all of the above. The narrow subset is published in the open [obo-standard](https://github.com/kevin-biot/obo-standard) repository; the full internal ontology remains private.
+
+The framework distils the portable *patterns* from these implementations. A practitioner does not need access to any Lane2 component to use the framework; any conformant implementation of the patterns is acceptable. References in the framework text to "an internal reference implementation" point to one of the Lane2 components above. Specific architectural decision records, code paths, and product-internal details remain private.
 
 ## Prior published work — insurability framing
 

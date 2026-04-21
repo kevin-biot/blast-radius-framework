@@ -3,7 +3,7 @@
 *A living statement. Updates when the business changes.*
 
 **Last updated:** 2026-04-21
-**Version:** 0.1
+**Version:** 0.2
 **Homepage:** [lane2.ai](https://lane2.ai)
 
 ---
@@ -18,7 +18,9 @@ This positioning is not neutrality. It is a bet that the governance layer is a d
 
 ## 2. What this repository is
 
-The [Blast Radius Framework](./framework.md) is the distilled *shapes* of what we learned building production-grade AI governance infrastructure. Six axes, three modifiers, seven invariants, four composition topologies, a cardinal score, a vendor questionnaire, a machine-readable conformance spec. These are not trade secrets. The code that implements them is; the shapes are not.
+The [Blast Radius Framework](./framework.md) is one of four open artefacts Lane2 publishes as part of a deliberate dual-mode strategy: **open the shapes that should be standards, keep the integrated product that makes them deployable**. The other open artefacts are the narrow ontology ([obo-standard](https://github.com/kevin-biot/obo-standard)), PACT pack patterns ([pact-public](https://github.com/kevin-biot/pact-public)), and European cloud substrate work ([Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate)). See §4 for the full map.
+
+The framework specifically contains the distilled *shapes* of what we learned building production-grade AI governance infrastructure. Six axes, three modifiers, seven invariants, four composition topologies, a cardinal score, a vendor questionnaire, a machine-readable conformance spec. These are not trade secrets. The code that implements them is; the shapes are not.
 
 We are releasing these shapes under **CC-BY-4.0** because a classification framework that cannot be freely adopted, redistributed, and built upon is not a standard. It is a product. We want this to be a standard. Others — competitors, complementors, standards bodies, regulators, specialist underwriters — are invited to adopt, critique, and extend.
 
@@ -34,24 +36,58 @@ Better to discover this at redesign time, when the cost is architectural rework,
 
 ## 4. What is open, what is private, what is available
 
-**Open** — released under CC-BY-4.0 in this repository. Use without contacting us.
+Lane2 operates a dual-mode strategy: **open the shapes that should be standards, keep the integrated product that makes them deployable**. Both sides are available for engagement — the open work for free adoption under CC-BY-4.0, the commercial product for pre-launch validation PoC engagements.
 
-- `framework.md` — the rating framework (v0.5)
-- `manifesto.md` — *Law as Pattern*, the argument
-- `antipatterns.md` — 26 named anti-patterns
-- `insurability.md` — actuarial companion
-- `spec/` — JSON Schema, conformance tests, attestation format, worked examples
-- `ACKNOWLEDGEMENTS.md` — credits to Jason Gagne's Sentinel programme and other sources
+### 4.1 Open — public repositories under CC-BY-4.0
 
-**Private** — Lane2 commercial IP. **Available for pre-launch validation PoC engagements.**
+| Repository | Contents |
+|---|---|
+| [kevin-biot/blast-radius-framework](https://github.com/kevin-biot/blast-radius-framework) *(this repo)* | The Blast Radius classification framework; manifesto (*Law as Pattern*); anti-pattern catalogue; insurability companion; machine-readable conformance spec (JSON Schema, per-invariant tests, attestation format, worked examples); acknowledgements |
+| [kevin-biot/obo-standard](https://github.com/kevin-biot/obo-standard) | Our narrow ontology released as an open standard — the semantic primitives that anchor capability verbs, evidence classes, policy concepts, and cross-domain links in a machine-readable form |
+| [kevin-biot/pact-public](https://github.com/kevin-biot/pact-public) | Reference PACT pack implementations, starting with legal-citation-review as the worked example of the governance-only + vertical-pack positioning |
+| [kevin-biot/Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate) | European cloud substrate work — deployment-substrate considerations for EU-jurisdiction governance-conformant AI operations |
 
-- **DOP** — our governance platform. The reference implementation from which the framework's architectural primitives (action-class taxonomy, capability-routing broker, ontology-as-firewall composition, Kalman-based compliance state estimation, and the Expected Compliance Risk formalism) are generalised.
-- **SAPP** (Settlement Anchor Protocol Platform) — our externally-anchored evidence engine. The reference design behind Invariant 2 (evidence binding) and §15 (compositional enforcement) in the framework. Provides tamper-evident Merkle-proof commitments with independent signing keys, evidence scoring, liability allocation, and EU AI Act minimum-evidence-profile conformance out of the box.
-- **PACT packs** — our domain-specific governance packs. One reference pack (legal-citation-review) is public in a sibling repository; other packs (clinical, financial, wallet/identity) are private.
+Use freely. No contact required. Cite per the README citation block of the relevant repo.
 
-**You do not need DOP, SAPP, or any PACT pack to use the framework.** The framework is deliberately tool-agnostic. Any conformant implementation of the patterns described is acceptable; our private components are one set of implementations, not the only ones possible.
+### 4.2 Private — Lane2 commercial IP, available for pre-launch PoC validation engagements
 
-We are pre-launch as of this writing. Commercial terms are being defined; in the meantime, **all our work is available for validation PoC engagements**: architecture review against the framework, deployer-level conformance assessment, proof-of-concept deployments of DOP or SAPP in a customer environment, and joint work with vertical-agent teams or specialist underwriters on calibrating the framework to a specific domain. Contact via [lane2.ai](https://lane2.ai).
+The integrated Lane2 platform binds the open shapes into a deployable product. Five components plus a formal ontology:
+
+- **DOP (Deterministic Orchestration Pipeline)** — the foundation for reproducible AI operations. Every process runs under deterministic control, producing identical outcomes for identical inputs, backed by cryptographic evidence contracts and fail-closed quality gates. The reference implementation from which the framework's architectural primitives — action-class taxonomy, ontology-as-firewall composition, Kalman-based compliance state estimation, Expected Compliance Risk formalism — are generalised.
+
+- **aARP (Autonomous Agent Routing Protocol)** — extends deterministic orchestration across domains and jurisdictions. Scoped time-amount tokens and inter-jurisdictional matrix routing let autonomous systems collaborate securely with provable lawful-route validation. The framework references aARP-style routing as the canonical pattern for bounded coupling (Invariant 7) and Composition class T1 sub-additive chains (§7.2).
+
+- **SAPP (Secure Agent Payment Protocol)** — the compliant financial layer. Enables automated, cross-organisational payments with cryptographically verified regulatory adherence and dynamic, threshold-based liability allocation. The framework references SAPP's evidence-anchoring layer specifically — externally-anchored Merkle-proof commitments with independent signing keys — as the reference design for Invariant 2 (evidence binding) and §15 (compositional enforcement).
+
+- **CaaS (Context-as-a-Service)** — the real-time contextual intelligence substrate. Operates at telecom and IoT edges, transforming raw sensor and network data into cryptographically signed context evidence powering lawful orchestration, routing, and compliance. Relevant to framework axes O (observability) and R (reach) in edge-deployed scenarios.
+
+- **RTGF (Reference Token Generation Framework)** — integrates DOP / aARP / SAPP / CaaS into a unified policy-driven fabric, synchronising evidence, routing, compliance, and context in real time. The operating layer for AI, automation, and payments that is *lawful by design*.
+
+- **Shared Ontology** — the formal semantic model binding all of the above. Standardised capability verbs (what agents can do across domains); evidence classes (how compliance, intent, and context are represented as cryptographically verifiable artifacts); policy concepts (jurisdiction, consent, regulatory boundaries as machine-readable rules); inter-domain links (mappings between DOP orchestration, aARP routing, SAPP payments, and CaaS context for lawful interoperability). The narrow subset of this ontology is published in [obo-standard](https://github.com/kevin-biot/obo-standard); the full internal ontology remains private.
+
+- **PACT packs** — domain-specific governance packs beyond the public legal-citation-review reference. Clinical, financial, wallet/identity, and regulated-review packs are private.
+
+### 4.3 You do not need our products to use the framework
+
+The framework is deliberately tool-agnostic. Any conformant implementation of the patterns described is acceptable; Lane2's components are one set of implementations, not the only ones possible. A deployer can:
+
+- Adopt the framework and build a conformant implementation themselves (the spec in `/spec/` is enough to do this)
+- Adopt the framework and compose with third-party vendors that claim conformance
+- Engage Lane2 for a PoC of DOP / aARP / SAPP / CaaS / RTGF against a specific deployment context
+
+All three paths are explicitly supported.
+
+### 4.4 Pre-launch engagement
+
+We are pre-launch as of this writing. Commercial terms are being defined; in the meantime, **all our work is available for validation PoC engagements**, including:
+
+- Architecture review of a customer system against the framework
+- Deployer-level conformance assessment producing a signed BR attestation
+- Proof-of-concept deployments of DOP, aARP, SAPP, CaaS, or RTGF in a customer environment
+- Joint calibration with vertical-agent teams or specialist underwriters on weight vectors, evidence-tier-to-R_K calibration, or domain-specific actuarial priors
+- Standards-body engagement on the open artefacts (framework, ontology, substrate)
+
+Contact via [lane2.ai](https://lane2.ai).
 
 ## 5. Historical genesis — why we rejected direct-LLM-tool coupling
 
@@ -64,7 +100,7 @@ Roughly a year before Jason Gagne's Sentinel corpus was published, we reviewed t
 The patterns we adopted instead:
 
 - **Narrow closed-world agents** with declared scope enforced structurally
-- **Capability-routing via a broker** (the pattern the framework calls AARP) — peers exchange typed capability requests, not natural language
+- **Capability-routing via a broker** — peers exchange typed capability requests, not natural language. This pattern is the product we call aARP (Autonomous Agent Routing Protocol, §4.2).
 - **Phrase normalisation plus ontology firewall** as the trust substrate — unresolved inputs are rejected, not generatively interpreted
 - **Action-class taxonomy** with the prohibited class structurally unreachable rather than policy-forbidden
 
@@ -86,6 +122,7 @@ Three tiers, in increasing intensity:
 
 ## Change log for this statement
 
+- **v0.2, 2026-04-21** — Expanded §4 to cover the full Lane2 product suite (DOP, aARP, SAPP, CaaS, RTGF, Shared Ontology) with correct public expansions per the founder's canonical product descriptions: DOP = Deterministic Orchestration Pipeline, aARP = Autonomous Agent Routing Protocol, SAPP = Secure Agent Payment Protocol. Added §4.1 open-repository listing (blast-radius-framework, obo-standard, pact-public, Euro-Cloud-Substrate). Reframed as "knowledge sharing while competing commercially as an infra startup". Prior v0.1 referred to SAPP as "Settlement Anchor Protocol Platform" (an internal working name); the public-facing product is SAPP = Secure Agent Payment Protocol, and the framework references specifically its evidence-anchoring layer.
 - **v0.1, 2026-04-21** — Initial positioning. Pre-launch. DOP and SAPP named as private IP available for PoC engagement. Historical genesis of the integration-pattern rejection documented.
 
 This document is a *living statement* and will be updated as Lane2's commercial terms, product offerings, and position in the market evolve. Consult the current `README.md` for commercial terms in force at the time you are reading.

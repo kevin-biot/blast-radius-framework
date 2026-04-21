@@ -4,7 +4,7 @@
 
 Tool-enabled large language models have shifted AI systems from bounded reasoning to real-world action. Evaluation practice has not kept pace: accuracy benchmarks and model-level guardrails do not capture system-level impact. This repository proposes a framework that does.
 
-Published by **[Lane2](https://lane2.ai)** — a small AI infrastructure startup. The framework is licensed under CC-BY-4.0 and usable without engagement. Our private reference implementation (DOP) and externally-anchored evidence engine (SAPP) are available for validation PoC engagements during pre-launch — see [about.md](./about.md) for the full positioning.
+Published by **[Lane2](https://lane2.ai)** — a small AI infrastructure startup, pre-launch. The framework is licensed under CC-BY-4.0 and usable without engagement. Lane2 also publishes open sibling repositories: [obo-standard](https://github.com/kevin-biot/obo-standard) (narrow ontology as open standard), [pact-public](https://github.com/kevin-biot/pact-public) (PACT pack reference implementations), and [Euro-Cloud-Substrate](https://github.com/kevin-biot/Euro-Cloud-Substrate). Our integrated commercial product suite — DOP (Deterministic Orchestration Pipeline), aARP (Autonomous Agent Routing Protocol), SAPP (Secure Agent Payment Protocol), CaaS (Context-as-a-Service), RTGF (Reference Token Generation Framework), and the Shared Ontology — is available for validation PoC engagements during pre-launch. See [about.md](./about.md) for full positioning and commercial framing.
 
 ## The framework in one paragraph
 

@@ -51,7 +51,7 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 **Typical BR.** BR-4 before any specific tool is wired; BR-5 when composed with write-capable backends.
 
-**Demotion path.** Typed, signed capability requests with broker mediation (AARP-style). Remove NL from the peer-to-peer channel. Make capability discovery authenticated and per-principal, not public.
+**Demotion path.** Typed, signed capability requests with broker mediation (aARP-style). Remove NL from the peer-to-peer channel. Make capability discovery authenticated and per-principal, not public.
 
 **Regulatory risk.** EU AI Act Article 14 (human oversight) — AgentCard-discovered capabilities can be invoked without human confirmation; Article 15 (cybersecurity) — public capability discovery is a threat surface.
 
@@ -111,7 +111,7 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 **Typical BR.** BR-4 even with bounded tools; BR-5 with write tools. Collapse inside 15 turns makes runtime monitoring structurally incapable of catching it.
 
-**Demotion path.** Replace NL peer coupling with typed routed requests (AARP-style); remove persona prompts as a security primitive; add action-class ceilings.
+**Demotion path.** Replace NL peer coupling with typed routed requests (aARP-style); remove persona prompts as a security primitive; add action-class ceilings.
 
 **Regulatory risk.** EU AI Act Article 15 (robustness) — Sentinel evidence says these systems are not robust under typical workload.
 
@@ -229,7 +229,7 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 These are the anti-patterns an EU AI Act auditor, a regulator, or a post-incident forensic examiner will find first. They are often present in systems that score acceptably on the architectural axes — which means an otherwise-well-designed system can still fail assurance if the evidence chain is wrong.
 
-The positive reference for this section is **SAPP (Settlement Anchor Protocol Platform)** as a design for externally-anchored Merkle-proof evidence with independent signing keys. See §4 at end.
+The positive reference for this section is **Lane2's SAPP (Secure Agent Payment Protocol)** as a design — specifically its evidence-anchoring layer, which provides externally-anchored Merkle-proof evidence with independent signing keys. See §4 at end.
 
 ### B1. Application logs as "evidence"
 
@@ -382,7 +382,7 @@ Anti-pattern findings should be listed by name in the vendor questionnaire §13 
 
 ## 4. The positive reference — SAPP model
 
-The evidence-chain anti-patterns in Part B point collectively to a single architectural answer: **externally anchored, cryptographically signed, deterministically replayable, provenance-carrying evidence**. SAPP (Settlement Anchor Protocol Platform) is the reference.
+The evidence-chain anti-patterns in Part B point collectively to a single architectural answer: **externally anchored, cryptographically signed, deterministically replayable, provenance-carrying evidence**. Lane2's SAPP (Secure Agent Payment Protocol) — specifically its evidence-anchoring layer — is the reference.
 
 **Why SAPP is the shape to copy:**
 
