@@ -138,6 +138,8 @@ Observability is a first-class axis *and* a cross-cutting enabler: Invariants 1�
 
 ## 5. Profile, aggregation, cardinal score
 
+*§21 (notation appendix) collates every symbol used below. Start there if the maths notation is new, or if the axis-versus-Kalman letter collisions (R, K, A appear in both) are confusing.*
+
 ### 5.1 Ordinal aggregation
 
 Base rule: BR class = max over A, R, C, V, K where each tier maps to a candidate class.
@@ -178,31 +180,64 @@ The cardinal score feeds these priors directly when Invariants 1–2 (determinis
 
 The v0.3 cardinal score is a point estimate. Kalman filtering provides the operational mechanism to extend it to a filtered estimate with explicit uncertainty, producing the form underwriters actually need. The framework-centric architecture and Kalman-as-compliance-state-estimator approach derive from an internal reference implementation (credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the specification below distils the mechanism into a portable form.
 
-**State-space model.**
+**Notational note.** The Kalman formalism uses matrices conventionally named `A`, `R`, and `K`, which collide with the rating axes `A` (Authority), `R` (Reach), and `K` (Consequence). To disambiguate, this section writes the Kalman matrices as **A_K**, **R_K**, and **K_K**. See §21 (notation appendix) for the full variable glossary.
 
-- Latent state x(t) = normalised six-axis tuple (the true compliance posture)
-- Observation y(t) = rubric evaluations, tool-call outcomes, evidence submissions at time t
-- **Measurement noise R** per tiered evidence confidence: forensic tier = low R (high trust), minimal tier = high R (low trust). Evidence tier becomes a *quantitative noise model*, not a qualitative label.
-- **Process noise Q** = per-domain prior on how quickly compliance posture can shift between observations
+**State-space model.** The system's compliance posture evolves as a hidden state observed through evidence. Formally:
 
-**Filter equations:**
+- **x(t)** — the latent compliance state at time t. A vector; conceptually a normalised six-axis tuple, but implementation may use a reduced state (see three-phase path below).
+- **y(t)** — the observation vector at time t: rubric evaluations, tool-call outcomes, evidence submissions received in this time step.
+- **A_K** — the state-transition matrix: how the compliance state evolves between observations in the absence of new evidence. Identity for stationary posture; damped-identity if compliance posture is expected to decay without maintenance.
+- **H** — the observation matrix: which components of the state each observation reflects. If y(t) directly measures a state component, the corresponding row of H is a unit vector; if y(t) measures a combination, H encodes the mapping.
+- **Q** — the process-noise covariance matrix: per-domain prior on how much compliance posture can shift between observations that the model has not accounted for. Larger Q means "trust the filter's prior less and the observations more".
+- **R_K** — the measurement-noise covariance matrix: uncertainty in the observation. This is where tiered evidence confidence enters the model: **forensic-grade evidence has low R_K (high trust); minimal-grade evidence has high R_K (low trust)**. Evidence tier becomes a *quantitative noise model*, not a qualitative label.
 
-Predict: x̂(t|t−1) = A·x̂(t−1|t−1); P(t|t−1) = A·P(t−1|t−1)·Aᵀ + Q
+**Filter equations.** At each time step, the filter predicts the state forward from the last estimate, then updates the prediction using the new observation.
 
-Update: K(t) = P(t|t−1)·Hᵀ·(H·P(t|t−1)·Hᵀ + R)⁻¹; x̂(t|t) = x̂(t|t−1) + K(t)·(y(t) − H·x̂(t|t−1)); P(t|t) = (I − K(t)·H)·P(t|t−1)
+*Predict* (a priori estimate given observations up to time t−1):
 
-**Cardinal score under the extension.**
+&nbsp;&nbsp;&nbsp;&nbsp;**x̂(t|t−1) = A_K · x̂(t−1|t−1)**
 
-- Filtered estimate: **B̂(t|t) = w·x̂(t|t)**
-- Uncertainty: **σ_B(t) = √(wᵀ·P(t|t)·w)**
-- Rated output: **B̂(t|t) ± σ_B(t)**, replacing the v0.3 point score
+&nbsp;&nbsp;&nbsp;&nbsp;**P(t|t−1) = A_K · P(t−1|t−1) · A_Kᵀ + Q**
+
+where:
+- **x̂(t|t−1)** is the a priori estimate of x(t) (before seeing y(t))
+- **P(t|t−1)** is the a priori covariance of x̂ (the filter's own estimate of its uncertainty before the new observation)
+- **A_Kᵀ** is the transpose of A_K
+
+*Update* (a posteriori estimate after incorporating y(t)):
+
+&nbsp;&nbsp;&nbsp;&nbsp;**K_K(t) = P(t|t−1) · Hᵀ · (H · P(t|t−1) · Hᵀ + R_K)⁻¹**
+
+&nbsp;&nbsp;&nbsp;&nbsp;**x̂(t|t) = x̂(t|t−1) + K_K(t) · (y(t) − H · x̂(t|t−1))**
+
+&nbsp;&nbsp;&nbsp;&nbsp;**P(t|t) = (I − K_K(t) · H) · P(t|t−1)**
+
+where:
+- **K_K(t)** is the Kalman gain — the weight applied to the new observation versus the prior estimate. High R_K (noisy / low-grade evidence) produces low gain; low R_K (forensic evidence) produces high gain. This is the mechanical expression of *weight of evidence*.
+- **(y(t) − H · x̂(t|t−1))** is the *innovation* — how much the observation differed from what the filter predicted
+- **x̂(t|t)** is the a posteriori estimate (the updated compliance state estimate)
+- **P(t|t)** is the a posteriori covariance (the updated uncertainty)
+- **I** is the identity matrix of matching dimension
+
+**Cardinal score under the extension.** The rating is a scalar function of the filter's state:
+
+&nbsp;&nbsp;&nbsp;&nbsp;**B̂(t|t) = wᵀ · x̂(t|t)**
+
+&nbsp;&nbsp;&nbsp;&nbsp;**σ_B(t) = √( wᵀ · P(t|t) · w )**
+
+where:
+- **w** is the per-axis weight vector **w = [w_a, w_r, w_c, w_v, w_k, w_o]ᵀ** calibrated per deployment domain (see §5.2)
+- **B̂(t|t)** is the filtered compliance-risk estimate
+- **σ_B(t)** is its standard deviation, derived directly from the filter covariance P(t|t) by the standard variance-of-linear-combination formula
+
+The rated output is **B̂(t|t) ± σ_B(t)**, replacing the v0.3 point score. σ_B(t) is directly identifiable with the actuarial uncertainty variable υ in §5.3.
 
 **What this changes:**
 
 1. **υ becomes a direct Kalman output.** Specialist underwriters (Munich Re aiSure, AIUC, Armilla/Lloyd's) receive point estimate + quantified uncertainty — the minimum data their actuarial models need. The v0.4 framework produced υ qualitatively; v0.5 produces it numerically.
-2. **Evidence tier has quantitative effect.** Moving a control from minimal-tier evidence to forensic-tier evidence *reduces σ_B(t)* by reducing R. Evidence investment becomes directly price-relevant, not merely compliance-relevant.
-3. **Adaptive BR thresholds.** The §5.1 interaction overrides are ordinal; Kalman supports continuous adaptive thresholds: *threshold(t) = baseline + k · σ_B(t)*. High-noise sessions get looser thresholds; low-noise sessions get tighter ones. Alerts fire on *statistically significant* deviations, not on arbitrary fixed bands.
-4. **Kalman gain K(t) makes weight-of-evidence explicit.** Each new observation's influence on the estimate is quantified by K(t), with forensic-grade evidence producing higher gain and minimal-grade producing lower. Auditors can trace why a particular evidence submission moved the rating by how much.
+2. **Evidence tier has quantitative effect.** Moving a control from minimal-tier evidence to forensic-tier evidence *reduces σ_B(t)* by reducing R_K. Evidence investment becomes directly price-relevant, not merely compliance-relevant.
+3. **Adaptive BR thresholds.** The §5.1 interaction overrides are ordinal; Kalman supports continuous adaptive thresholds: *threshold(t) = baseline + k · σ_B(t)* where *k* is a scalar (typically 2 or 3, corresponding to roughly 95% or 99.7% confidence bands under a Gaussian assumption). High-noise sessions get looser thresholds; low-noise sessions get tighter ones. Alerts fire on *statistically significant* deviations, not on arbitrary fixed bands.
+4. **Kalman gain K_K(t) makes weight-of-evidence explicit.** Each new observation's influence on the estimate is quantified by K_K(t), with forensic-grade evidence (low R_K) producing higher gain and minimal-grade (high R_K) producing lower. Auditors can trace why a particular evidence submission moved the rating by how much.
 
 **Subsumption of prior truth-value models.** The NAL truth-value model (frequency f, confidence c, from Xu 2025 AIKR grounding) is a special case of Kalman with scalar state and no dynamics. The same relationship holds here: v0.3's ordinal aggregation is Kalman with infinite Q (no prior carried forward); v0.3's point cardinal score is Kalman at a single observation. v0.5 generalises both to the temporal-dynamic case.
 
@@ -210,8 +245,8 @@ Update: K(t) = P(t|t−1)·Hᵀ·(H·P(t|t−1)·Hᵀ + R)⁻¹; x̂(t|t) = x̂(
 
 The Kalman extension is only meaningful if Invariants 1–2 hold:
 
-- Invariant 1 (deterministic execution) — the filter requires that identical inputs under identical policy snapshots produce identical observations. Without it, measurement noise R cannot be separated from genuine compliance drift.
-- Invariant 2 (evidence binding) — R is meaningful only if evidence tiers are attested and tamper-evident. Unsigned evidence has unknown R.
+- Invariant 1 (deterministic execution) — the filter requires that identical inputs under identical policy snapshots produce identical observations. Without it, measurement noise R_K cannot be separated from genuine compliance drift (process noise Q absorbs the non-determinism and σ_B(t) balloons to the point of uselessness).
+- Invariant 2 (evidence binding) — R_K is meaningful only if evidence tiers are attested and tamper-evident. Unsigned evidence has unknown R_K and the filter cannot be calibrated.
 
 A system failing Invariant 1 or 2 cannot produce σ_B(t). It retains an ordinal rating but **cannot quantify υ and is structurally unpriceable**. This is the architectural boundary between insurable and uninsurable made precise.
 
@@ -266,7 +301,16 @@ Vendors that cannot supply a rating for their side of the interface cannot be co
 
 Before applying §7.1 pairwise, the composition *topology* must be identified. Four topologies appear in agentic systems, each with distinct compound-risk mathematics. Reading the topology wrong leads to the common error of rating a chain as if it behaves like voting, or vice versa.
 
-Notation: Rᵢ is the per-component failure probability; BRᵢ is the per-component blast radius; n is chain length; P_bypass,ᵢ is the per-layer attack bypass probability.
+**Notation used in this section** (context-local; §21 collates the full glossary):
+
+- **Rᵢ** — per-component failure probability (0 ≤ Rᵢ ≤ 1). *Note: this Rᵢ is a probability, not the Reach axis R or the Kalman measurement noise R_K.*
+- **BRᵢ** — per-component blast radius (a class value, not a number)
+- **n** — chain length (number of components)
+- **P_bypass,ᵢ** — per-layer attack bypass probability in T3 defence-in-depth (0 ≤ P_bypass,ᵢ ≤ 1)
+- **ρ** — correlation coefficient between component failures in T2 super-additive composition (−1 ≤ ρ ≤ 1; correlated-failure regime has ρ > 0)
+- **k** — quorum threshold in T4 voting (number of components that must agree for a decision)
+- **∏**, **Σ** — product and sum over all components (i = 1..n)
+- **max(BRᵢ)** — the worst individual BR class across all components
 
 **T1. Sub-additive — closed-world narrow fail-closed chain.**
 
@@ -569,6 +613,111 @@ v0.3 delivers these pieces. The minimum shape is disciplined: six axes, three mo
 ---
 
 **Architecture is the executable form of governance, of regulatory compliance, and of insurability. These are not three problems — they are one problem with three audiences. If blast radius is not designed, it is not controlled, not priced, and not deployable in regulated sectors.**
+
+---
+
+## 21. Notation and variable reference
+
+The framework uses notation drawn from three traditions (rating vocabularies, actuarial science, Kalman filtering). Three letters are overloaded — the rating axes `A`, `R`, `K` collide with Kalman matrix conventions for state-transition, measurement-noise-covariance, and gain. This appendix collates every symbol and explicitly disambiguates the collisions.
+
+### 21.1 Rating axes and tiers
+
+| Symbol | Meaning | Values |
+|---|---|---|
+| **A** | Authority axis | A0 observe / A1 recommend / A2 draft / A3 bounded execute / A4 open-ended execute |
+| **R** | Reach axis | R1 single system / R2 internal multi-system / R3 enterprise multi-tenant / R4 external or regulated |
+| **C** | Coupling axis | C1 isolated / C2 agent+tools / C3 typed workflow/chain / C4a NL-coupled peers / C4b shared-state or recursive |
+| **V** | Reversibility axis | V1 ≤ minutes / V2 ≤ hours / V3 ≤ days / V4 practically irreversible |
+| **K** | Consequence axis | K1 minor / K2 operational / K3-F financial, K3-L legal, K3-P privacy / K4-S safety, K4-R regulated/systemic, K4-F fundamental rights |
+| **O** | Observability axis | O0 none / O1 coarse telemetry / O2 action logs + replay / O3 real-time anomaly+drift / O4 O3 + architectural invariants checkable at runtime |
+
+### 21.2 Modifiers
+
+| Symbol | Meaning | Values |
+|---|---|---|
+| **δ_adv** | Attack-accessibility modifier | 0 analysed+closed / +1 known+mitigated / +2 unanalysed |
+| **τ** | Trajectory modifier | stable / expanding / drifting |
+
+### 21.3 Classes and topologies
+
+| Symbol | Meaning |
+|---|---|
+| **BR-1..BR-5** | Blast-radius classes: Contained / Managed / Expansive / Systemic / Intolerable-without-formal-governance |
+| **T1** | Composition topology: sub-additive — closed-world narrow fail-closed chain |
+| **T2** | Composition topology: super-additive — open-world NL-coupled chain (correlated-failure regime) |
+| **T3** | Composition topology: multiplicative — defence-in-depth attack composition |
+| **T4** | Composition topology: exponential-reducing — voting / parallel redundancy with genuine independence |
+
+### 21.4 Actuarial variables
+
+| Symbol | Meaning |
+|---|---|
+| **λ** | Frequency — how often failures occur |
+| **σ** | Severity — damage distribution per failure |
+| **υ** | Uncertainty in λ and σ estimates. In v0.5, υ ≡ σ_B(t) (direct Kalman output). |
+
+### 21.5 Cardinal score (§5.2, §5.4)
+
+| Symbol | Meaning |
+|---|---|
+| **B(t)** | Expected Compliance Risk at time t — v0.3 point estimate |
+| **B̂(t\|t)** | Kalman-filtered estimate of B(t) given observations up to time t — v0.5 |
+| **σ_B(t)** | Standard deviation of B̂(t\|t); identified with actuarial υ |
+| **w** | Weight vector w = [w_a, w_r, w_c, w_v, w_k, w_o]ᵀ — per-axis weights |
+| **wᵀ** | Transpose of w (row vector) |
+| **k** (scalar) | Multiplier in adaptive threshold `baseline + k · σ_B(t)`; typically 2 (≈95%) or 3 (≈99.7%) under Gaussian assumption. Distinct from Kalman gain K_K. |
+
+### 21.6 Kalman state-space model (§5.4)
+
+Disambiguated with subscript `_K` to avoid collision with rating axes.
+
+| Symbol | Meaning |
+|---|---|
+| **x(t)** | Latent compliance state vector at time t |
+| **x̂(t\|t−1)** | A priori state estimate — before observing y(t) |
+| **x̂(t\|t)** | A posteriori state estimate — after observing y(t) |
+| **P(t\|t−1)** | A priori covariance of x̂ |
+| **P(t\|t)** | A posteriori covariance of x̂ |
+| **y(t)** | Observation vector at time t (rubric evaluations, tool-call outcomes, evidence submissions) |
+| **A_K** | State-transition matrix. **Collision warning**: this is *not* the Authority axis A. |
+| **H** | Observation matrix: mapping from state to observation |
+| **Hᵀ** | Transpose of H |
+| **Q** | Process-noise covariance matrix — prior on how fast the state can shift between observations |
+| **R_K** | Measurement-noise covariance matrix. **Collision warning**: this is *not* the Reach axis R. Calibrated from evidence tiers: forensic tier → low R_K (high trust), minimal tier → high R_K (low trust). |
+| **K_K(t)** | Kalman gain at time t. **Collision warning**: this is *not* the Consequence axis K. Quantifies weight of evidence. |
+| **I** | Identity matrix of matching dimension |
+
+### 21.7 Composition-math variables (§7.2)
+
+| Symbol | Meaning |
+|---|---|
+| **Rᵢ** | Per-component failure probability (0 ≤ Rᵢ ≤ 1). *Not the Reach axis R.* |
+| **BRᵢ** | Per-component blast radius class |
+| **n** | Chain length (number of components) |
+| **P_bypass,ᵢ** | Per-layer attack bypass probability in T3 defence-in-depth (0 ≤ P_bypass,ᵢ ≤ 1) |
+| **ρ** | Correlation coefficient between component failures in T2 (−1 ≤ ρ ≤ 1) |
+| **k** (composition) | Quorum threshold in T4 voting — number of components that must agree |
+| **∏**, **Σ** | Product and sum over components (i = 1..n) |
+
+### 21.8 Statistical / sensitivity analysis
+
+| Symbol | Meaning |
+|---|---|
+| **Sobol index** | Variance-based sensitivity index. Used to identify which defence layer contributes most to residual risk in defence-in-depth compositions (§11, §15). |
+
+### 21.9 Collision summary
+
+Three letters are overloaded because rating-axis conventions and Kalman-filtering conventions independently use the same letters. This framework disambiguates as follows:
+
+| Letter | As rating axis | As Kalman matrix (written with `_K` in §5.4 and this appendix) |
+|---|---|---|
+| **A** | Authority axis (§4.2) | A_K — state-transition matrix |
+| **R** | Reach axis (§4.3) | R_K — measurement-noise covariance matrix |
+| **K** | Consequence axis (§4.6) | K_K — Kalman gain |
+
+Outside §5.4 and §21.6, unqualified `A`, `R`, `K` always mean the rating axes. Inside the Kalman derivation, the subscripted forms are used consistently. In equations where ambiguity would be catastrophic (the filter equations themselves), the subscripted forms are used even in §5.4 to avoid reader error.
+
+The collision is unavoidable if the framework wants to keep both conventions native to their tradition. The alternative — renaming either set — would confuse readers arriving from either direction. Explicit subscripting is the lesser evil.
 
 ---
 
