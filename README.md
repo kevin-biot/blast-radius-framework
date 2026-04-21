@@ -14,7 +14,8 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 2. **[manifesto.md](./manifesto.md)** — *Law as Pattern*. The argument for why a framework like this must exist. Read this if you are asking why prose governance fails, why insurers have stayed silent, and what "law as machine code as pattern" means in practice.
 3. **[antipatterns.md](./antipatterns.md)** — 26 named anti-patterns that inflate blast radius and currently ship as "progress". Use for vendor diligence.
 4. **[insurability.md](./insurability.md)** — actuarial companion mapping the framework onto specialist underwriter requirements (Munich Re aiSure, AIUC-1, Armilla/Lloyd's) and the λ/σ/υ variables their pricing needs.
-5. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to François Gagné's multi-agent drift corpus (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, a private reference implementation whose architectural primitives are generalised here, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
+5. **[spec/](./spec/)** — machine-readable conformance artefacts: JSON Schema for BR profiles, per-invariant test specifications, signed-attestation format, worked examples. This is what makes the framework adoptable, not just readable.
+6. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to François Gagné's multi-agent drift corpus (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, a private reference implementation whose architectural primitives are generalised here, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
 
 ## Reading guide by role
 
@@ -35,7 +36,7 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 - **Current version:** v0.5 (2026-04-21)
 - **Maturity:** research draft; open for comment
 - **Stability:** major-version increments preserve section numbering; minor revisions may refine equations and add open questions
-- **Not yet shipped:** machine-readable schema for the vendor questionnaire, conformance test specifications per invariant, axis-scoring rubric, reference attestation format. These are the v0.6+ work.
+- **Spec v0.1 has shipped** as of 2026-04-21 — see [spec/](./spec/). Includes JSON Schema for BR profiles, per-invariant conformance tests, signed-attestation format, and two worked example profiles (closed-world BR-2; open-world BR-4). Axis-scoring rubric and third-party certification format remain v0.6+ work.
 
 ## Versioning policy
 

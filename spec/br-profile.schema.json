@@ -1,0 +1,462 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kevin-biot/blast-radius-framework/spec/br-profile.schema.json",
+  "title": "Blast Radius Profile",
+  "description": "Machine-readable BR attestation for an agentic AI system, conformant to the Blast Radius Framework v0.5. Each profile rates one system (which may contain multiple components) and carries the evidence needed for an auditor, underwriter, or regulator to verify the rating.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "profile_id",
+    "attestation_date",
+    "deployer",
+    "system",
+    "components",
+    "composition",
+    "invariants",
+    "aggregation",
+    "anti_patterns"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Version of this schema the profile conforms to. Semantic versioning.",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "examples": ["0.1"]
+    },
+    "framework_version": {
+      "type": "string",
+      "description": "Version of the Blast Radius Framework the profile is rated against.",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "examples": ["0.5"]
+    },
+    "profile_id": {
+      "type": "string",
+      "description": "Unique identifier for this profile (UUID or similar).",
+      "minLength": 1
+    },
+    "attestation_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp at which the attestation is valid. Profiles are point-in-time; re-attestation required on material change."
+    },
+    "attestation_expiry": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp after which the profile is stale and must be re-attested. Typically 1 year for BR-1/2, 6 months for BR-3, 3 months for BR-4, 1 month for BR-5."
+    },
+    "deployer": {
+      "type": "object",
+      "description": "Who is deploying the system and claims the profile.",
+      "required": ["organisation_id", "organisation_name", "accountable_executive"],
+      "properties": {
+        "organisation_id": { "type": "string", "description": "Legal entity identifier (e.g. LEI)." },
+        "organisation_name": { "type": "string" },
+        "accountable_executive": {
+          "type": "object",
+          "required": ["name", "role"],
+          "properties": {
+            "name": { "type": "string" },
+            "role": { "type": "string" },
+            "contact": { "type": "string" }
+          }
+        }
+      }
+    },
+    "system": {
+      "type": "object",
+      "description": "The system being rated.",
+      "required": ["system_id", "system_name", "deployment_context"],
+      "properties": {
+        "system_id": { "type": "string" },
+        "system_name": { "type": "string" },
+        "system_version": { "type": "string" },
+        "deployment_context": {
+          "type": "string",
+          "description": "Human-readable description of where and how the system is deployed. Axis tiers depend on context."
+        },
+        "principal_population": {
+          "type": "object",
+          "description": "Reach sub-component: how many principals (customers, citizens, patients) a single action can affect.",
+          "properties": {
+            "population_class": {
+              "type": "string",
+              "enum": ["single_user", "single_team", "single_org", "multi_tenant_small", "multi_tenant_large", "public"],
+              "description": "Population classification."
+            },
+            "count_estimate": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Order-of-magnitude count; optional but useful for underwriters."
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "description": "Per-component ratings. A system with multiple agents, pipelines, or integrations has a component per discrete rated unit.",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/component" }
+    },
+    "composition": {
+      "$ref": "#/$defs/composition"
+    },
+    "invariants": {
+      "$ref": "#/$defs/invariant_set"
+    },
+    "aggregation": {
+      "$ref": "#/$defs/aggregation"
+    },
+    "anti_patterns": {
+      "type": "array",
+      "description": "Per-pattern attestation for patterns A1-A15 (architectural) and B1-B11 (evidence-chain). Omitted patterns are implicitly attested as not-exhibited.",
+      "items": { "$ref": "#/$defs/anti_pattern_attestation" }
+    },
+    "signature": {
+      "$ref": "#/$defs/signature",
+      "description": "Optional. Cryptographic signature over the canonical serialisation of this profile. Required for BR-3+ attestations. Absence means unsigned; auditors and underwriters may reject."
+    },
+    "anchor": {
+      "$ref": "#/$defs/anchor",
+      "description": "Optional. External anchor commitment (e.g. SAPP, OpenTimestamps, notarised Merkle root). Required for BR-4+ attestations."
+    }
+  },
+  "$defs": {
+    "worldview": {
+      "type": "string",
+      "enum": ["closed-world", "open-world"],
+      "description": "Pre-rating classifier per framework.md §4.0. Closed-world: ontology-bounded, typed inter-component interfaces. Open-world: NL-unbounded. Open-world components cannot claim Invariant 7 and force system BR to BR-4 minimum."
+    },
+    "component": {
+      "type": "object",
+      "required": ["component_id", "worldview", "axes"],
+      "properties": {
+        "component_id": { "type": "string" },
+        "component_name": { "type": "string" },
+        "worldview": { "$ref": "#/$defs/worldview" },
+        "axes": {
+          "type": "object",
+          "required": ["A", "R", "C", "V", "K", "O"],
+          "properties": {
+            "A": {
+              "type": "string",
+              "enum": ["A0", "A1", "A2", "A3", "A4"],
+              "description": "Authority. A0 observe, A1 recommend, A2 draft, A3 bounded execute, A4 open-ended execute."
+            },
+            "R": {
+              "type": "string",
+              "enum": ["R1", "R2", "R3", "R4"],
+              "description": "Reach. R1 single system, R2 internal multi-system, R3 enterprise multi-tenant, R4 external/regulated/third-party."
+            },
+            "C": {
+              "type": "string",
+              "enum": ["C1", "C2", "C3", "C4a", "C4b"],
+              "description": "Coupling. C1 isolated, C2 agent+tools, C3 workflow/chain typed, C4a NL-coupled peers, C4b shared-state/recursive."
+            },
+            "V": {
+              "type": "string",
+              "enum": ["V1", "V2", "V3", "V4"],
+              "description": "Reversibility. V1 minutes, V2 hours, V3 days, V4 practically irreversible."
+            },
+            "K": {
+              "type": "string",
+              "enum": ["K1", "K2", "K3-F", "K3-L", "K3-P", "K4-S", "K4-R", "K4-F"],
+              "description": "Consequence with regulatory sub-tag. K3-F financial, K3-L legal, K3-P privacy, K4-S safety, K4-R regulated/systemic, K4-F fundamental rights."
+            },
+            "O": {
+              "type": "string",
+              "enum": ["O0", "O1", "O2", "O3", "O4"],
+              "description": "Observability. O0 none, O1 coarse telemetry, O2 action logs+replay, O3 real-time anomaly+drift, O4 O3 plus architectural invariants checkable at runtime."
+            }
+          }
+        },
+        "modifiers": { "$ref": "#/$defs/modifiers" },
+        "notes": { "type": "string" }
+      }
+    },
+    "modifiers": {
+      "type": "object",
+      "properties": {
+        "delta_adv": {
+          "type": "object",
+          "description": "Attack-accessibility modifier.",
+          "required": ["value", "analysis_summary"],
+          "properties": {
+            "value": {
+              "type": "integer",
+              "enum": [0, 1, 2],
+              "description": "0 analysed and closed, 1 known paths with mitigations, 2 unanalysed or open surface."
+            },
+            "analysis_summary": {
+              "type": "string",
+              "description": "What adversarial analysis was performed, what paths are open, what mitigations are in place."
+            },
+            "last_red_team_date": { "type": "string", "format": "date" }
+          }
+        },
+        "tau": {
+          "type": "object",
+          "description": "Trajectory modifier.",
+          "required": ["value", "last_review_date"],
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": ["stable", "expanding", "drifting"],
+              "description": "Stable: no class change. Expanding: accepted tool/reach additions, class recomputed. Drifting: observed behaviour suggests movement not reflected in configuration."
+            },
+            "last_review_date": { "type": "string", "format": "date" },
+            "review_cadence": {
+              "type": "string",
+              "description": "Human-readable cadence. BR-3+ requires documented cadence.",
+              "examples": ["monthly", "quarterly", "per-release"]
+            }
+          }
+        },
+        "residual_vs_inherent": {
+          "type": "object",
+          "description": "Optional separation of residual BR (with mitigating controls) from inherent BR (without).",
+          "properties": {
+            "inherent_class": { "$ref": "#/$defs/br_class" },
+            "residual_class": { "$ref": "#/$defs/br_class" },
+            "gap_controls": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of controls narrowing the gap."
+            }
+          }
+        }
+      }
+    },
+    "composition": {
+      "type": "object",
+      "description": "How the components combine. Determines which composition class mathematics (§7.2) applies.",
+      "required": ["topology"],
+      "properties": {
+        "topology": {
+          "type": "string",
+          "enum": ["T1_sub_additive", "T2_super_additive", "T3_multiplicative", "T4_exponential_reducing", "mixed", "single_component"],
+          "description": "Per framework.md §7.2. T1 closed-world narrow fail-closed chain (compound BR bounded by max). T2 open-world NL-coupled chain (compound BR diverges with chain length). T3 defence-in-depth attack composition (product of per-layer bypass). T4 voting redundancy with genuine independence (binomial-tail). mixed: multiple sub-topologies combined via §7.1 pairwise."
+        },
+        "chain_description": {
+          "type": "string",
+          "description": "Human description of how the components interact."
+        },
+        "edges": {
+          "type": "array",
+          "description": "Explicit edges between components. Required when topology is T1-T4 or mixed.",
+          "items": {
+            "type": "object",
+            "required": ["from", "to", "interface_type"],
+            "properties": {
+              "from": { "type": "string", "description": "component_id" },
+              "to": { "type": "string", "description": "component_id" },
+              "interface_type": {
+                "type": "string",
+                "enum": ["typed", "natural_language", "shared_state", "voting_quorum"],
+                "description": "typed interfaces support T1; natural_language forces T2; shared_state is C4b; voting_quorum supports T4."
+              }
+            }
+          }
+        },
+        "t4_independence_attestation": {
+          "type": "object",
+          "description": "Required when topology is T4. Attests that voters are genuinely independent.",
+          "properties": {
+            "different_model_families": { "type": "boolean" },
+            "different_providers": { "type": "boolean" },
+            "different_prompt_derivations": { "type": "boolean" },
+            "uncorrelated_failure_history": { "type": "boolean" },
+            "evidence_reference": { "type": "string" }
+          }
+        }
+      }
+    },
+    "invariant_set": {
+      "type": "object",
+      "description": "Per-invariant attestation. All seven invariants must be addressed for BR-3+.",
+      "required": ["I1", "I2", "I3", "I4", "I5", "I6", "I7"],
+      "properties": {
+        "I1": { "$ref": "#/$defs/invariant_attestation", "description": "Deterministic execution" },
+        "I2": { "$ref": "#/$defs/invariant_attestation", "description": "Evidence binding" },
+        "I3": { "$ref": "#/$defs/invariant_attestation", "description": "Policy snapshot coherence" },
+        "I4": { "$ref": "#/$defs/invariant_attestation", "description": "Bounded blast radius" },
+        "I5": { "$ref": "#/$defs/invariant_attestation", "description": "Jurisdictional awareness" },
+        "I6": { "$ref": "#/$defs/invariant_attestation", "description": "Fail-closed execution control" },
+        "I7": { "$ref": "#/$defs/invariant_attestation", "description": "Bounded coupling" }
+      }
+    },
+    "invariant_attestation": {
+      "type": "object",
+      "required": ["status", "enforcement_mode"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["holds", "partially_holds", "does_not_hold", "not_applicable"],
+          "description": "Does the invariant hold as designed?"
+        },
+        "enforcement_mode": {
+          "type": "string",
+          "enum": ["architectural", "structural", "procedural", "documentary"],
+          "description": "architectural: runtime-checkable code invariant. structural: enforced by repo/build shape or types. procedural: enforced by review gate. documentary: prose only. BR-4+ requires architectural or structural for critical invariants."
+        },
+        "evidence_summary": {
+          "type": "string",
+          "description": "Brief description of the evidence that the invariant holds."
+        },
+        "evidence_references": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "URIs, document references, or test suite identifiers that demonstrate the invariant. For BR-3+, at least one machine-checkable reference required (conformance test result, signed attestation, etc)."
+        },
+        "conformance_test_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["test_id", "result"],
+            "properties": {
+              "test_id": {
+                "type": "string",
+                "description": "Identifier from spec/invariant-conformance-tests.md (e.g. I1-T1, I2-T3)."
+              },
+              "result": {
+                "type": "string",
+                "enum": ["pass", "partial", "fail", "not_run"]
+              },
+              "result_date": { "type": "string", "format": "date-time" },
+              "evidence_uri": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "aggregation": {
+      "type": "object",
+      "description": "Computed BR class and optional cardinal score.",
+      "required": ["ordinal_class"],
+      "properties": {
+        "ordinal_class": { "$ref": "#/$defs/br_class" },
+        "interaction_overrides_fired": {
+          "type": "array",
+          "description": "Which §5.1 interaction overrides triggered. Empty array means none fired.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "C4_plus_V3_or_V4_promotion",
+              "A3_or_A4_plus_K4_minimum_BR4",
+              "R4_plus_O0_or_O1_promotion",
+              "invariant7_absent_promotion",
+              "open_world_component_floor_BR4",
+              "observability_O0_or_O1_promotion_on_BR3_plus"
+            ]
+          }
+        },
+        "cardinal_score": {
+          "type": "object",
+          "description": "Optional v0.5 Kalman-extended cardinal score. Required for BR-4+ insurability claims.",
+          "properties": {
+            "B_hat": {
+              "type": "number",
+              "description": "Filtered compliance-risk estimate B̂(t|t)."
+            },
+            "sigma_B": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Kalman uncertainty σ_B(t). Directly usable as the actuarial υ variable."
+            },
+            "weights": {
+              "type": "object",
+              "description": "Per-axis weights used in B(t) = w_a·A + w_r·R + w_c·C + w_v·(1−V) + w_k·K + w_o·(1−O). Should sum to 1 or be explicitly unnormalised.",
+              "properties": {
+                "w_a": { "type": "number" },
+                "w_r": { "type": "number" },
+                "w_c": { "type": "number" },
+                "w_v": { "type": "number" },
+                "w_k": { "type": "number" },
+                "w_o": { "type": "number" }
+              }
+            },
+            "kalman_implementation_phase": {
+              "type": "integer",
+              "enum": [0, 1, 2, 3],
+              "description": "0: no Kalman, only point estimate. 1: scalar Kalman on single metric. 2: multivariate state. 3: per-session trajectory with dB̂/dt."
+            },
+            "evidence_tier_to_R_mapping_reference": {
+              "type": "string",
+              "description": "Reference to the evidence-tier → R calibration table used."
+            }
+          }
+        }
+      }
+    },
+    "br_class": {
+      "type": "string",
+      "enum": ["BR-1", "BR-2", "BR-3", "BR-4", "BR-5"]
+    },
+    "anti_pattern_attestation": {
+      "type": "object",
+      "required": ["pattern_id", "status"],
+      "properties": {
+        "pattern_id": {
+          "type": "string",
+          "pattern": "^(A([1-9]|1[0-5])|B([1-9]|1[0-1]))$",
+          "description": "A1-A15 architectural; B1-B11 evidence-chain."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["not_exhibited", "exhibited_with_demotion_path", "exhibited_without_demotion_path", "not_applicable"],
+          "description": "exhibited_with_demotion_path requires the demotion_path field; exhibited_without_demotion_path adds +1 BR class per framework.md §5.1 rule 4."
+        },
+        "demotion_path": {
+          "type": "string",
+          "description": "Required when status is exhibited_with_demotion_path. Describes the architectural change that closes the anti-pattern."
+        },
+        "evidence_reference": { "type": "string" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "required": ["algorithm", "signer_id", "signature_value", "signed_payload_canonical_form"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": ["Ed25519", "ES256", "ES384", "RS256", "HMAC-SHA256"],
+          "description": "Ed25519 recommended. HMAC-SHA256 only acceptable for attestations with out-of-band key exchange."
+        },
+        "signer_id": {
+          "type": "string",
+          "description": "Identifier for the signer (public key fingerprint, DID, or X.509 subject)."
+        },
+        "signature_value": {
+          "type": "string",
+          "description": "Base64-encoded signature."
+        },
+        "signed_payload_canonical_form": {
+          "type": "string",
+          "enum": ["JCS-RFC8785", "COSE-Sign1"],
+          "description": "How the payload was canonicalised for signing. JCS (RFC 8785) recommended for JSON."
+        },
+        "signed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "required": ["anchor_type", "anchor_commitment"],
+      "properties": {
+        "anchor_type": {
+          "type": "string",
+          "enum": ["SAPP", "OpenTimestamps", "RFC3161-TSA", "MerkleProof-Custom"],
+          "description": "External anchor type. SAPP (Settlement Anchor Protocol Platform) for the reference design."
+        },
+        "anchor_commitment": {
+          "type": "string",
+          "description": "Commitment value (e.g. Merkle root, timestamp token identifier)."
+        },
+        "anchor_uri": {
+          "type": "string",
+          "description": "URI where the commitment can be independently verified."
+        },
+        "anchor_timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

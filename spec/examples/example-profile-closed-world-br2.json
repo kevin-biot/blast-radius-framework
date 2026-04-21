@@ -1,0 +1,169 @@
+{
+  "schema_version": "0.1",
+  "framework_version": "0.5",
+  "profile_id": "example-br2-closed-world-001",
+  "attestation_date": "2026-04-21T10:00:00Z",
+  "attestation_expiry": "2027-04-21T10:00:00Z",
+  "deployer": {
+    "organisation_id": "EXAMPLE-LEI-529900EXAMPLE",
+    "organisation_name": "Example Deployer Ltd",
+    "accountable_executive": {
+      "name": "A. Example",
+      "role": "Chief Risk Officer",
+      "contact": "cro@example.com"
+    }
+  },
+  "system": {
+    "system_id": "legal-citation-review-v2",
+    "system_name": "Legal Citation Review Assistant",
+    "system_version": "2.3.1",
+    "deployment_context": "Internal legal team uses the system to verify citations in outbound opinions. Submits draft opinion as a form; receives verified citation report. No direct client interaction. Evidence chain seals every review.",
+    "principal_population": {
+      "population_class": "single_org",
+      "count_estimate": 150
+    }
+  },
+  "components": [
+    {
+      "component_id": "citation-verifier",
+      "component_name": "Citation Verifier Pipeline",
+      "worldview": "closed-world",
+      "axes": {
+        "A": "A1",
+        "R": "R1",
+        "C": "C2",
+        "V": "V1",
+        "K": "K3-L",
+        "O": "O3"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 0,
+          "analysis_summary": "Indirect prompt injection analysed; inputs are normalised through controlled-vocabulary phrase matcher; ontology firewall prevents concept drift; no direct NL to reasoning engine. Adversarial test suite run quarterly.",
+          "last_red_team_date": "2026-03-15"
+        },
+        "tau": {
+          "value": "stable",
+          "last_review_date": "2026-04-01",
+          "review_cadence": "quarterly"
+        }
+      }
+    }
+  ],
+  "composition": {
+    "topology": "single_component",
+    "chain_description": "Single closed-world component; no composition."
+  },
+  "invariants": {
+    "I1": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Deterministic evidence contract hashing; LLM sampling pinned (temperature=0); canonical JCS serialisation. Re-run reproducibility verified in CI.",
+      "conformance_test_results": [
+        { "test_id": "I1-T1", "result": "pass", "result_date": "2026-04-18T09:00:00Z", "evidence_uri": "https://example.com/conformance/2026-04-18/I1-T1.json" },
+        { "test_id": "I1-T2", "result": "pass", "result_date": "2026-04-18T09:00:00Z", "evidence_uri": "https://example.com/conformance/2026-04-18/I1-T2.json" },
+        { "test_id": "I1-T3", "result": "pass", "result_date": "2026-04-18T09:00:00Z", "evidence_uri": "https://example.com/conformance/2026-04-18/I1-T3.json" }
+      ]
+    },
+    "I2": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Per-stage hash chain; Ed25519-signed stage artefacts; SAPP anchor on a 10-minute batch cadence.",
+      "conformance_test_results": [
+        { "test_id": "I2-T1", "result": "pass", "result_date": "2026-04-18T09:00:00Z" },
+        { "test_id": "I2-T2", "result": "pass", "result_date": "2026-04-18T09:00:00Z" },
+        { "test_id": "I2-T3", "result": "pass", "result_date": "2026-04-18T09:00:00Z" },
+        { "test_id": "I2-T4", "result": "pass", "result_date": "2026-04-18T09:00:00Z" }
+      ]
+    },
+    "I3": {
+      "status": "holds",
+      "enforcement_mode": "structural",
+      "evidence_summary": "policy_snapshot_id carried in every decision; policies versioned in immutable store with hash-verified retrieval.",
+      "conformance_test_results": [
+        { "test_id": "I3-T1", "result": "pass" },
+        { "test_id": "I3-T2", "result": "pass" },
+        { "test_id": "I3-T3", "result": "pass" }
+      ]
+    },
+    "I4": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Single-tenant deployment; action class ceiling A1 (advisory only — system produces reports, never writes); population bounded by the ontology firewall.",
+      "conformance_test_results": [
+        { "test_id": "I4-T2", "result": "pass" },
+        { "test_id": "I4-T3", "result": "pass" }
+      ]
+    },
+    "I5": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "All processing within EU; no cross-border data flow; legal jurisdiction aligned with single Member State. Regulatory tier (bar council rules) unoverridable in policy hierarchy."
+    },
+    "I6": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Default-DENY at enforcement point; session-execution attestation required for every review; critical-action fail-closed on evidence-write failure.",
+      "conformance_test_results": [
+        { "test_id": "I6-T1", "result": "pass" },
+        { "test_id": "I6-T2", "result": "pass" },
+        { "test_id": "I6-T3", "result": "pass" },
+        { "test_id": "I6-T4", "result": "pass" }
+      ]
+    },
+    "I7": {
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Single-component deployment; no inter-agent coupling. Invariant trivially holds.",
+      "conformance_test_results": [
+        { "test_id": "I7-T1", "result": "pass" },
+        { "test_id": "I7-T2", "result": "pass" }
+      ]
+    }
+  },
+  "aggregation": {
+    "ordinal_class": "BR-2",
+    "interaction_overrides_fired": [],
+    "cardinal_score": {
+      "B_hat": 0.18,
+      "sigma_B": 0.04,
+      "weights": {
+        "w_a": 0.15,
+        "w_r": 0.10,
+        "w_c": 0.20,
+        "w_v": 0.10,
+        "w_k": 0.25,
+        "w_o": 0.20
+      },
+      "kalman_implementation_phase": 1,
+      "evidence_tier_to_R_mapping_reference": "https://example.com/calibration/legal-domain-2026q2.json"
+    }
+  },
+  "anti_patterns": [
+    { "pattern_id": "A1", "status": "not_exhibited" },
+    { "pattern_id": "A2", "status": "not_exhibited" },
+    { "pattern_id": "A3", "status": "not_exhibited" },
+    { "pattern_id": "A6", "status": "not_exhibited" },
+    { "pattern_id": "A9", "status": "not_exhibited", "evidence_reference": "No vector memory in use; all retrieval from curated citation corpus." },
+    { "pattern_id": "A15", "status": "exhibited_with_demotion_path", "demotion_path": "Tool outputs are sanitised and quoted before re-entering LLM context; untrusted regions tagged in prompt structure; runtime detection of role-escape strings." },
+    { "pattern_id": "B1", "status": "not_exhibited" },
+    { "pattern_id": "B2", "status": "not_exhibited" },
+    { "pattern_id": "B3", "status": "exhibited_with_demotion_path", "demotion_path": "User prompts retained for 90 days with per-user retention controls; no training use; GDPR Article 17 erasure verified in test." },
+    { "pattern_id": "B6", "status": "not_exhibited" },
+    { "pattern_id": "B8", "status": "not_exhibited" },
+    { "pattern_id": "B11", "status": "not_exhibited" }
+  ],
+  "signature": {
+    "algorithm": "Ed25519",
+    "signer_id": "did:web:example.com:attestations:2026-q2",
+    "signature_value": "MEUCIQDexampleSignatureValueBase64EncodedPlaceholderForIllustrationOnly==",
+    "signed_payload_canonical_form": "JCS-RFC8785",
+    "signed_at": "2026-04-21T10:30:00Z"
+  },
+  "anchor": {
+    "anchor_type": "SAPP",
+    "anchor_commitment": "0xEXAMPLEMerkleRootHexPlaceholderForIllustration",
+    "anchor_uri": "https://sapp.example.com/anchors/2026-04-21/batch-1430",
+    "anchor_timestamp": "2026-04-21T10:32:00Z"
+  }
+}

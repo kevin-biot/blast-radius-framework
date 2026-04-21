@@ -2,6 +2,19 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible.
 
+## spec v0.1 — 2026-04-21
+
+**Machine-readable conformance artefacts.** New `spec/` directory. Principal additions:
+
+- **`spec/br-profile.schema.json`** — JSON Schema (Draft 2020-12) for a complete BR profile. Required fields for system identification, per-component ratings (worldview, axes A–R–C–V–K–O, modifiers), composition topology (T1–T4), per-invariant attestation with conformance test results, ordinal aggregation with interaction-override list, optional Kalman-extended cardinal score, anti-pattern attestations, signature and external anchor.
+- **`spec/invariant-conformance-tests.md`** — empirical test specifications per invariant. Twenty-three tests across Invariants 1–7, each with stable test ID (I1-T1 through I7-T3), procedure, pass criterion, implied enforcement mode, and BR-class applicability. Results are recorded in profiles under `invariants.I{n}.conformance_test_results`.
+- **`spec/attestation-format.md`** — signed + anchored attestation format. Canonical serialisation via JCS (RFC 8785), Ed25519 recommended default, acceptable anchor types (SAPP, OpenTimestamps, RFC 3161 TSA, custom Merkle), anchor-to-signature skew tolerance by BR class (BR-3 24h, BR-4 1h, BR-5 5min), six-step verification procedure.
+- **`spec/examples/example-profile-closed-world-br2.json`** — worked example: legal citation review assistant, all seven invariants holding, cardinal score computed with σ_B.
+- **`spec/examples/example-profile-open-world-br4.json`** — worked example: three-agent NL-coupled research assistant; Invariants 1, 3, 4, 7 fail; open-world floor fires BR-4; cardinal score omitted (Invariants 1–2 failed, cannot produce σ_B).
+- **`spec/README.md`** — orientation with per-role usage guide (deployer, auditor, underwriter, regulator).
+
+Both example profiles validate against the schema (verified with `jsonschema` Draft 2020-12 validator). Schema and tests complete for v0.5 of the framework; axis-scoring rubric and third-party certification form remain v0.6+.
+
 ## v0.5 — 2026-04-21
 
 **Kalman extension — cardinal score becomes filtered estimate with uncertainty.**

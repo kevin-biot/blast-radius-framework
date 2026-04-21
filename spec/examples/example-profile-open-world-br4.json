@@ -1,0 +1,184 @@
+{
+  "schema_version": "0.1",
+  "framework_version": "0.5",
+  "profile_id": "example-br4-open-world-001",
+  "attestation_date": "2026-04-21T10:00:00Z",
+  "attestation_expiry": "2026-07-21T10:00:00Z",
+  "deployer": {
+    "organisation_id": "EXAMPLE-LEI-529900OPENEXAMPLE",
+    "organisation_name": "Example Multi-Agent Deployer Corp",
+    "accountable_executive": {
+      "name": "B. Example",
+      "role": "VP of Engineering",
+      "contact": "vp-eng@example-corp.com"
+    }
+  },
+  "system": {
+    "system_id": "research-assistant-multi-agent-v1",
+    "system_name": "Multi-Agent Research Assistant",
+    "system_version": "1.0.4",
+    "deployment_context": "Three LLM agents collaborate via natural-language context exchange to produce research reports. Each agent has a persona prompt. Output is advisory only; humans review before any action. Deployed across multiple enterprise tenants.",
+    "principal_population": {
+      "population_class": "multi_tenant_large",
+      "count_estimate": 25000
+    }
+  },
+  "components": [
+    {
+      "component_id": "researcher-agent",
+      "component_name": "Research Agent",
+      "worldview": "open-world",
+      "axes": {
+        "A": "A2",
+        "R": "R3",
+        "C": "C4a",
+        "V": "V2",
+        "K": "K3-F",
+        "O": "O2"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 2,
+          "analysis_summary": "Open-web retrieval exposes agent to prompt injection from any visited page. Mitigations: output is advisory-only. Adversarial analysis incomplete.",
+          "last_red_team_date": "2025-11-01"
+        },
+        "tau": {
+          "value": "drifting",
+          "last_review_date": "2026-04-10",
+          "review_cadence": "monthly"
+        }
+      },
+      "notes": "Open-world by design — consumes unfiltered web content and peer agent NL output."
+    },
+    {
+      "component_id": "critic-agent",
+      "component_name": "Critic Agent",
+      "worldview": "open-world",
+      "axes": {
+        "A": "A1",
+        "R": "R3",
+        "C": "C4a",
+        "V": "V2",
+        "K": "K3-F",
+        "O": "O2"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 2,
+          "analysis_summary": "Receives NL from researcher-agent without typed interface. No independent model family.",
+          "last_red_team_date": "2025-11-01"
+        },
+        "tau": {
+          "value": "drifting",
+          "last_review_date": "2026-04-10",
+          "review_cadence": "monthly"
+        }
+      }
+    },
+    {
+      "component_id": "synthesiser-agent",
+      "component_name": "Synthesiser Agent",
+      "worldview": "open-world",
+      "axes": {
+        "A": "A2",
+        "R": "R3",
+        "C": "C4a",
+        "V": "V2",
+        "K": "K3-F",
+        "O": "O2"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 2,
+          "analysis_summary": "Receives NL from both peers; same substrate LLM. Concealment-attack surface analysed but not closed.",
+          "last_red_team_date": "2025-11-01"
+        },
+        "tau": {
+          "value": "drifting",
+          "last_review_date": "2026-04-10",
+          "review_cadence": "monthly"
+        }
+      }
+    }
+  ],
+  "composition": {
+    "topology": "T2_super_additive",
+    "chain_description": "Three agents exchange NL context peer-to-peer. No typed interfaces. Shared LLM substrate across all three.",
+    "edges": [
+      { "from": "researcher-agent", "to": "critic-agent", "interface_type": "natural_language" },
+      { "from": "critic-agent", "to": "synthesiser-agent", "interface_type": "natural_language" },
+      { "from": "researcher-agent", "to": "synthesiser-agent", "interface_type": "natural_language" }
+    ]
+  },
+  "invariants": {
+    "I1": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "LLM sampling is non-deterministic (temperature > 0); re-runs produce different outputs. Deterministic execution not achievable under current architecture without fundamental rework.",
+      "conformance_test_results": [
+        { "test_id": "I1-T1", "result": "fail" },
+        { "test_id": "I1-T2", "result": "fail" }
+      ]
+    },
+    "I2": {
+      "status": "partially_holds",
+      "enforcement_mode": "procedural",
+      "evidence_summary": "Application logs retained in ELK; not signed, not hash-chained, not externally anchored. Logs are mutable at rest by administrators.",
+      "conformance_test_results": [
+        { "test_id": "I2-T1", "result": "fail" },
+        { "test_id": "I2-T2", "result": "fail" },
+        { "test_id": "I2-T3", "result": "not_run" }
+      ]
+    },
+    "I3": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "Persona prompts are edited in-place in a shared config; no versioning; no policy_snapshot_id field exists in logs."
+    },
+    "I4": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "Multi-tenant deployment shares LLM provider endpoints and session caches. Cross-tenant contamination possible via shared context. Not tested."
+    },
+    "I5": {
+      "status": "partially_holds",
+      "enforcement_mode": "procedural",
+      "evidence_summary": "Tenancy segregation at the data layer; no jurisdictional classification of data; cross-border LLM provider endpoints used."
+    },
+    "I6": {
+      "status": "partially_holds",
+      "enforcement_mode": "procedural",
+      "evidence_summary": "Human approval before any action (A2 ceiling). However, no cryptographic verification of the approval token; approval is a click in a UI."
+    },
+    "I7": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "Three agents NL-coupled by architecture. Persona prompts do not bound coupling. Failing I7 is structural; cannot be closed without rearchitecture to typed interfaces and typed peer communication."
+    }
+  },
+  "aggregation": {
+    "ordinal_class": "BR-4",
+    "interaction_overrides_fired": [
+      "open_world_component_floor_BR4",
+      "invariant7_absent_promotion"
+    ]
+  },
+  "anti_patterns": [
+    { "pattern_id": "A6", "status": "exhibited_without_demotion_path", "evidence_reference": "Persona prompts + NL peer coupling is the architecture." },
+    { "pattern_id": "A7", "status": "exhibited_without_demotion_path", "evidence_reference": "critic-agent evaluates researcher-agent output; same model family; no ground-truth gate." },
+    { "pattern_id": "A10", "status": "exhibited_with_demotion_path", "demotion_path": "Typed context slots planned for v2; current deployment packs all context as concatenated prompt." },
+    { "pattern_id": "A12", "status": "exhibited_with_demotion_path", "demotion_path": "Web retrieval restricted to whitelisted domains as of 2026-03; prior deployments were unrestricted." },
+    { "pattern_id": "A15", "status": "exhibited_without_demotion_path" },
+    { "pattern_id": "B1", "status": "exhibited_without_demotion_path" },
+    { "pattern_id": "B2", "status": "exhibited_without_demotion_path", "evidence_reference": "Governance is exclusively post-hoc log review." },
+    { "pattern_id": "B6", "status": "exhibited_without_demotion_path" },
+    { "pattern_id": "B9", "status": "exhibited_without_demotion_path", "evidence_reference": "Non-deterministic execution precludes replay." }
+  ],
+  "signature": {
+    "algorithm": "Ed25519",
+    "signer_id": "did:web:example-corp.com:attestations:2026-q2",
+    "signature_value": "MEUCIQExamplePlaceholderSignatureForIllustrationOnly==",
+    "signed_payload_canonical_form": "JCS-RFC8785",
+    "signed_at": "2026-04-21T10:30:00Z"
+  }
+}
