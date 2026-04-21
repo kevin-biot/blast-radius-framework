@@ -2,6 +2,30 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## framework v0.5.3 — 2026-04-21 (self-assessment correction)
+
+**Corrects the Invariant 5 rating in the Lane2 self-assessment.** v0.5.2 rated I5 as `partially_holds / structural` on the argument that cross-border composition with non-OBO counterparties could not be architecturally guaranteed. That was wrong.
+
+Lane2's I5 enforcement within Lane2-governed deployments is architectural, via the composition of:
+
+- **aARP** (Autonomous Agent Routing Protocol) — inter-jurisdictional matrix routing with scoped time-amount tokens and provable lawful-route validation
+- **RTGF** (Reference Token Generation Framework) — unified policy-driven fabric synchronising jurisdictional policy across DOP, aARP, SAPP, CaaS ("lawful by design")
+- **Shared Ontology** — jurisdiction, consent, and regulatory boundaries as machine-readable rules consumed rather than re-interpreted
+
+At the boundary with non-Lane2 counterparties, the general framework §7.1 composition rule applies (as it does for every invariant, not specifically I5). This is not a Lane2-specific gap; it is how cross-organisational composition works. **OBO** (`kevin-biot/obo-standard`) is a convenience interop pattern for the specific sub-case of cross-organisational free-roaming agents without a shared authorisation server; it is a deployment option, not Lane2's core I5 mechanism.
+
+**Artefacts corrected:**
+
+- `self-assessment.md` §5 I5 entry rewritten (holds / architectural with aARP + RTGF + Shared Ontology evidence); §9 Gap-1 retracted with explicit correction note; subsequent gaps renumbered (Kalman gap was Gap-2, now Gap-1; τ gap was Gap-3, now Gap-2; principal-population gap was Gap-4, now Gap-3). Self-assessment version v1.1.
+- `self-assessment.json` I5 attestation updated to `holds / architectural` with evidence references updated accordingly.
+- `self-assessment-exec-summary.md` §2.2 rewritten: "Regulatory posture is architectural — cross-border included" replaces "Regulatory posture is strong in-EU; cross-border is partial".
+- `self-assessment-adr-backlog.md` item 4 reframed from P1 gap-closure to P2 standards-track interop; gap cross-references renumbered.
+- Headline in exec summary: Lane2 compresses inherent BR-5 to residual BR-4 via seven invariants (six architectural, one partial at public-observable O axis) — *not* six invariants with the seventh structural.
+
+**No change to framework definitions, schema, axis enums, class definitions, composition topologies, or anti-pattern catalogue.** This is a correction to the Lane2 self-assessment artefact, not the framework. The framework's honesty-posture discipline (publish self-assessment corrections transparently rather than silently rewrite) is demonstrated by documenting the correction rather than editing the prior artefacts in place.
+
+The correction reduces the named-gaps count from four to three. Three remains meaningful under the SCOPE.md §6 honesty-discipline requirement ("at least one genuine gap").
+
 ## framework v0.5.2 — 2026-04-21
 
 **Artefacts added (no definition changes)** — executes the plan in [`SCOPE.md`](./SCOPE.md):

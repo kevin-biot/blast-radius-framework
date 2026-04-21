@@ -183,10 +183,10 @@ No T2 super-additive substrate anywhere. No T4 voting composition (Lane2's archi
 
 ### I5 — Jurisdictional awareness
 
-- **Status:** partially_holds
-- **Enforcement mode:** structural (partially architectural)
-- **Evidence summary:** aARP carries jurisdictional routing claims; the OBO open standard (per `kevin-biot/obo-standard`) provides DNS-anchored verification of cross-jurisdiction assertions. Inside Lane2-governed deployments, policy-hierarchy precedence with unoverridable regulatory tier is architectural. **The gap:** cross-border composition with non-OBO counterparties is structurally dependent on the counterparty's own implementation; Lane2 cannot fully architecturally guarantee Invariant 5 across those boundaries. Recorded as partially_holds.
-- **Gap item:** **Gap-1** (see §9) — full I5 attestation at the cross-border boundary is partial until OBO adoption broadens.
+- **Status:** holds
+- **Enforcement mode:** architectural
+- **Evidence summary:** jurisdictional enforcement within Lane2-governed deployments is architectural via the composition of three mechanisms: (1) **aARP** Autonomous Agent Routing Protocol carries inter-jurisdictional matrix routing with provable lawful-route validation; scoped time-amount tokens encode jurisdictional constraints. (2) **RTGF** Reference Token Generation Framework synchronises jurisdictional policy across DOP, aARP, SAPP, CaaS — "lawful by design" is its positioning property, not a marketing phrase. (3) **Shared Ontology** encodes jurisdiction, consent, and regulatory boundaries as machine-readable rules that all Lane2 components consume rather than re-interpret. On top of that stack sits a policy hierarchy with unoverridable regulatory tier, jurisdictional conflict resolution that fails closed and escalates.
+- **Composition boundary note:** at the boundary with non-Lane2 counterparties, the general §7.1 composition rule applies (the counterparty's architecture is rated separately; if the counterparty cannot produce an equivalent attestation, the composition must be rated accordingly or declined). This is the same composition rule that applies to every invariant — it is not a gap specific to I5. For the specific sub-case of cross-organisational free-roaming agents that need to cross into counterparty systems without a shared authorisation server, the **OBO open standard** (`kevin-biot/obo-standard`) is a convenience interop pattern available as a deployment option; OBO is not Lane2's core I5 mechanism, and the absence of OBO adoption elsewhere in the industry does not reduce Lane2's own architectural enforcement of I5.
 
 ### I6 — Fail-closed execution control
 
@@ -258,7 +258,7 @@ No T2 super-additive substrate anywhere. No T4 voting composition (Lane2's archi
 
 **Final ordinal class: BR-4.**
 
-**Cardinal score:** Kalman extension implementation is Phase 0 (theoretical) in the Lane2 reference implementation at public-observable level; Phase 1 (scalar Kalman on a single deployer metric) is under way internally. **Cardinal score is not produced in this self-assessment** — σ_B(t) is a theoretical construct until Phase 1 lands. This is a named gap (§9 Gap-2).
+**Cardinal score:** Kalman extension implementation is Phase 0 (theoretical) in the Lane2 reference implementation at public-observable level; Phase 1 (scalar Kalman on a single deployer metric) is under way internally. **Cardinal score is not produced in this self-assessment** — σ_B(t) is a theoretical construct until Phase 1 lands. This is a named gap (§9 Gap-1).
 
 Point-estimate reference computation (illustrative, without Kalman filtering):
 
@@ -278,21 +278,19 @@ With weights representative for a regulated operational workflow — `w = [w_a=0
 
 ## 9. Gaps surfaced by this assessment
 
-Four named gaps. Each seeds an ADR candidate in [`self-assessment-adr-backlog.md`](./self-assessment-adr-backlog.md).
+Three named gaps. Each seeds an ADR candidate in [`self-assessment-adr-backlog.md`](./self-assessment-adr-backlog.md).
 
-### Gap-1 — Cross-border Invariant 5 is structural, not architectural
+*v1.1 correction note: an earlier v1.0 of this assessment (published same day) listed four gaps including a "Gap-1: cross-border I5 structural" item. On review, that item conflated Lane2's own architectural jurisdictional enforcement (which holds, via aARP + RTGF + Shared Ontology) with the general §7.1 composition-rule observation that a counterparty's own architecture is rated separately. The general composition-rule observation applies to every invariant, not specifically to I5, and is not a Lane2-specific gap. Gap-1 has been removed; gap numbering has been re-sequenced so remaining gaps are now Gap-1 (Kalman), Gap-2 (τ), Gap-3 (principal-population).*
 
-At the boundary with non-OBO counterparties, jurisdictional enforcement depends on the counterparty's own implementation. Lane2 can *require* OBO-compliant counterparties or decline the composition, but cannot architecturally guarantee I5 across counterparties that do not implement the standard. Record as partially_holds; remediation is two-track: advocate for OBO adoption (standards track) and add explicit refuse-to-compose gate when a counterparty cannot produce a valid OBO credential (architectural track).
-
-### Gap-2 — Kalman extension (σ_B(t)) is theoretical
+### Gap-1 — Kalman extension (σ_B(t)) is theoretical
 
 Framework §5.4 v0.5 Kalman extension is specified; implementation in the Lane2 reference stack is Phase 0 (not yet scalar Phase 1 on a deployer metric). σ_B(t) cannot be produced for this self-assessment. The consequence: cardinal score is not computed; actuarial υ variable is not numerically expressible; specialist underwriters will price with a conservative default where σ_B would otherwise give them a tighter figure. Remediation: implement Phase 1 scalar Kalman on a selected deployer metric (the obvious candidate is the compliance-decision ratio in a pilot deployment).
 
-### Gap-3 — Trajectory review cadence is nominal (pre-launch)
+### Gap-2 — Trajectory review cadence is nominal (pre-launch)
 
 The τ modifier is recorded as `stable` for every component, but the evidence is "no production drift observed" in a pre-launch system. A genuine stable classification requires an operational trajectory record. Remediation: formalise τ cadence per PoC engagement; after first PoC completion, re-run the assessment with actual trajectory evidence.
 
-### Gap-4 — Principal-population accounting is not explicitly tracked
+### Gap-3 — Principal-population accounting is not explicitly tracked
 
 Framework §4.2 R-axis sub-component (population exposure: how many principals a single action can affect) is not instrumented as a first-class field in the current Lane2 pipeline evidence schema. The `self-assessment.json` profile has `system.principal_population` populated at the system level; per-action population exposure is not enumerable. Remediation: add principal-population count to each evidence record where the action has a non-empty principal set, so aggregation over a session can surface per-session population exposure.
 
@@ -313,9 +311,9 @@ Two Part B anti-patterns (B3 prompt storage governance, B5 authentication freshn
 
 The assessor (Lane2, self-attesting via Kevin Brown) attests that the rating above reflects honest application of framework v0.5.1 against the Lane2 stack as publicly disclosed on 2026-04-21, within the IP and scope boundaries stated in [`SCOPE.md §3`](./SCOPE.md). Stronger internal evidence exists for several invariants; where that is the case, the assessment records the weaker public-observable claim and flags the stronger internal-instrumented claim as private.
 
-Residual uncertainty is not expressed as σ_B(t) because Kalman Phase 1 is not implemented (Gap-2); residual uncertainty is captured qualitatively in §9 gaps and in the `exhibited_with_demotion_path` attestations of §6.
+Residual uncertainty is not expressed as σ_B(t) because Kalman Phase 1 is not implemented (Gap-1); residual uncertainty is captured qualitatively in §9 gaps and in the `exhibited_with_demotion_path` attestations of §6.
 
-This self-assessment is a **living document** tied to a framework version. When framework v0.6+ ships, or when any of Gap-1 through Gap-4 closes, this assessment is re-run.
+This self-assessment is a **living document** tied to a framework version. When framework v0.6+ ships, or when any of Gap-1 through Gap-3 closes, this assessment is re-run. Self-assessment version: v1.1 (2026-04-21; corrects I5 rating per review; see §9 correction note).
 
 **Signed** (attestation): Kevin Brown, Founder, Lane2 — 2026-04-21
 **Signed** (drafting assessor): Lane2 self-attestation with AI-assisted framework application; sign-off is Kevin Brown's as principal.

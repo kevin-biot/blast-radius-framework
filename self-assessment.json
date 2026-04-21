@@ -178,13 +178,14 @@
       ]
     },
     "I5": {
-      "status": "partially_holds",
-      "enforcement_mode": "structural",
-      "evidence_summary": "Inside Lane2-governed deployments, policy-hierarchy precedence with unoverridable regulatory tier is architectural. aARP carries jurisdictional routing claims; OBO open standard provides DNS-anchored verification of cross-jurisdiction assertions. Gap: at the cross-border boundary with non-OBO counterparties, jurisdictional enforcement depends on the counterparty's own implementation; Lane2 cannot architecturally guarantee I5 across those boundaries.",
+      "status": "holds",
+      "enforcement_mode": "architectural",
+      "evidence_summary": "Architectural jurisdictional enforcement within Lane2-governed deployments via three composed mechanisms: aARP (Autonomous Agent Routing Protocol) — inter-jurisdictional matrix routing with scoped time-amount tokens and provable lawful-route validation; RTGF (Reference Token Generation Framework) — unified policy-driven fabric synchronising jurisdictional policy across components, 'lawful by design'; Shared Ontology — jurisdiction, consent, and regulatory boundaries as machine-readable rules consumed rather than re-interpreted. Layered on: policy hierarchy with unoverridable regulatory tier, jurisdictional conflict resolution that fails closed and escalates. Cross-organisational composition with non-Lane2 counterparties is handled by the general framework §7.1 composition rule (not a gap specific to I5). OBO open standard (kevin-biot/obo-standard) is a convenience interop pattern for the specific sub-case of cross-organisational free-roaming agents without a shared authorisation server; it is a deployment option, not Lane2's core I5 mechanism.",
       "evidence_references": [
         "framework.md §9 Invariant 5",
-        "kevin-biot/obo-standard",
-        "self-assessment.md §9 Gap-1"
+        "framework.md §7.1 composition rule",
+        "about.md §4.2 aARP, RTGF, Shared Ontology descriptions",
+        "kevin-biot/obo-standard (as optional deployment-class interop, not core I5)"
       ]
     },
     "I6": {

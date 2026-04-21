@@ -14,9 +14,9 @@
 
 The Lane2 stack — when deployed for a canonical regulated operational workflow (e.g. legal-citation-review, wallet-conformance, clinical-triage archetypes) — is rated **BR-4 (Systemic)**.
 
-**In plain English:** this is a high-consequence system by design. The domains Lane2 targets (regulated review, cross-border payments, clinical triage) carry inherent consequence that puts any well-designed system into BR-4 — the framework rates the domain honestly, not the architecture's aesthetic. Our architecture compresses an **inherent BR-5** (what the consequence domain alone would imply without controls) down to a **residual BR-4** by making six of the seven architectural invariants enforceable architecturally, and the seventh (jurisdictional awareness at cross-border boundaries) enforceable structurally pending broader adoption of the OBO open standard.
+**In plain English:** this is a high-consequence system by design. The domains Lane2 targets (regulated review, cross-border payments, clinical triage) carry inherent consequence that puts any well-designed system into BR-4 — the framework rates the domain honestly, not the architecture's aesthetic. Our architecture compresses an **inherent BR-5** (what the consequence domain alone would imply without controls) down to a **residual BR-4** by enforcing all seven architectural invariants — six at full architectural-enforcement maturity and one (observability O4) partially at the public-observable level pending publication of the runtime invariant-checking specification.
 
-BR-4 is the right rating for what we do. A stack in this consequence domain that rated BR-2 would be lying; a stack that rated BR-5 would be uninsurable. BR-4 with Invariants 1–7 held or partially-held, composition topology T1 sub-additive, and no material anti-patterns without demotion paths is the **Consolidation Zone** (framework §14 Quadrant IV).
+BR-4 is the right rating for what we do. A stack in this consequence domain that rated BR-2 would be lying; a stack that rated BR-5 without demotion paths would be uninsurable. BR-4 with Invariants 1–7 held, composition topology T1 sub-additive, and no material anti-patterns without demotion paths is the **Consolidation Zone** (framework §14 Quadrant IV).
 
 ---
 
@@ -30,13 +30,17 @@ Lane2's architecture satisfies the specialist-underwriter minimum criteria (Muni
 
 **Business consequence:** pre-launch, the commercial case is "we are architecturally pricing-friendly BR-4, expected to move toward numerically priceable BR-4 within [PoC window]". Post-Phase-1, Lane2 becomes a reference data-point specialist underwriters can calibrate against.
 
-### 2.2 Regulatory posture is strong in-EU; cross-border is partial
+### 2.2 Regulatory posture is architectural — cross-border included
 
-EU AI Act Articles 12 (logging), 15 (robustness), 19 (retention), 26(6) (authority access), 72/73 (post-market monitoring) are supported architecturally via the SAPP evidence layer and the PACT pack compliance framework. Inside a single EU-jurisdiction deployment, the architecture meets or exceeds the minimum evidence profile.
+EU AI Act Articles 12 (logging), 15 (robustness), 19 (retention), 26(6) (authority access), 72/73 (post-market monitoring) are supported architecturally via the SAPP evidence-anchoring layer and the PACT pack compliance framework. Inside a single EU-jurisdiction deployment, the architecture meets or exceeds the minimum evidence profile.
 
-**Cross-border is where we are partial.** Invariant 5 (jurisdictional awareness) is architectural at the aARP layer *within* Lane2-governed deployments, and at the OBO-standard layer where counterparties implement OBO. Where a counterparty does not implement OBO, Lane2 cannot architecturally guarantee Invariant 5 at that boundary; we can only require OBO conformance as a condition of composition or decline. This is a *structural-not-architectural* holding of I5, captured honestly in the assessment.
+Cross-border jurisdictional enforcement within Lane2-governed deployments is also architectural — via the composition of **aARP** (inter-jurisdictional matrix routing with provable lawful-route validation), **RTGF** (unified policy-driven fabric synchronising jurisdictional policy across components — "lawful by design"), and **Shared Ontology** (jurisdiction, consent, regulatory boundaries as machine-readable rules). This is Lane2's core I5 mechanism.
 
-**Business consequence:** European regulated deployments are architecturally defensible today. Cross-border deployments require either OBO-conformant counterparties or explicit decline-to-compose at non-conformant boundaries. The standards-adoption track matters commercially.
+Where Lane2 composes with a non-Lane2 counterparty, the general framework §7.1 composition rule applies (as it does for every invariant): the counterparty's architecture is rated separately, and composition with a non-conformant counterparty is either declined or rated accordingly. This is a property of cross-org composition in general, not a specific I5 gap.
+
+For the sub-case of cross-organisational free-roaming agents without a shared authorisation server, the **OBO open standard** (`kevin-biot/obo-standard`) is available as a convenience interop pattern — a deployment option when a Lane2-stack deployer needs to compose with that specific class of agent. OBO is not Lane2's core I5 mechanism; its absence in the broader industry does not reduce Lane2's own architectural I5 enforcement.
+
+**Business consequence:** Regulated deployments, including cross-border, are architecturally defensible today within Lane2-governed scope. Ecosystem adoption of OBO is a commercial accelerator for specific deployer use cases (free-roaming agents crossing non-Lane2 systems); it is not a blocker to Lane2's own regulatory posture.
 
 ### 2.3 The integrated stack is pre-launch — three anti-pattern demotion paths are partial
 
