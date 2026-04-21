@@ -29,7 +29,7 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 | Insurer / underwriter | `framework.md` §§5, 9, 14; `insurability.md` entire |
 | Regulator | `framework.md` §§4, 9, 10, 13, 14; `insurability.md` §4 Quadrant mapping; `manifesto.md` §§8–9 on composition with eIDAS / PSD2 / Basel |
 | Anyone asking "why does this exist?" | `manifesto.md` — the argument, read standalone |
-| Anyone asking "who did the empirical work?" | `ACKNOWLEDGEMENTS.md` — Jason Gagne's multi-agent drift corpus is the empirical catalyst; cite Gagne 2026 (DOI 10.5281/zenodo.19103616) whenever using Invariant 7 or the C4a claims |
+| Anyone asking "who did the empirical work?" | `ACKNOWLEDGEMENTS.md` — Jason Gagne's **Sentinel** programme at PreneurialWorks is the empirical catalyst. Repo: [github.com/jasongagne-git/sentinel](https://github.com/jasongagne-git/sentinel). Cite Gagne 2026 (DOI [10.5281/zenodo.19477188](https://doi.org/10.5281/zenodo.19477188) preprint; [10.5281/zenodo.19476723](https://doi.org/10.5281/zenodo.19476723) dataset) whenever using Invariant 7 or the C4a claims |
 
 ## Status
 

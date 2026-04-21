@@ -2,19 +2,29 @@
 
 This framework synthesises ideas and evidence from several sources. Specific credits below; general intellectual debts to the Rules as Code programme, eIDAS / PSD2 / Basel as pattern-based regulatory precedents, and the broader legal-knowledge-engineering tradition are stated in [manifesto.md](./manifesto.md) §§11–13.
 
-## The empirical catalyst — Jason Gagne's multi-agent drift work
+## The empirical catalyst — Jason Gagne's Sentinel programme
 
-The seventh invariant (*bounded coupling*) and the C4a phase-transition claims in the framework rest directly on Jason Gagne's empirical work on longitudinal behavioural drift in multi-agent LLM systems. Gagne published the first controlled empirical study of multi-agent drift over 200–500-turn interactions with replicated baselines, controlled fork experiments, and dual-probe methodology across two model families. The 20,000+ agent-message corpus made the phase transitions in NL-coupled chains visible as measurable signals rather than anecdotes, which in turn made it possible to articulate the framework's pre-rating worldview classifier (`framework.md §4.0`) and the super-additive T2 composition class (`framework.md §7.2`) with evidential rather than only theoretical grounding.
+The seventh invariant (*bounded coupling*) and the C4a phase-transition claims in the framework rest directly on Jason Gagne's **Sentinel** programme at **PreneurialWorks** — an empirical multi-agent drift measurement platform. Sentinel comprises 79 experiments, 36,000+ agent messages, and 76,000+ probes run on distributed Jetson Orin Nano hardware. Findings include vocabulary collapse of 23–43%, sentiment collapse of 12–60%, probe-message divergence of 5–50×, and — critically — that in-context monitoring itself pollutes measurement by a factor of 3–6×.
 
-Without this corpus, the framework would still have the architectural claim that NL-coupled agent chains are dangerous. With it, the framework can say *measurably, reproducibly, at specific turn-counts under specific workload shapes*. That is the difference between a position and an empirical argument.
+Every Sentinel finding is mechanism-dependent on **conversational coupling** between agents. That is precisely the substrate pattern the framework's Invariant 7 (bounded coupling) rules out and the §4.0 worldview classifier gates on. Sentinel is therefore the framework's empirical falsification surface: if NL-coupled substrates did not exhibit the measured phase transitions, Invariant 7 and the T2 super-additive composition class would be unmotivated. They are instead measured, reproducible, and time-indexed.
+
+Without Sentinel's corpus, the framework would still have the architectural claim that NL-coupled agent chains are dangerous. With it, the framework can say *measurably, reproducibly, at specific turn-counts under specific workload shapes*. That is the difference between a position and an empirical argument.
 
 ### Primary citations
 
-Gagne, J. (2026). *Behavioral Drift in Multi-Agent LLM Systems: Emergent Failure Modes, Cascade Dynamics, and Measurement Challenges.* Preprint. DOI: [10.5281/zenodo.19103616](https://doi.org/10.5281/zenodo.19103616).
+Gagne, J. (2026). *Behavioral Drift in Multi-Agent LLM Systems: Emergent Failure Modes, Cascade Dynamics, and Measurement Challenges.* Preprint. DOI: [10.5281/zenodo.19477188](https://doi.org/10.5281/zenodo.19477188).
 
-Gagne, J. (2026). *The Behavioral Sufficiency Problem: Why AI Governance Frameworks, Modeled on Human Regulatory Theory, Cannot Operate Without the Cultural and Social Infrastructure That Co-Evolved Alongside Human Law.* SSRN Preprint.
+Gagne, J. (2026). *Sentinel — code and dataset.* DOI: [10.5281/zenodo.19476723](https://doi.org/10.5281/zenodo.19476723). Canonical dataset.
 
-Both works should be read by anyone implementing against the framework. The Zenodo dataset is the falsification surface the framework was built against; the SSRN preprint articulates the governance-theoretic argument that sits above the empirics.
+Gagne, J. (2026). *The Behavioral Sufficiency Problem: Why AI Governance Frameworks, Modeled on Human Regulatory Theory, Cannot Operate Without the Cultural and Social Infrastructure That Co-Evolved Alongside Human Law.* SSRN Preprint. Governance-theoretic argument complementing the empirics.
+
+Repository: [github.com/jasongagne-git/sentinel](https://github.com/jasongagne-git/sentinel)
+
+All three works should be read by anyone implementing against the framework. Cite Gagne 2026 (Behavioral Drift) whenever invoking Invariant 7, the C4a phase-transition claims, or the T2 super-additive composition class.
+
+### Scope note
+
+Sentinel is explicitly *not* a pre-deployment certification framework or a production monitoring platform — Gagne frames it as a controlled laboratory. Its findings are about one specific coupling pattern (conversational NL coupling); they do not test typed-capability-routing architectures, shared-weights latent coupling, or ontology-vocabulary attractors. When citing Sentinel as evidence, preserve the scope: it is evidence about NL-coupled multi-agent systems, not about multi-agent systems in general.
 
 ## Private reference implementation
 

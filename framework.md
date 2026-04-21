@@ -572,7 +572,7 @@ v0.3 delivers these pieces. The minimum shape is disciplined: six axes, three mo
 
 ---
 
-[^1]: Gagne, J. (2026). *Behavioral Drift in Multi-Agent LLM Systems: Emergent Failure Modes, Cascade Dynamics, and Measurement Challenges.* Preprint, DOI: [10.5281/zenodo.19103616](https://doi.org/10.5281/zenodo.19103616). The empirical basis for C4a phase transitions, fast-onset drift, and Invariant 7 (bounded coupling). See [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) for full attribution.
+[^1]: Gagne, J. (2026). *Behavioral Drift in Multi-Agent LLM Systems: Emergent Failure Modes, Cascade Dynamics, and Measurement Challenges.* Preprint, DOI: [10.5281/zenodo.19477188](https://doi.org/10.5281/zenodo.19477188). Code + dataset: [10.5281/zenodo.19476723](https://doi.org/10.5281/zenodo.19476723). Repo: [github.com/jasongagne-git/sentinel](https://github.com/jasongagne-git/sentinel). The empirical basis for C4a phase transitions, fast-onset drift, and Invariant 7 (bounded coupling). See [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) for full attribution.
 
 [^2]: Monitor-vs-substrate analysis against Gagne's corpus: 20 of 23 experiments replicated show governance-signal crossings at window ≤ 3 of 10 under the monitoring-apparatus replication. Substrate property, not apparatus limitation.
 
