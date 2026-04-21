@@ -7,8 +7,9 @@
 **Date:** 2026-04-21
 **Companion to:**
 - [framework.md](./framework.md) (rating framework, v0.5)
+- [manifesto.md](./manifesto.md) (the argument)
 - [insurability.md](./insurability.md) (actuarial companion)
-- [DOP reference implementation audit](https://github.com/kevin-biot/DOP/blob/main/docs/research/governance/dop-repo-shape-as-br-reference.md) (positive reference in the DOP repository)
+- [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) (credits — Gagné's multi-agent drift corpus, prior published work, private reference implementation)
 
 ---
 
@@ -62,7 +63,7 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 **Typical BR.** BR-4 to BR-5 depending on write-API presence.
 
-**Demotion path.** Action-class taxonomy (DOP-087 style) with per-API ceiling; STA gates on Class B/C; mandatory parameter constraints. Refuse to onboard a tool without a declared ceiling.
+**Demotion path.** Action-class taxonomy with per-API ceiling; session-execution attestation gates on constrained-proposal and bounded-execution classes; mandatory parameter constraints. Refuse to onboard a tool without a declared ceiling.
 
 **Regulatory risk.** EU AI Act Article 13 (transparency) — if users don't know which APIs the agent can hit, transparency obligation fails.
 
@@ -134,7 +135,7 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 **Typical BR.** BR-3; higher if user permissions are broad.
 
-**Demotion path.** Delegated-identity model with explicit agent principal, recorded in every action's evidence. STA-style session-execution attestation (DOP-089) bind agent identity to session, not user identity.
+**Demotion path.** Delegated-identity model with explicit agent principal, recorded in every action's evidence. Session-execution attestation binds agent identity to session, not user identity; attestation tokens carry subject, tool allowlist, parameter constraints, policy snapshot, and expiry.
 
 **Regulatory risk.** GDPR (data-subject rights don't know *who* processed data); EU AI Act Article 12 (logging must identify the actor).
 
@@ -228,7 +229,7 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 These are the anti-patterns an EU AI Act auditor, a regulator, or a post-incident forensic examiner will find first. They are often present in systems that score acceptably on the architectural axes — which means an otherwise-well-designed system can still fail assurance if the evidence chain is wrong.
 
-The positive reference for this section is **SAPP (Settlement Anchor Protocol Platform)** and DOP-137 (SAPP-Anchored Evidence Profile for EU AI Act Logging). See §4 at end.
+The positive reference for this section is **SAPP (Settlement Anchor Protocol Platform)** as a design for externally-anchored Merkle-proof evidence with independent signing keys. See §4 at end.
 
 ### B1. Application logs as "evidence"
 
@@ -246,7 +247,7 @@ The positive reference for this section is **SAPP (Settlement Anchor Protocol Pl
 
 **Mechanism.** The system *logs* that a violation occurred but did not *prevent* it. Governance is a forensic activity rather than an enforcement activity.
 
-**Why it fails.** By the time the log is reviewed, the unsafe action has happened. In agentic systems with fast-onset drift (DOP-204: collapse inside baseline-establishment window), post-hoc logging is structurally incapable of preventing harm. A log is not a control.
+**Why it fails.** By the time the log is reviewed, the unsafe action has happened. In agentic systems with fast-onset drift (Gagné's multi-agent drift corpus shows collapse inside the baseline-establishment window, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)), post-hoc logging is structurally incapable of preventing harm. A log is not a control.
 
 **Axis damage.** O non-zero but effective V collapses. The framework's §9 at BR-4+ requires *preventive* controls that are architectural, not only detective.
 
@@ -284,9 +285,9 @@ The positive reference for this section is **SAPP (Settlement Anchor Protocol Pl
 
 **Why it fails.** In high-assurance operations, *freshness* of authentication matters. Was the operator physically present when the critical action was authorised, or was this an old cached auth? Can the authentication be tied to the specific action, not just the session?
 
-**Axis damage.** A-axis reconstruction fails for any action late in a long session. Wallet-style operations (DOP-201) specifically require freshness binding.
+**Axis damage.** A-axis reconstruction fails for any action late in a long session. Wallet-style and high-assurance operations specifically require freshness binding.
 
-**Demotion path.** Presence-binding levels (per DOP-201): fresh_live (nonce-bound biometric), recent_live, cached_auth, device_unlock_only, none. Evidence records the level. Policy rejects critical actions at insufficient freshness.
+**Demotion path.** Presence-binding levels: *fresh_live* (nonce-bound biometric), *recent_live* (time-bounded biometric), *cached_auth*, *device_unlock_only*, *none*. Evidence records the level. Policy rejects critical actions at insufficient freshness. Schemes of this shape exist in private reference implementations; the level taxonomy is the portable part.
 
 **Regulatory risk.** PSD2 SCA; eIDAS; EU AI Act Article 14 (oversight freshness); sector-specific high-assurance rules.
 
@@ -310,7 +311,7 @@ The positive reference for this section is **SAPP (Settlement Anchor Protocol Pl
 
 **Axis damage.** K compounds — a K3 regulated decision with no source mapping is unchallengeable, escalating effective consequence.
 
-**Demotion path.** W3C PROV-O provenance (as DOP-137/deployers-guide/10-*.md implements): `prov:wasGeneratedBy`, `prov:wasAttributedTo`, `prov:wasDerivedFrom`. Provenance depth gated by confidence (low confidence → full graph). Explain-statement API (DOP-139) exposes source mapping on demand.
+**Demotion path.** W3C PROV-O provenance: `prov:wasGeneratedBy`, `prov:wasAttributedTo`, `prov:wasDerivedFrom`. Provenance depth gated by confidence (low confidence → full graph). An explain-statement API exposes source mapping on demand.
 
 **Regulatory risk.** EU AI Act Article 13 (transparency); GDPR Article 22 (automated decision-making); sector-specific explainability (FCRA, EU consumer credit).
 
@@ -322,7 +323,7 @@ The positive reference for this section is **SAPP (Settlement Anchor Protocol Pl
 
 **Axis damage.** Counts as documentary O, not structural or architectural.
 
-**Demotion path.** Hash-chain per stage (DOP-137 MEP-02); deterministic contract hashing (MEP-03); external anchoring (MEP-04); authority-export path that recomputes hashes (MEP-07).
+**Demotion path.** Hash-chain per pipeline stage; deterministic contract hashing (canonical and reproducible); external anchoring on an independent Merkle-proof layer; authority-export path that recomputes hashes and verifies them against the anchor.
 
 **Regulatory risk.** EU AI Act Article 12 integrity; sector (SOX 404, SEC 17a-4).
 
@@ -369,7 +370,7 @@ The positive reference for this section is **SAPP (Settlement Anchor Protocol Pl
 A system exhibiting any of these anti-patterns has its effective BR rating adjusted. Suggested rule (ordinal; v0.3 to refine):
 
 - **Each Part A anti-pattern present →** effective BR class +1 unless the pattern's demotion path is fully implemented
-- **Each Part B anti-pattern present →** effective BR class +1 unless the evidence chain passes the DOP-137 minimum profile
+- **Each Part B anti-pattern present →** effective BR class +1 unless the evidence chain passes an externally-anchored Merkle-proof minimum evidence profile
 - **A2A, API-first, CrewAI default, MCP-without-composition-rule** — each independently promotes to BR-4 minimum
 - **Agent marketplace or BYOA without profile disclosure** — rated as *unrateable*; treat as BR-4
 
@@ -388,9 +389,9 @@ The evidence-chain anti-patterns in Part B point collectively to a single archit
 1. **External anchor with independent keys.** Evidence commitments are signed by SAPP's keys, not only the system-under-audit's keys. Deployer cannot silently rewrite; vendor cannot silently retract.
 2. **Three-level Merkle proofs.** Fast verification at any level; compact proofs for off-system verification.
 3. **Domain-neutral.** SAPP does not care whether the operation is a bank transfer, an AI decision, a SIM swap, or an insurance claim. The evidence substrate is the same — which is why it can serve as a *standard* rather than a per-domain implementation.
-4. **Evidence scoring.** 10 categories, 0–1.0. An evidence bundle isn't just present — it's *rated*. Low-scoring evidence triggers higher oversight per DOP-162's proportionate-oversight model.
+4. **Evidence scoring.** 10 categories, 0–1.0. An evidence bundle isn't just present — it's *rated*. Low-scoring evidence triggers higher oversight per the Expected Compliance Risk / proportionate-oversight model (framework.md §5.2).
 5. **Deterministic liability allocation.** The evidence model is built to answer "whose fault is this" deterministically, not just "what happened".
-6. **EU AI Act mapping explicit.** DOP-137 names the articles (12, 15, 19, 26(6), 72, 73) and the minimum controls (MEP-01 through MEP-10). A deployer knows what passes.
+6. **EU AI Act mapping explicit.** The relevant articles (12 automatic logging, 15 robustness/cybersecurity, 19 retention, 26(6) authority access, 72 post-market monitoring, 73 incident reporting) map to specific minimum-profile controls that a SAPP-style evidence platform can satisfy mechanically. A deployer knows what passes.
 7. **PROV-O provenance, depth-gated by confidence.** Cheap when confidence is high; full graph when oversight is flagged.
 8. **Fail-closed on critical actions.** MEP-08 — the opposite of anti-pattern B11.
 
@@ -431,7 +432,7 @@ This is indicative, not legal advice. The crosswalk should be reviewed by a regu
 
 **Self-assessment.** Walk the catalogue against your own systems. Note which you rely on and which you've demoted. For each that you exhibit, list the concrete change that would close it.
 
-**Procurement language.** RFP clauses can name the anti-patterns directly: "Vendor attests the system does not exhibit A2A-style public capability discovery; does not rely on auto-generated tool exposure; implements tamper-evident evidence with independent anchoring per DOP-137-equivalent profile or better."
+**Procurement language.** RFP clauses can name the anti-patterns directly: "Vendor attests the system does not exhibit A2A-style public capability discovery; does not rely on auto-generated tool exposure; implements tamper-evident evidence with independent anchoring per an externally-anchored Merkle-proof minimum profile or better."
 
 **Architectural review.** Use the catalogue as a checklist before promoting a system to BR-3+. Every item on the list that the system exhibits must have either a demotion path implemented or an explicit acceptance of the elevated BR class with compensating controls documented.
 
@@ -444,7 +445,7 @@ This is indicative, not legal advice. The crosswalk should be reviewed by a regu
    - "Inference-server sharing / multi-tenant embedding leakage"
    - "Tool-result-as-training-signal" (tool outputs contaminating future model training)
    - "Agent supply chain: the agent you deployed last month is not the agent running today"
-2. **Quantification.** Each pattern currently takes BR +1 as a flat modifier. Some patterns are strictly worse than others; a weighted rubric (paralleling DOP-162 ECR) would be more useful.
+2. **Quantification.** Each pattern currently takes BR +1 as a flat modifier. Some patterns are strictly worse than others; a weighted rubric (paralleling the Expected Compliance Risk formulation in framework.md §5.2) would be more useful.
 3. **Anti-pattern decay.** When a pattern's demotion path is partially implemented, what counts as "closed"? A partial-credit rubric would help auditors.
 
 ---

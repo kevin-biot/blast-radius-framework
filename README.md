@@ -6,15 +6,15 @@ Tool-enabled large language models have shifted AI systems from bounded reasonin
 
 ## The framework in one paragraph
 
-Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** consequence, **O**bservability) with three modifiers (attack-accessibility, trajectory, residual-vs-inherent), five blast-radius classes (BR-1 through BR-5), an ordinal aggregation rule with explicit interaction overrides, a cardinal score `B̂(t|t) ± σ_B(t)` (Kalman-extended from DOP-162 Expected Compliance Risk), a composition rule for multi-vendor stacks with four named topology classes (sub-additive / super-additive / multiplicative / exponential-reducing), and seven architectural invariants that a BR profile must satisfy to be genuine rather than nominal. The central claim: system architecture, not model capability, determines operational risk — a claim that holds from engineering, regulatory, and actuarial directions simultaneously.
+Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** consequence, **O**bservability) with three modifiers (attack-accessibility, trajectory, residual-vs-inherent), five blast-radius classes (BR-1 through BR-5), an ordinal aggregation rule with explicit interaction overrides, a cardinal Kalman-extended Expected Compliance Risk score `B̂(t|t) ± σ_B(t)`, a composition rule for multi-vendor stacks with four named topology classes (sub-additive / super-additive / multiplicative / exponential-reducing), and seven architectural invariants that a BR profile must satisfy to be genuine rather than nominal. The central claim: system architecture, not model capability, determines operational risk — a claim that holds from engineering, regulatory, and actuarial directions simultaneously.
 
 ## The documents
 
 1. **[framework.md](./framework.md)** — the rating framework itself (current version: v0.5). Start here for the specification.
-2. **[antipatterns.md](./antipatterns.md)** — 26 named anti-patterns that inflate blast radius and currently ship as "progress". Use for vendor diligence.
-3. **[insurability.md](./insurability.md)** — actuarial companion mapping the framework onto specialist underwriter requirements (Munich Re aiSure, AIUC-1, Armilla/Lloyd's) and the λ/σ/υ variables their pricing needs.
-4. **[manifesto.md](./manifesto.md)** — *Law as Pattern*. The argument for why a framework like this must exist. Read this if you are asking why prose governance fails, why insurers have stayed silent, and what "law as machine code as pattern" means in practice.
-5. **[DOP reference implementation audit](https://github.com/kevin-biot/DOP/blob/main/docs/research/governance/dop-repo-shape-as-br-reference.md)** — in a separate repository, a worked audit of the DOP framework against the specification here, including honest gap list.
+2. **[manifesto.md](./manifesto.md)** — *Law as Pattern*. The argument for why a framework like this must exist. Read this if you are asking why prose governance fails, why insurers have stayed silent, and what "law as machine code as pattern" means in practice.
+3. **[antipatterns.md](./antipatterns.md)** — 26 named anti-patterns that inflate blast radius and currently ship as "progress". Use for vendor diligence.
+4. **[insurability.md](./insurability.md)** — actuarial companion mapping the framework onto specialist underwriter requirements (Munich Re aiSure, AIUC-1, Armilla/Lloyd's) and the λ/σ/υ variables their pricing needs.
+5. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to François Gagné's multi-agent drift corpus (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, a private reference implementation whose architectural primitives are generalised here, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
 
 ## Reading guide by role
 
@@ -28,6 +28,7 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 | Insurer / underwriter | `framework.md` §§5, 9, 14; `insurability.md` entire |
 | Regulator | `framework.md` §§4, 9, 10, 13, 14; `insurability.md` §4 Quadrant mapping; `manifesto.md` §§8–9 on composition with eIDAS / PSD2 / Basel |
 | Anyone asking "why does this exist?" | `manifesto.md` — the argument, read standalone |
+| Anyone asking "who did the empirical work?" | `ACKNOWLEDGEMENTS.md` — François Gagné's multi-agent drift corpus is the empirical catalyst; cite Gagné 2026 (DOI 10.5281/zenodo.19103616) whenever using Invariant 7 or the C4a claims |
 
 ## Status
 

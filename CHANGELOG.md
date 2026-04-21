@@ -6,7 +6,7 @@ All notable changes to the Blast Radius Framework will be documented here. The f
 
 **Kalman extension — cardinal score becomes filtered estimate with uncertainty.**
 
-Added `framework.md §5.4 Kalman extension`. The v0.3 cardinal score `B(t) = w·x` is a point estimate; v0.5 replaces it with `B̂(t|t) ± σ_B(t)`, a Kalman-filtered estimate with quantified uncertainty. Evidence tier (DOP-093 in the reference implementation) maps formally to measurement noise R; evidence quality becomes a quantitative input to uncertainty rather than a qualitative label. σ_B(t) becomes the direct output for the actuarial υ variable (uncertainty), the form specialist underwriters require for pricing.
+Added `framework.md §5.4 Kalman extension`. The v0.3 cardinal score `B(t) = w·x` is a point estimate; v0.5 replaces it with `B̂(t|t) ± σ_B(t)`, a Kalman-filtered estimate with quantified uncertainty. Tiered evidence confidence maps formally to measurement noise R; evidence quality becomes a quantitative input to uncertainty rather than a qualitative label. σ_B(t) becomes the direct output for the actuarial υ variable (uncertainty), the form specialist underwriters require for pricing.
 
 Four consequences:
 1. υ is no longer derived from V-axis and δ_adv qualitatively — it is Kalman filter output
@@ -16,7 +16,7 @@ Four consequences:
 
 Structural claim: systems failing Invariants 1 (deterministic execution) or 2 (evidence binding) cannot produce σ_B(t); the boundary between insurable and uninsurable is made mathematically precise.
 
-Three-phase implementation path documented per DOP-161 (framework-centric compliance state estimation). Framework specifies the mechanism; empirical validation comes as implementations ship.
+Three-phase implementation path documented (framework-centric compliance state estimation). Framework specifies the mechanism; empirical validation comes as implementations ship. Architectural primitives derive from a private reference implementation credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md).
 
 §19 open questions for v0.6: evidence-tier → R numerical calibration, process noise Q per domain, nonlinear extensions (EKF/UKF, particle filters, HMM).
 
@@ -51,7 +51,7 @@ Added `framework.md §9 seven architectural invariants`:
 
 Six invariants are from prior published work on insurability (Brown, "The Insurability Gap", 2025). The seventh is added from empirical evidence on fast-onset drift in NL-coupled multi-agent systems. Each invariant lists supported axes, anti-pattern complement, and a reference implementation.
 
-Added `framework.md §5.2 cardinal score` — extends DOP-162 Expected Compliance Risk formula to all six axes:
+Added `framework.md §5.2 cardinal score` — extends the Expected Compliance Risk formulation (from a private reference implementation, credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)) to all six axes:
 
 `B(t) = w_a·A + w_r·R + w_c·C + w_v·(1−V) + w_k·K + w_o·(1−O)`
 

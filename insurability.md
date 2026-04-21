@@ -7,8 +7,9 @@
 **Date:** 2026-04-21
 **Companions:**
 - [framework.md](./framework.md) (rating framework, v0.5)
+- [manifesto.md](./manifesto.md) (the argument)
 - [antipatterns.md](./antipatterns.md) (negative reference)
-- [DOP reference implementation audit](https://github.com/kevin-biot/DOP/blob/main/docs/research/governance/dop-repo-shape-as-br-reference.md) (positive reference in the DOP repository)
+- [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) (credits)
 
 ---
 
@@ -46,7 +47,7 @@ A system that cannot supply this data cannot be priced, and therefore cannot be 
 
 ## 3. The six invariants (from the 2025 piece) mapped to the framework
 
-The piece names six invariants that survive the correction. Each maps directly to the v0.2 framework, DOP-162, the DOP audit, or the anti-pattern catalogue.
+The piece names six invariants that survive the correction. Each maps directly to the framework axes, the Expected Compliance Risk formulation (framework.md §5.2), or the anti-pattern catalogue.
 
 ### Invariant 1 — Deterministic execution
 
@@ -56,7 +57,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 |---|---|
 | v0.2 §11 "observability gap" | Replay requires determinism; without it O4 is unreachable |
 | Anti-pattern catalogue B9 "no replay capability" | Direct complement |
-| DOP positive reference | `internal/evidence/hasher.go` (deterministic contract hashing); DOP-137 MEP-03 (deterministic contract hashing) |
+| Reference implementation pattern | Deterministic canonical contract hashing over the full evidence tuple, reproducible at audit time |
 | Demotion path | Non-deterministic systems cannot pass MEP-03 — unrateable above BR-2 for regulated deployment |
 
 ### Invariant 2 — Evidence binding
@@ -67,7 +68,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 |---|---|
 | v0.2 §4.6 O axis | O2 requires action-level logs with replay; O3+ requires tamper-evidence |
 | Anti-pattern catalogue B1, B6, B8 | Logs-as-evidence, unsigned evidence, mutable at rest — all direct anti-patterns |
-| DOP positive reference | SAPP (Settlement Anchor Protocol Platform); DOP-137 MEP-01 through MEP-05; Merkle-tree contract hashing |
+| Reference implementation pattern | Externally-anchored Merkle-proof evidence with independent signing keys (e.g. SAPP — Settlement Anchor Protocol Platform design) |
 | SAPP specifically | External anchor, independent signing keys, three-level Merkle proofs, evidence scoring |
 
 ### Invariant 3 — Policy snapshot coherence
@@ -78,7 +79,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 |---|---|
 | v0.2 §14.3 (security ops) "a coupling constraint that is not enforced structurally cannot be monitored" | Policy snapshots are the structural binding |
 | Anti-pattern catalogue B7 "no explainability source mapping" | Source mapping requires policy-snapshot binding |
-| DOP positive reference | `policy_snapshot_id` linkage tuple (MEP-05); DOP-082 evidence carries policy-snapshot hash; DOP-156 external rubric loading with version binding |
+| Reference implementation pattern | `policy_snapshot_id` linkage tuple in every evidence record; policy-snapshot hash bound cryptographically to the decision; external rubric loading with version binding |
 
 ### Invariant 4 — Bounded blast radius
 
@@ -87,7 +88,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 | Framework element | Mapping |
 |---|---|
 | v0.2 §4 entire framework | Blast radius *is* the property; tuple quantifies it |
-| DOP-162 | `B(t) = w_d·D + w_r·R + w_v·(1−V) + w_c·C` — operational formula |
+| Cardinal formulation | `B(t) = w_d·D + w_r·R + w_v·(1−V) + w_c·C` — the Expected Compliance Risk operational formula; v0.5 extends to all six axes (framework.md §5.2) |
 | Anti-pattern catalogue A1–A7, A9, A11–A13 | Each breaks the bound in a specific architectural way |
 | DOP positive reference | AARP narrow closed-world routing; Action Classes A/B/C/D with D structurally unreachable; tool-ontology binding limits reach per tool; R-axis principal-population accounting (acknowledged gap in audit) |
 
@@ -99,7 +100,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 |---|---|
 | v0.2 §4.5 K-axis sub-tags (K3-F/L/P, K4-S/R/F) | Regulatory mapping primitive |
 | v0.2 §5.1 interaction override rule 3 (R4 + O≤1 → promote) | External reach without observability cannot be governed |
-| DOP positive reference | DOP-083 regulatory conflict resolution (regulatory tier unoverridable); DOP-080 policy hierarchy (fixed precedence); DOP-169 DNS-anchored OBO verification for corridor admission |
+| Reference implementation pattern | Policy hierarchy with fixed precedence and unoverridable regulatory tier; jurisdictional conflict resolution that fails closed; DNS-anchored on-behalf-of verification for cross-border corridor admission |
 | Gap in current DOP audit | K regulatory crosswalk sub-tags not present in domain labels; follow-up ADR candidate #8 |
 
 ### Invariant 6 — Fail-closed execution control
@@ -110,7 +111,7 @@ The piece names six invariants that survive the correction. Each maps directly t
 |---|---|
 | v0.2 §4.1 A-axis Action Classes | A0–A2 default; A3+ requires explicit authority grant |
 | Anti-pattern catalogue B11 "critical action fail-open" | Direct complement |
-| DOP positive reference | DOP-081 dual PEP gates with default DENY; DOP-087 Class D structurally unreachable; DOP-137 MEP-08 critical-action fail-closed; STA validation blocks tool execution on missing/invalid token |
+| Reference implementation pattern | Dual policy enforcement points with default DENY; action-classification with prohibited class structurally unreachable; critical-action fail-closed policy; session-execution attestation blocking tool execution on missing or invalid tokens |
 | Architectural invariant | Class D prohibited not by policy but by not being permissible in any declared mode — the strongest form of fail-closed |
 
 ## 4. The two-axis survivability map mapped to BR classes
@@ -119,7 +120,7 @@ The 2025 piece offers a 2×2 (architectural invariant enforcement × market acce
 
 | Quadrant | 2025 name | BR-class mapping | Framework rationale |
 |---|---|---|---|
-| IV — High governance / High survivability | **Consolidation Zone** | Runs at BR-2 or BR-3 *with insurability* | All six invariants met; passes DOP-137; passes §13 vendor questionnaire; anti-pattern catalogue clean |
+| IV — High governance / High survivability | **Consolidation Zone** | Runs at BR-2 or BR-3 *with insurability* | All seven invariants met; passes an externally-anchored Merkle-proof minimum evidence profile; passes framework.md §18 vendor questionnaire; anti-pattern catalogue clean |
 | III — High governance / Low survivability | **Stagnation Zone** | Nominal BR-2/BR-3 but effective BR-4 | Documentary controls masquerading as architectural; post-hoc logging (B2), unsigned evidence (B6), no replay (B9). The anti-pattern catalogue's Part B is precisely this quadrant's failure mode |
 | I — Low governance / Low survivability | **Volatile Zone** | Unrateable; treated as BR-4 minimum | Agent marketplaces (A4), CrewAI default (A6), MCP-without-composition (A3), A2A (A1) — the VC-funded agent-ecosystem cluster |
 | II — Low governance / High survivability | **Protected Zone** | BR-1 or BR-2 by virtue of not being exposed | Research-only, non-commercial, no liability-bearing deployment |
@@ -141,7 +142,7 @@ The 2025 piece makes a point the framework should absorb: **insurability cuts fa
 
 For BR-4 and BR-5 controls, append:
 
-> **Insurability evidence.** Deployer must produce: reproducible decision trails, immutable evidence retention per DOP-137 MEP or equivalent, policy snapshot coherence, documented blast-radius containment with quantified bounds, jurisdictional enforcement record. Absence of any constitutes an uninsurable profile and disqualifies the BR-4/5 claim regardless of other controls.
+> **Insurability evidence.** Deployer must produce: reproducible decision trails, immutable evidence retention per an externally-anchored Merkle-proof minimum profile, policy snapshot coherence, documented blast-radius containment with quantified bounds, jurisdictional enforcement record. Absence of any constitutes an uninsurable profile and disqualifies the BR-4/5 claim regardless of other controls.
 
 ## 6. Where the framework and the 2025 piece disagree — and why it's productive
 
@@ -163,7 +164,7 @@ The 2025 piece does not name observability as an invariant explicitly. It assume
 
 The 2025 piece does not call out coupling (C-axis) explicitly. The blast-radius framework treats C as the dominant non-linearity source (v0.2 §5 interaction override 1: C4a/C4b + V≥3 promotes one class).
 
-**Framework position:** C is the axis with the most empirical evidence (Sentinel corpus, DOP-204 fast-onset drift). The 2025 piece was written before that evidence was collected. v0.3 should add coupling as a seventh invariant to the insurability frame: *"bounded coupling"* — agent-to-agent and workflow-chain interactions must be typed and bounded, not NL-coupled.
+**Framework position:** C is the axis with the most empirical evidence (Gagné's multi-agent drift corpus, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md); replication against it shows fast-onset drift). The 2025 piece was written before that evidence was collected. v0.3 adds coupling as a seventh invariant: *"bounded coupling"* — agent-to-agent and workflow-chain interactions must be typed and bounded, not NL-coupled.
 
 ## 7. The combined picture
 
@@ -178,9 +179,9 @@ A vendor claiming BR-3+ should be required to answer the §13 questionnaire *and
 
 ## 8. Open questions for v0.3
 
-1. **Merge DOP-162 ECR with the six invariants.** The ECR formula quantifies blast radius; the invariants define what makes a system ECR-computable in the first place. v0.3 should show the dependency chain.
+1. **Merge the ECR formulation with the six invariants.** The Expected Compliance Risk formula quantifies blast radius; the invariants define what makes a system ECR-computable in the first place. v0.3 shows the dependency chain.
 2. **Cite specialist underwriter requirements directly.** Munich Re aiSure, AIUC-1, Armilla/Lloyd's have published criteria. v0.3 should crosswalk each specialist's published requirements to framework axes, so a deployer can align assurance effort.
-3. **λ/σ/υ as quantitative extension.** v0.2 §15 open question #1 asks for a cardinal score. DOP-162 provides one. The insurability frame provides the *variables the cardinal score needs to populate* (frequency, severity, uncertainty). The synthesis is the v0.3 quantitative aggregation: given a BR profile, what does it imply for λ, σ, υ?
+3. **λ/σ/υ as quantitative extension.** v0.2 §15 open question #1 asks for a cardinal score. The Expected Compliance Risk formulation provides one. The insurability frame provides the *variables the cardinal score needs to populate* (frequency, severity, uncertainty). The synthesis is the v0.3 quantitative aggregation: given a BR profile, what does it imply for λ, σ, υ?
 4. **Coupling as seventh invariant.** As noted §6.3.
 5. **Compositional insurability.** If system X is insurable and system Y is insurable, is X ∘ Y insurable? The composition rule in v0.2 §7 answers this architecturally; the insurability extension is what δ_adv and compound λ look like under composition.
 

@@ -5,34 +5,35 @@
 **Version:** 0.5
 **Status:** Research note, open for comment
 **Date:** 2026-04-21
-**Prior versions:** v0.1 (initial draft); v0.2 (aggregation rule, composition rule, §14 security-ops mapping); v0.3 (cardinal-score synthesis, seven architectural invariants, insurability as economic gate, compositional-enforcement pattern); v0.4 (pre-rating closed/open-world classifier, composition classes with sub-additive / super-additive / multiplicative / redundant mathematics, Invariant 7 as composition gate); v0.5 (Kalman extension per DOP-161 — cardinal score becomes a filtered estimate B̂(t|t) ± σ_B(t); evidence tier DOP-093 maps to measurement noise R; σ_B(t) is the direct actuarial uncertainty υ output).
+**Prior versions:** v0.1 (initial draft); v0.2 (aggregation rule, composition rule, §14 security-ops mapping); v0.3 (cardinal-score synthesis, seven architectural invariants, insurability as economic gate, compositional-enforcement pattern); v0.4 (pre-rating closed/open-world classifier, composition classes with sub-additive / super-additive / multiplicative / redundant mathematics, Invariant 7 as composition gate); v0.5 (Kalman extension — cardinal score becomes a filtered estimate B̂(t|t) ± σ_B(t); tiered evidence confidence maps to measurement noise R; σ_B(t) is the direct actuarial uncertainty υ output).
 
 ---
 
 ## 0. Reading guide
 
-This framework is one of four documents in a set:
+This framework is one of a set of documents in this repository:
 
 1. **This document** (`framework.md`) — the rating framework. Six axes, three modifiers, seven invariants, composition rule, ordinal + cardinal aggregation.
-2. **[antipatterns.md](./antipatterns.md)** — negative reference: 26 named anti-patterns that inflate blast radius and commonly ship as "progress".
-3. **[insurability.md](./insurability.md)** — economic/actuarial companion: why insurability cuts faster than regulation, λ/σ/υ mapping.
-4. **[DOP reference implementation audit](https://github.com/kevin-biot/DOP/blob/main/docs/research/governance/dop-repo-shape-as-br-reference.md)** — in the separate DOP repository: what "done right" looks like using DOP as case study, with honest gap list.
+2. **[manifesto.md](./manifesto.md)** — the argument for why the framework must exist: insurer silence, regulator prose, pattern precedents.
+3. **[antipatterns.md](./antipatterns.md)** — negative reference: 26 named anti-patterns that inflate blast radius and commonly ship as "progress".
+4. **[insurability.md](./insurability.md)** — economic/actuarial companion: why insurability cuts faster than regulation, λ/σ/υ mapping.
+5. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Gagné's multi-agent drift corpus (the empirical catalyst), prior published work, and intellectual background.
 
-Read (1) for rating, (2) for diligence, (3) for market access, (4) for a worked implementation.
+Read (1) for rating, (2) for the argument, (3) for diligence, (4) for market access, (5) for attribution.
 
 ---
 
 ## Abstract
 
-Tool-enabled large language models have shifted AI systems from bounded reasoning to real-world action. Evaluation practice has not kept pace: accuracy benchmarks and model-level guardrails do not capture system-level impact. This note proposes a six-axis framework — authority, reach, coupling, reversibility, consequence, observability — with three modifiers, an ordinal aggregation rule, a cardinal score (extending DOP-162's Expected Compliance Risk formula), an explicit composition rule for multi-vendor stacks, and seven architectural invariants that must hold for any BR class claim to be genuine.
+Tool-enabled large language models have shifted AI systems from bounded reasoning to real-world action. Evaluation practice has not kept pace: accuracy benchmarks and model-level guardrails do not capture system-level impact. This note proposes a six-axis framework — authority, reach, coupling, reversibility, consequence, observability — with three modifiers, an ordinal aggregation rule, a cardinal *Expected Compliance Risk* score extended to all six axes, an explicit composition rule for multi-vendor stacks, and seven architectural invariants that must hold for any BR class claim to be genuine.
 
 The central claim, from architecture, regulation, and actuarial science converging: **system architecture, not model capability, determines operational risk**. Blast radius must be designed, not discovered. Systems that cannot populate the framework's tuple cannot be priced by specialist underwriters (Munich Re aiSure, AIUC, Armilla via Lloyd's), cannot meet EU AI Act Article 12 / 15 obligations, and should not be deployed in regulated sectors regardless of their model-layer evaluation scores.
 
-v0.3 integrated three advances: the seven-invariant synthesis (six from insurability work, seventh — *bounded coupling* — from Sentinel evidence on fast-onset drift); the cardinal score (DOP-162 ECR extended over all six axes); and the compositional-enforcement pattern, exemplified by ontology-as-firewall with Bayesian validation.
+v0.3 integrated three advances: the seven-invariant synthesis (six from prior published insurability work; seventh — *bounded coupling* — from Gagné's multi-agent drift corpus on fast-onset drift, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the cardinal score (Expected Compliance Risk extended over all six axes); and the compositional-enforcement pattern, exemplified by ontology-as-firewall with Bayesian validation.
 
 v0.4 added composition discipline: a pre-rating classifier separating **closed-world** (ontology-bounded) systems from **open-world** (NL-unbounded) systems, and four composition classes with explicit mathematics — sub-additive for bounded chains, super-additive for NL-coupled chains, multiplicative for defence-in-depth, exponential-reducing for voting redundancy. The framework now refuses to rate an open-world system below BR-4 regardless of per-axis scores, because Invariant 7 (bounded coupling) is structurally impossible in that substrate.
 
-v0.5 adds the Kalman extension from DOP-161. The cardinal score B(t) is no longer a point estimate — it becomes a filtered estimate B̂(t|t) with uncertainty σ_B(t) that is directly usable by specialist underwriters as the actuarial υ variable. Evidence-tier ratings (DOP-093) map formally to measurement noise R, turning evidence quality into a quantitative input to uncertainty rather than a qualitative label. Systems failing Invariants 1–2 cannot produce σ_B(t) and fall back to ordinal rating with no uncertainty quantification — a structural boundary between insurable and uninsurable that the framework now makes explicit.
+v0.5 adds the Kalman extension. The cardinal score B(t) is no longer a point estimate — it becomes a filtered estimate B̂(t|t) with uncertainty σ_B(t) that is directly usable by specialist underwriters as the actuarial υ variable. Tiered evidence-confidence ratings map formally to Kalman measurement noise R, turning evidence quality into a quantitative input to uncertainty rather than a qualitative label. Systems failing Invariants 1–2 cannot produce σ_B(t) and fall back to ordinal rating with no uncertainty quantification — a structural boundary between insurable and uninsurable that the framework now makes explicit.
 
 ---
 
@@ -74,7 +75,7 @@ Before the six-axis tuple is assigned, each component of the system must be clas
 - BR-2 and BR-3 claims require every component to be closed-world
 - An open-world-to-closed-world interface counts as open-world for composition (§7.2)
 
-**Why a pre-rating gate, not a modifier.** The empirical evidence from Sentinel / DOP-204 is clear: collapse in open-world NL-coupled substrates happens inside the baseline-establishment window of any runtime monitor. BR-2/BR-3 would imply monitoring-based governance can contain the risk; the evidence says it cannot. Classifying worldview first prevents the common failure mode where a system is rated BR-3 on per-axis scoring while sitting architecturally in the regime where the ratings are meaningless.
+**Why a pre-rating gate, not a modifier.** The empirical evidence from Gagné's multi-agent drift corpus[^1] is clear: collapse in open-world NL-coupled substrates happens inside the baseline-establishment window of any runtime monitor. BR-2/BR-3 would imply monitoring-based governance can contain the risk; the evidence says it cannot. Classifying worldview first prevents the common failure mode where a system is rated BR-3 on per-axis scoring while sitting architecturally in the regime where the ratings are meaningless.
 
 With worldview set, a system is expressed as the tuple **A–R–C–V–K–O**.
 
@@ -105,7 +106,7 @@ Reach has two sub-components: *systems touched* (lateral propagation) and *princ
 - **C4a** Multi-agent with NL-coupled peers, no shared state
 - **C4b** Multi-agent with shared state or recursive composition
 
-The C4a / C4b split is material: empirical work on multi-agent drift (DOP-204 against the Sentinel corpus) shows phase transitions in the C4a regime within typical baseline-establishment windows. Stateless NL-coupling is not safe simply because no state is shared.
+The C4a / C4b split is material: empirical work on multi-agent drift (Gagné 2026[^1], replicated against the Sentinel corpus) shows phase transitions in the C4a regime within typical baseline-establishment windows. Stateless NL-coupling is not safe simply because no state is shared.
 
 ### 4.4 Reversibility (V)
 
@@ -155,7 +156,7 @@ Base rule: BR class = max over A, R, C, V, K where each tier maps to a candidate
 
 ### 5.2 Cardinal score — BR-ECR
 
-DOP-162 defines Expected Compliance Risk as `B(t) = w_d·D + w_r·R + w_v·(1−V) + w_c·C`. v0.3 extends this to all six axes:
+An internal reference implementation defines Expected Compliance Risk as `B(t) = w_d·D + w_r·R + w_v·(1−V) + w_c·C`. v0.3 extends this to all six axes:
 
 **B(t) = w_a·A + w_r·R + w_c·C + w_v·(1−V) + w_k·K + w_o·(1−O)**
 
@@ -173,18 +174,18 @@ The tuple implies actuarial priors:
 
 The cardinal score feeds these priors directly when Invariants 1–2 (deterministic execution + evidence binding per §9) are present. Absent those invariants, no priors can be extracted and the system is structurally unpriceable.
 
-### 5.4 Kalman extension — uncertainty-aware rating (DOP-161)
+### 5.4 Kalman extension — uncertainty-aware rating
 
-The v0.3 cardinal score is a point estimate. DOP-161 (Framework-Centric Architecture and Optimal Compliance State Estimation) provides the operational mechanism to extend it to a filtered estimate with explicit uncertainty, producing the form underwriters actually need.
+The v0.3 cardinal score is a point estimate. Kalman filtering provides the operational mechanism to extend it to a filtered estimate with explicit uncertainty, producing the form underwriters actually need. The framework-centric architecture and Kalman-as-compliance-state-estimator approach derive from an internal reference implementation (credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the specification below distils the mechanism into a portable form.
 
 **State-space model.**
 
 - Latent state x(t) = normalised six-axis tuple (the true compliance posture)
 - Observation y(t) = rubric evaluations, tool-call outcomes, evidence submissions at time t
-- **Measurement noise R** per evidence tier (DOP-093): forensic tier = low R (high trust), minimal tier = high R (low trust). Evidence tier becomes a *quantitative noise model*, not a qualitative label.
+- **Measurement noise R** per tiered evidence confidence: forensic tier = low R (high trust), minimal tier = high R (low trust). Evidence tier becomes a *quantitative noise model*, not a qualitative label.
 - **Process noise Q** = per-domain prior on how quickly compliance posture can shift between observations
 
-**Filter equations** (per DOP-161 §2.2.2):
+**Filter equations:**
 
 Predict: x̂(t|t−1) = A·x̂(t−1|t−1); P(t|t−1) = A·P(t−1|t−1)·Aᵀ + Q
 
@@ -203,7 +204,7 @@ Update: K(t) = P(t|t−1)·Hᵀ·(H·P(t|t−1)·Hᵀ + R)⁻¹; x̂(t|t) = x̂(
 3. **Adaptive BR thresholds.** The §5.1 interaction overrides are ordinal; Kalman supports continuous adaptive thresholds: *threshold(t) = baseline + k · σ_B(t)*. High-noise sessions get looser thresholds; low-noise sessions get tighter ones. Alerts fire on *statistically significant* deviations, not on arbitrary fixed bands.
 4. **Kalman gain K(t) makes weight-of-evidence explicit.** Each new observation's influence on the estimate is quantified by K(t), with forensic-grade evidence producing higher gain and minimal-grade producing lower. Auditors can trace why a particular evidence submission moved the rating by how much.
 
-**Subsumption of prior truth-value models.** DOP-161 shows that the NAL truth-value model (frequency f, confidence c, from Xu 2025 AIKR grounding) is a special case of Kalman with scalar state and no dynamics. The same relationship holds here: v0.3's ordinal aggregation is Kalman with infinite Q (no prior carried forward); v0.3's point cardinal score is Kalman at a single observation. v0.5 generalises both to the temporal-dynamic case.
+**Subsumption of prior truth-value models.** The NAL truth-value model (frequency f, confidence c, from Xu 2025 AIKR grounding) is a special case of Kalman with scalar state and no dynamics. The same relationship holds here: v0.3's ordinal aggregation is Kalman with infinite Q (no prior carried forward); v0.3's point cardinal score is Kalman at a single observation. v0.5 generalises both to the temporal-dynamic case.
 
 **Dependencies on the invariants.**
 
@@ -214,15 +215,15 @@ The Kalman extension is only meaningful if Invariants 1–2 hold:
 
 A system failing Invariant 1 or 2 cannot produce σ_B(t). It retains an ordinal rating but **cannot quantify υ and is structurally unpriceable**. This is the architectural boundary between insurable and uninsurable made precise.
 
-**Three-phase implementation path (per DOP-161 §3.3):**
+**Three-phase implementation path:**
 
-- Phase 1 — scalar Kalman on a single deployer metric. Target: replace DOP-154 rolling-mean CDR with Kalman-filtered CDR ± σ. Outputs CDR ± σ(t) instead of a point estimate and separates measurement noise from genuine drift.
-- Phase 2 — multivariate state vector [CDR, resolution-tier distribution, evidence-confidence mean]. Full covariance P(t) captures correlations between drift signals.
-- Phase 3 — per-session compliance trajectory. Per-session Kalman state maintained across tool-call sequence. *dB̂/dt* becomes the compliance trajectory signal (analogous to *dλ/dt* in PSH).
+- Phase 1 — scalar Kalman on a single deployer metric. Target: replace rolling-mean on a chosen compliance ratio with a Kalman-filtered ratio ± σ. Outputs the quantity ± σ(t) instead of a point estimate and separates measurement noise from genuine drift.
+- Phase 2 — multivariate state vector (e.g. compliance-decision ratio, resolution-tier distribution, evidence-confidence mean). Full covariance P(t) captures correlations between drift signals.
+- Phase 3 — per-session compliance trajectory. Per-session Kalman state maintained across tool-call sequence. *dB̂/dt* becomes the compliance trajectory signal.
 
-**Research arc beyond v0.5.** DOP-161 §3.4: Kalman is the optimal linear estimator. For nonlinear compliance dynamics, EKF or UKF apply. For non-Gaussian compliance distributions, particle filters are the general solution. Beyond that, HMM regime detection captures phase transitions. Framework versions after v0.5 will encode richer estimators as DOP-161's research programme advances.
+**Research arc beyond v0.5.** Kalman is the optimal linear estimator. For nonlinear compliance dynamics, EKF or UKF apply. For non-Gaussian compliance distributions, particle filters are the general solution. Beyond that, HMM regime detection captures phase transitions. Framework versions after v0.5 will encode richer estimators as implementation experience accrues.
 
-**Honesty note.** DOP-161 is Proposed as of 2026-03-30. No Kalman code yet exists in `internal/`. The framework extension specifies the mechanism; empirical validation comes as DOP-161's phases ship. Until Phase 1 lands, σ_B(t) is a theoretical construct; deployers claiming σ_B(t) without implementation are overstating.
+**Honesty note.** Implementations of the Kalman extension are under way in a private reference implementation; public deployer implementations at the time of v0.5 are limited. Until Phase 1 lands in a deployer's environment, σ_B(t) is a theoretical construct; claims of σ_B(t) without implementation are overstating.
 
 ## 6. Modifiers
 
@@ -292,7 +293,7 @@ Reference: A2A peer chains, CrewAI/AutoGen default, LLM-as-judge recursion. Sent
 Distinct from T1/T2 because it concerns *attack bypass*, not *failure propagation*. Layers are in series for an attacker (must bypass each one); compound bypass probability is the product.
 
 - **P(bypass compound)** = ∏ P_bypass,ᵢ (independent layers) or product with correlation term (realistic)
-- Reference: DOP-135/DOP-136 — 8 layers of IPI defence give compound bypass ≈ 10⁻¹⁹. Sobol sensitivity identifies the dominant-contributor layer for remediation priority.
+- Reference: a private reference implementation's Bayesian threat-model analysis over 8 layers of indirect-prompt-injection defence gives compound bypass ≈ 10⁻¹⁹ under the model's independence assumptions. Sobol sensitivity identifies the dominant-contributor layer for remediation priority. The analytical shape (Bayesian per-layer priors, Monte Carlo sampling of compound bypass, Sobol indices for residual risk concentration) is portable and is what this framework references; the specific number is illustrative, not canonical.
 - **Important distinction:** T3 mathematics applies to *attack resistance* against an adversary trying to bypass controls, not to *failure propagation* from one component to another. Both T1 and T3 can coexist in the same system (T1 for failure propagation, T3 for attack bypass) and they reinforce each other.
 
 **T4. Exponential-reducing — voting / parallel redundancy.**
@@ -339,7 +340,7 @@ For identical inputs under identical policy snapshots, the system must produce i
 
 **Supports:** V (replay underpins rollback evidence), O (cannot audit what you cannot reproduce).
 **Anti-pattern complement:** B9 (no replay capability).
-**Reference implementation:** DOP's `internal/evidence/hasher.go` deterministic contract hashing; DOP-137 MEP-03.
+**Reference implementation pattern:** deterministic canonical contract hashing over the full evidence tuple (inputs, policy snapshot, outputs, tool calls), with reproduction verified at audit time.
 
 ### Invariant 2 — Evidence binding
 
@@ -347,7 +348,7 @@ Every decision must produce immutable policy state, execution context, and outpu
 
 **Supports:** O (evidence is the observable surface), K (regulatory evidence requirements).
 **Anti-pattern complement:** B1 (logs-as-evidence), B6 (unsigned or self-signed-only), B8 (mutable at rest).
-**Reference implementation:** SAPP external anchor + Merkle proofs + Ed25519/ES256/HMAC signing; DOP-137 MEP-01..05.
+**Reference implementation pattern:** externally-anchored Merkle-proof evidence with independent signing keys (Ed25519/ES256/HMAC). SAPP (Settlement Anchor Protocol Platform) is one such design; the essential properties are that the anchor's signing keys are independent of the system under audit, and that evidence commitments are append-only and verifiable by third parties.
 
 ### Invariant 3 — Policy snapshot coherence
 
@@ -355,7 +356,7 @@ Versioned policy states; every execution bound to a specific policy epoch.
 
 **Supports:** V (explainability of past decisions), K (regulatory traceability).
 **Anti-pattern complement:** B7 (no explainability source mapping).
-**Reference implementation:** `policy_snapshot_id` linkage tuple (MEP-05); DOP-082 policy-snapshot hash in evidence; DOP-156 external rubric loading with version binding.
+**Reference implementation pattern:** a `policy_snapshot_id` linkage tuple carried in every evidence record; policy-snapshot hash bound cryptographically to the decision; external rubric loading with version binding so versions are not spoofable.
 
 ### Invariant 4 — Bounded blast radius
 
@@ -363,7 +364,7 @@ Failures in one component, tenant, or execution cannot propagate unboundedly.
 
 **Supports:** R (population exposure), K (correlated severity σ).
 **Anti-pattern complement:** A1–A7, A11–A13 each break the bound in specific ways.
-**Reference implementation:** AARP narrow closed-world routing; Action Classes A/B/C/D with D structurally unreachable; tool-ontology binding per DOP-145; ontology-as-firewall distributed enforcement (§15).
+**Reference implementation pattern:** capability-routing broker (narrow closed-world); action-class taxonomy (advisory / constrained-proposal-with-attestation / bounded-execution-with-attestation / prohibited) with the prohibited class structurally unreachable; tool-ontology binding restricting invocation to ontology-declared shapes; ontology-as-firewall distributed enforcement (§15).
 
 ### Invariant 5 — Jurisdictional awareness
 
@@ -371,7 +372,7 @@ Jurisdictional constraints on data flow, decision authority, and regulatory requ
 
 **Supports:** K sub-tags (K3-P, K4-R, K4-F), R (cross-border reach).
 **Anti-pattern complement:** A13 (BYOA into corp data).
-**Reference implementation:** DOP-083 regulatory conflict resolution (regulatory tier unoverridable); DOP-080 policy hierarchy with fixed precedence; DOP-169 DNS-anchored OBO verification.
+**Reference implementation pattern:** policy hierarchy with fixed precedence (regulatory > corporate > manager > local > user), regulatory tier unoverridable; jurisdictional conflict resolution that fails closed and escalates; DNS-anchored on-behalf-of verification for cross-border admission.
 
 ### Invariant 6 — Fail-closed execution control
 
@@ -379,17 +380,17 @@ Deny by default. Execution requires explicit cryptographic verification of evide
 
 **Supports:** A (authority enforcement), V (fail-closed preserves reversibility at decision time).
 **Anti-pattern complement:** B11 (critical action fail-open).
-**Reference implementation:** DOP-081 dual PEP gates with default DENY; DOP-087 Class D structurally prohibited; DOP-137 MEP-08 critical-action fail-closed; STA validation blocks on missing/invalid token.
+**Reference implementation pattern:** dual policy enforcement points (pre-pipeline and tool-level) with default DENY; action classification with prohibited class structurally unreachable; critical-action fail-closed policy (local or anchor write failure blocks the action); session-execution attestation tokens with cryptographic verification blocking tool execution on missing or invalid tokens.
 
 ### Invariant 7 — Bounded coupling (added v0.3)
 
 Agent-to-agent and workflow interactions must be typed and bounded. NL-coupled peers (C4a) and shared-state/recursive peers (C4b) violate this unless mediated by typed protocol with fail-closed defaults.
 
-**Why added.** Sentinel empirical evidence (DOP-204): in the C4a regime, governance-signal crossings occur at window ≤ 3 of 10 in 20 of 23 experiments — i.e. collapse happens inside the baseline-establishment window of any runtime monitor. Invariants 1–6 are insufficient if coupling is unbounded because monitoring races and loses.
+**Why added.** Gagné's multi-agent drift corpus (Gagné 2026[^1]): in the C4a regime, governance-signal crossings occur at window ≤ 3 of 10 in 20 of 23 experiments under monitoring-apparatus replication — i.e. collapse happens inside the baseline-establishment window of any runtime monitor. Invariants 1–6 are insufficient if coupling is unbounded because monitoring races and loses.
 
 **Supports:** C axis (directly), A (bounded coupling makes authority grants meaningful), O (monitoring is only useful if substrate is bounded).
 **Anti-pattern complement:** A1 (A2A), A3 (MCP without composition), A6 (CrewAI/AutoGen default persona+NL), A7 (LLM-as-judge).
-**Reference implementation:** AARP — agent-agent-agent pattern rejected architecturally; capability routing via broker; NL between agents structurally prevented by protocol shape.
+**Reference implementation pattern:** agent-agent NL communication rejected architecturally; capability routing via a broker with typed requests; NL between agents structurally prevented by the protocol shape, not by convention.
 **Operational role in rating:** Invariant 7 is the gate between §7.2 composition topology T1 (sub-additive) and T2 (super-additive). It is enforced at two points: §4.0 worldview classifier (pre-rating — open-world components cannot claim it) and §7.2 composition class (post-component-rating — any NL interface downgrades to T2). A closed-world component chain with typed interfaces satisfies Invariant 7; any NL-interface break in the chain breaks the invariant and the composition mathematics with it.
 
 ### Cross-cutting: observability
@@ -406,13 +407,13 @@ Controls must match the class. At BR-4 and BR-5, controls must include architect
 | BR-2 | Approval gates, audit trails, incident runbook, quarterly review |
 | BR-3 | Tool scoping, containment, rate limits, real-time observability (O3+), documented kill switch, trajectory review |
 | BR-4 | All BR-3 plus: Invariants 1–7 documented and verifiable; independent oversight; adversarial testing; O4 architectural invariants at runtime; coupling constraints enforced structurally; composition attestation for dependencies |
-| BR-5 | All BR-4 plus: pre-deployment architectural proof; formal assurance documentation; regulatory alignment evidence; **insurability evidence** (reproducible decision trails, immutable evidence retention per DOP-137 MEP or equivalent, policy snapshot coherence, documented blast-radius containment with quantified bounds, jurisdictional enforcement record); independent pre-deployment review; demonstrated reversibility plan |
+| BR-5 | All BR-4 plus: pre-deployment architectural proof; formal assurance documentation; regulatory alignment evidence; **insurability evidence** (reproducible decision trails, immutable evidence retention per an externally-anchored Merkle-proof minimum profile, policy snapshot coherence, documented blast-radius containment with quantified bounds, jurisdictional enforcement record); independent pre-deployment review; demonstrated reversibility plan |
 
 Absence of insurability evidence at BR-5 is not a nice-to-have gap — it foreclosures commercial deployment in regulated sectors via specialist underwriters' exclusions (e.g. Verisk 2026 AI exclusions applied through commercial insurance contracts).
 
 ## 11. Non-linearity of risk
 
-Blast radius is not additive. Moderate authority plus high coupling plus low reversibility can exceed the risk of high authority in an isolated system. §5.1 interaction overrides encode the primary non-linearities formally. The Sobol sensitivity analysis in DOP-135 (on the IPI threat model specifically) is the equivalent quantitative demonstration within an architecture: residual risk concentrates in one layer non-uniformly, and remediation priority follows the index, not the nominal count of layers.
+Blast radius is not additive. Moderate authority plus high coupling plus low reversibility can exceed the risk of high authority in an isolated system. §5.1 interaction overrides encode the primary non-linearities formally. Sobol sensitivity analysis applied to a per-layer defence-in-depth threat model is the equivalent quantitative demonstration within an architecture: residual risk concentrates in one layer non-uniformly, and remediation priority follows the index, not the nominal count of layers.
 
 ## 12. The observability gap
 
@@ -472,7 +473,7 @@ Insurability cuts faster than regulation.
 
 Specialist underwriters (Munich Re aiSure, AIUC with AIUC-1 certification, Armilla via Lloyd's) have already published criteria: reproducible decision trails, immutable evidence retention, policy coherence over time, blast-radius containment, jurisdictional boundaries. These are Invariants 1–6 by different names. A system that satisfies the seven invariants can be priced; one that cannot satisfy Invariants 1–2 is structurally unpriceable and should be treated as uninsurable.
 
-The v0.5 Kalman extension (§5.4) makes this precise. Evidence tier (DOP-093) maps to the Kalman measurement noise R, so the actuarial uncertainty σ_B(t) is a direct function of the evidence quality the system produces. This closes the actuarial circuit: invariants → evidence tiers → R → σ_B(t) → υ → premium. A deployer that invests in forensic-grade evidence reduces R and therefore reduces σ_B(t) and therefore reduces the υ component of the underwriter's price. Evidence investment becomes price-relevant, not just compliance-relevant — which is the economic mechanism that rewards architecture over policy.
+The v0.5 Kalman extension (§5.4) makes this precise. Tiered evidence confidence maps to the Kalman measurement noise R, so the actuarial uncertainty σ_B(t) is a direct function of the evidence quality the system produces. This closes the actuarial circuit: invariants → evidence tiers → R → σ_B(t) → υ → premium. A deployer that invests in forensic-grade evidence reduces R and therefore reduces σ_B(t) and therefore reduces the υ component of the underwriter's price. Evidence investment becomes price-relevant, not just compliance-relevant — which is the economic mechanism that rewards architecture over policy.
 
 The 2×2 survivability map (architectural invariant enforcement × market access under constraint) yields four quadrants. The useful mapping:
 
@@ -497,7 +498,7 @@ The canonical example is DOP's ontology-as-firewall:
 - Evidence contract is tamper-evident and policy-snapshot bound
 - Session-execution attestation verifies the call chain
 
-No single stage is "the firewall". The ontology is the firewall — it determines what can exist at all. An attacker controlling raw input cannot invent a concept URI that doesn't exist. Compound bypass probability is quantified at ~10⁻¹⁹ via Bayesian threat model (DOP-135), validated by Monte Carlo simulation and CI-integrated synthetic attack harness (DOP-136 Accepted).
+No single stage is "the firewall". The ontology is the firewall — it determines what can exist at all. An attacker controlling raw input cannot invent a concept URI that doesn't exist. In one private reference implementation, compound bypass probability is quantified at ~10⁻¹⁹ via a Bayesian threat model with Beta-distributed per-layer priors, validated by Monte Carlo simulation and a CI-integrated synthetic attack harness (BPER — Bypass Prevention Efficacy Rate). The analytical method is portable; the specific figure is illustrative of what the method can produce for a well-designed composition.
 
 **Why the pattern matters for rating.** An auditor searching for "an ontology firewall gate" and finding none will rate the control documentary. The correct procedure is to look for the *shape* of enforcement — is the property (ontology membership, typed boundary, action class) enforced across multiple stages such that bypassing one stage does not bypass the property?
 
@@ -552,12 +553,12 @@ The three communities arrive at the same requirement.
 4. **Specialist-underwriter crosswalk.** Explicit mapping from Invariants 1–7 and the §18 disclosure items to Munich Re aiSure, AIUC-1, Armilla/Lloyd's published criteria.
 5. **Certification path.** Minimum viable attestation scheme for a vendor to claim a BR class. SOC-2-shaped third-party audit is the obvious model.
 6. **Insurability composition — quantitative.** §7.1 rule 6 is architectural; §7.2 topologies give the qualitative shape; quantitative compound λ/σ/υ under each topology (particularly T2 with measured correlation ρ) still needs derivation. ISS-composition-with-bounded-gain is the mathematical backbone; translating ISS gain bounds to insurance-pricing language is the next step.
-7. **Trajectory quantification.** τ is currently categorical (stable/expanding/drifting); with Phase 3 of DOP-161 implemented, *dB̂/dt* becomes the continuous trajectory signal underwriters can price. Mapping dB̂/dt magnitudes to τ categories (and eventually replacing the categorical form) is the v0.6 path.
+7. **Trajectory quantification.** τ is currently categorical (stable/expanding/drifting); with Phase 3 of the Kalman extension implemented, *dB̂/dt* becomes the continuous trajectory signal underwriters can price. Mapping dB̂/dt magnitudes to τ categories (and eventually replacing the categorical form) is the v0.6 path.
 8. **T2 correlation estimation.** Super-additive composition (§7.2) requires an estimate of ρ between components sharing LLM substrate. Empirical ρ for common model-provider pairs is unstudied; Sentinel-style instrumentation could produce the first estimates.
 9. **T4 independence attestation.** Voting ensembles are frequently claimed T4 but operate T2. A minimum-viable independence attestation (different model families, different providers, different prompt derivations, uncorrelated failure history on a shared benchmark) is the evidence a BR-4+ deployment should require before granting T4 treatment.
-10. **Evidence-tier → R calibration (v0.5 Kalman extension).** DOP-093 defines evidence tiers qualitatively; DOP-161 maps them to measurement noise R. The *numerical R values* per tier per domain are not yet published. Without these, σ_B(t) is only directionally meaningful. First-deployer Phase 1 implementations will produce the first empirical R estimates.
+10. **Evidence-tier → R calibration (v0.5 Kalman extension).** Evidence-tier taxonomies are qualitative in current practice; the Kalman extension maps them to measurement noise R. The *numerical R values* per tier per domain are not yet published. Without these, σ_B(t) is only directionally meaningful. First-deployer Phase 1 implementations will produce the first empirical R estimates.
 11. **Process noise Q per domain.** Q encodes prior belief about how fast compliance posture can shift between observations. Too small Q underestimates σ_B(t) (overconfident); too large Q makes the filter track noise. Domain-specific Q calibration is a prerequisite for cross-deployer comparability.
-12. **Nonlinear extensions.** EKF / UKF for nonlinear dynamics; particle filters for non-Gaussian compliance distributions; HMM for regime detection. Each becomes a framework version as DOP-161's research programme advances.
+12. **Nonlinear extensions.** EKF / UKF for nonlinear dynamics; particle filters for non-Gaussian compliance distributions; HMM for regime detection. Each becomes a framework version as implementation experience accrues.
 
 ## 20. Conclusion
 
@@ -571,16 +572,12 @@ v0.3 delivers these pieces. The minimum shape is disciplined: six axes, three mo
 
 ---
 
-[^1]: Sentinel multi-agent drift corpus — external empirical basis for C4a phase transitions. See `research/sentinel-a2a/` for the replication artefacts.
+[^1]: Gagné, F. (2026). *Behavioral Drift in Multi-Agent LLM Systems: Emergent Failure Modes, Cascade Dynamics, and Measurement Challenges.* Preprint, DOI: [10.5281/zenodo.19103616](https://doi.org/10.5281/zenodo.19103616). The empirical basis for C4a phase transitions, fast-onset drift, and Invariant 7 (bounded coupling). See [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) for full attribution.
 
-[^2]: DOP-204 (monitor-vs-substrate analysis): 20 of 23 Sentinel experiments show governance-signal crossings at window ≤ 3 of 10. Substrate property, not apparatus limitation.
+[^2]: Monitor-vs-substrate analysis against Gagné's corpus: 20 of 23 experiments replicated show governance-signal crossings at window ≤ 3 of 10 under the monitoring-apparatus replication. Substrate property, not apparatus limitation.
 
-[^3]: DOP-135 Bayesian Threat Model for Indirect Prompt Injection; DOP-136 IPI Defense Validation (Accepted, compound bypass ≈ 10⁻¹⁹). The formal basis for the compositional-enforcement pattern (§15).
+[^3]: Private reference implementation — Bayesian Threat Model for Indirect Prompt Injection (Beta-distributed per-layer priors) combined with IPI Defence Validation (compound bypass ≈ 10⁻¹⁹ under the model's independence assumptions). The analytical method is portable; the figure is illustrative. Basis for the compositional-enforcement pattern (§15). Credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md).
 
-[^4]: DOP-162 Blast Radius, Expected Compliance Risk, Proportionate Human Oversight — the original cardinal formulation extended in §5.2.
+[^4]: Brown, K. (2025). *The Insurability Gap: Why Nondeterministic AI Is Structurally Uninsurable, and What Changes When Architecture Produces Evidence Invariants.* Prior published work; six invariants of §9 derive from this. v0.3 adds Invariant 7 (bounded coupling) from Gagné-era evidence post-dating the 2025 publication.
 
-[^5]: DOP-137 SAPP-Anchored Evidence Profile for EU AI Act Logging — the minimum evidence profile (MEP-01..MEP-10) for Invariants 1–3 (§9).
-
-[^6]: Kevin Brown, "The Insurability Gap" (2025). The six-invariant framework, specialist-underwriter criteria, and 2×2 survivability map. v0.3 adds Invariant 7 (bounded coupling) from Sentinel-era evidence post-dating the 2025 publication.
-
-[^7]: DOP-161 (Framework-Centric Architecture and Optimal Compliance State Estimation, Proposed 2026-03-30). Kalman filter adopted as the theoretical foundation and three-phase implementation target for compliance state estimation. Evidence tier (DOP-093) mapped to Kalman measurement noise R. v0.5 folds the Kalman extension into the cardinal score, producing B̂(t|t) ± σ_B(t) — the point-estimate-plus-uncertainty form specialist underwriters require. Phase 1 implementation target: replace DOP-154 rolling-mean CDR with Kalman-filtered CDR.
+[^5]: Gagné, F. (2026). *The Behavioral Sufficiency Problem: Why AI Governance Frameworks, Modeled on Human Regulatory Theory, Cannot Operate Without the Cultural and Social Infrastructure That Co-Evolved Alongside Human Law.* SSRN Preprint. Governance-theoretic argument complementing the Behavioral Drift empirics.
