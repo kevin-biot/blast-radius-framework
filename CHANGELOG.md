@@ -1,6 +1,18 @@
 # Changelog
 
-All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible.
+All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
+
+## framework v0.5.1 — 2026-04-21
+
+**Three additions in response to external review** (the changes external readers would need before adopting):
+
+- **§5.5 Two worked examples** added. Clinical oncology triage advisor (A2–R3–C3–V3–K4-S–O4, closed-world, Invariants 1–7 hold, final BR-4) and cross-border instant-payment corridor agent (A3–R4–C4a–V4–K4-R–O4, closed-world apart from one legacy NL interface, rule 1 promotes to BR-5). Both examples show high BR classes arising honestly from high-consequence domains — closed-world architecture is necessary but not sufficient for low BR. The payments example specifically demonstrates how a single legacy NL interface in an otherwise typed chain promotes the entire corridor one BR class via Invariant 7 (bounded coupling) partial failure.
+- **§12 observability gap strengthened**. Previously read as a closing insight; now makes explicit that observability is the axis that makes BR-4 and BR-5 *rateable at all*. Without O ≥ 3, a BR-4 profile is an unverified claim; without O = 4, a BR-5 claim is structurally un-auditable. The Kalman extension's σ_B(t) → υ identification depends on O operationally. Invariants 1–5 are verifiable only at O ≥ 2 and architecturally enforceable only at O = 4.
+- **NOTATION.md added as standalone lookup document.** Previously §21 (notation appendix) was embedded in framework.md. Extracted to a dedicated file covering tier enums, modifiers, classes, composition topologies, interaction overrides, cardinal score formulas, Kalman variables, composition-math variables, collision summary, invariants summary, and anti-pattern IDs. Framework §21 is now a short pointer. A reader doing reference lookup no longer has to navigate a 600-line document.
+
+No change to axis definitions, invariant list, composition topologies, interaction overrides, or schema. v0.5.1 is strictly additive / clarifying / reorganising.
+
+
 
 ## spec v0.1 — 2026-04-21
 

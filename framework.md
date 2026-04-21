@@ -2,10 +2,10 @@
 
 *A classification framework for governing agentic AI systems*
 
-**Version:** 0.5
+**Version:** 0.5.1
 **Status:** Research note, open for comment
 **Date:** 2026-04-21
-**Prior versions:** v0.1 (initial draft); v0.2 (aggregation rule, composition rule, §14 security-ops mapping); v0.3 (cardinal-score synthesis, seven architectural invariants, insurability as economic gate, compositional-enforcement pattern); v0.4 (pre-rating closed/open-world classifier, composition classes with sub-additive / super-additive / multiplicative / redundant mathematics, Invariant 7 as composition gate); v0.5 (Kalman extension — cardinal score becomes a filtered estimate B̂(t|t) ± σ_B(t); tiered evidence confidence maps to measurement noise R; σ_B(t) is the direct actuarial uncertainty υ output).
+**Prior versions:** v0.1 (initial draft); v0.2 (aggregation rule, composition rule, §14 security-ops mapping); v0.3 (cardinal-score synthesis, seven architectural invariants, insurability as economic gate, compositional-enforcement pattern); v0.4 (pre-rating closed/open-world classifier, composition classes with sub-additive / super-additive / multiplicative / redundant mathematics, Invariant 7 as composition gate); v0.5 (Kalman extension — cardinal score becomes a filtered estimate B̂(t|t) ± σ_B(t); tiered evidence confidence maps to measurement noise R; σ_B(t) is the direct actuarial uncertainty υ output); v0.5.1 (§5.5 two worked examples — clinical and payments — added to make tuple values concrete; §12 observability strengthened to make its load-bearing role for BR-4/5 explicit; notation extracted to standalone [NOTATION.md](./NOTATION.md) for lookup use).
 
 ---
 
@@ -17,9 +17,10 @@ This framework is one of a set of documents in this repository:
 2. **[manifesto.md](./manifesto.md)** — the argument for why the framework must exist: insurer silence, regulator prose, pattern precedents.
 3. **[antipatterns.md](./antipatterns.md)** — negative reference: 26 named anti-patterns that inflate blast radius and commonly ship as "progress".
 4. **[insurability.md](./insurability.md)** — economic/actuarial companion: why insurability cuts faster than regulation, λ/σ/υ mapping.
-5. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Gagne's multi-agent drift corpus (the empirical catalyst), prior published work, and intellectual background.
+5. **[NOTATION.md](./NOTATION.md)** — standalone lookup reference: every symbol, every tier, every class definition. Use when checking a definition without re-reading the framing.
+6. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Gagne's multi-agent drift corpus (the empirical catalyst), prior published work, and intellectual background.
 
-Read (1) for rating, (2) for the argument, (3) for diligence, (4) for market access, (5) for attribution.
+Read (1) for rating, (2) for the argument, (3) for diligence, (4) for market access, (5) for fast reference, (6) for attribution.
 
 ---
 
@@ -260,6 +261,54 @@ A system failing Invariant 1 or 2 cannot produce σ_B(t). It retains an ordinal 
 
 **Honesty note.** Implementations of the Kalman extension are under way in a private reference implementation; public deployer implementations at the time of v0.5 are limited. Until Phase 1 lands in a deployer's environment, σ_B(t) is a theoretical construct; claims of σ_B(t) without implementation are overstating.
 
+### 5.5 Two worked examples
+
+Two narrative examples that show the tuple, the aggregation, and the interaction overrides in action. Both are closed-world (§4.0) systems — the framework does not pretend that architecture alone drops a high-consequence domain into BR-1. Both come out genuinely high-class because the domain is inherently high-consequence. The framework's job is to rate the domain honestly, not to paper over it.
+
+Machine-readable versions of both profiles can be generated against the JSON Schema in [`spec/`](./spec/). Worked example profiles already in the repo include a closed-world BR-2 (legal citation review) and an open-world BR-4 (NL-coupled research assistant) — see [`spec/examples/`](./spec/examples/).
+
+#### 5.5.1 Clinical — oncology triage advisor
+
+A closed-world ontology-bounded assistant that ingests imaging, labs, and patient history and drafts treatment-plan recommendations. Output is advisory; oncologists review and approve before any action. The system integrates with PACS, EHR, and laboratory information systems. A PACT-style clinical ontology pack bounds what concepts can exist; the normalisation layer rejects inputs that don't resolve to a concept.
+
+**Tuple:** A2–R3–C3–V3–K4-S–O4
+
+- **A2 (draft actions with approval)** — the system never acts; it prepares draft recommendations
+- **R3 (enterprise, multi-system)** — PACS + EHR + LIS integration across a hospital's systems
+- **C3 (typed workflow chain)** — evidence pipeline from ingestion through template selection is typed; no NL peer coupling
+- **V3 (reversible within days)** — drafts are editable before the oncologist signs, but once entered in the record the draft is part of the chart
+- **K4-S (safety/clinical)** — misrecommendation can delay or misdirect treatment
+- **O4 (architectural invariants at runtime)** — ontology-firewall membership checks, policy-snapshot binding, and dual-gaze drift monitoring all enforced in code
+
+**Aggregation.** Base = max over axes = BR-4, driven by K4-S and O4. Interaction overrides: rule 1 (C4a/b + V≥3) does not fire (C3); rule 2 (A≥3 + K4) does not fire (A2); rule 3 (R4 + O≤1) does not fire. The O4 + V≤2 demotion rule cannot fire because V=V3. **Final class: BR-4.**
+
+**Cardinal score** (if Kalman Phase 1 is deployed): B̂(t|t) is low because evidence tier is forensic (signed imaging DICOM + signed lab reports) giving low R_K and tight σ_B. A BR-4 system with a small σ_B is the *pricing-friendly* BR-4 — the one a specialist underwriter will quote rather than decline.
+
+**Reading.** Even a well-designed, closed-world, architecturally-enforced clinical assistant sits at BR-4 because the consequence domain (clinical safety) puts it there. The framework does not pretend otherwise. Governance at BR-4 is the cost of operating in clinical, not evidence of poor architecture.
+
+#### 5.5.2 Payments — cross-border instant-payment corridor agent
+
+A closed-world agent that receives an instant SEPA SCT-inst instruction at an originating bank, determines the FX rate and routing, passes through a correspondent, and settles at the receiving bank. PACT pack encodes ISO 20022 canonical forms. aARP routes between the banks. Evidence envelope (OBO-shaped, externally anchored) records the chain. One legacy correspondent requires a free-text description field that is fed back to the agent's reasoning layer.
+
+**Tuple:** A3–R4–C4a–V4–K4-R–O4
+
+- **A3 (bounded execution)** — the agent executes within a declared amount/corridor ceiling
+- **R4 (external, regulated, third-party)** — cross-border, multiple legal entities, public payment rails
+- **C4a (NL-coupled peers)** — three of four hops are aARP-typed but the legacy correspondent injects free-text that breaks the typed boundary on that hop
+- **V4 (practically irreversible)** — once settled, cross-border FX has no clawback; disputes route through correspondent banking
+- **K4-R (regulated/systemic)** — financial regulator obligations under PSD3 + AML + FATF
+- **O4** — drift, policy-snapshot, and rubric compliance all monitored in real time
+
+**Aggregation.** Base = max over axes = BR-4. Interaction overrides: rule 1 fires — C4a + V4 promotes one class to **BR-5**. Rule 2 also fires — A3 + K4 sets a minimum of BR-4 (already exceeded). Rule 3 does not fire (R4 + O4 is fine). O4 demotion rule blocked by V4.
+
+**Final class: BR-5.**
+
+**Cardinal score.** If δ_adv on the legacy free-text hop is +1 (analysed, mitigated but not structurally closed), some weight of evidence is documentary on that hop; B̂(t|t) increases and σ_B inflates on the legacy-hop component. The Kalman extension makes the cost of the single legacy interface quantifiable.
+
+**Reading.** This is the most useful example. Three of four hops are architecturally exemplary — typed aARP routing, OBO-anchored evidence, closed-world ontology, forensic-tier evidence on the modern side. *One* legacy free-text interface is enough to promote the entire corridor from BR-4 to BR-5 via Invariant 7 (bounded coupling) failing partially on that hop. The framework surfaces that the marginal architectural weakness (one NL interface in an otherwise typed chain) changes the regulatory and insurability posture of the whole corridor. A remediation programme that closes that interface moves the system from BR-5 back to BR-4, which is a material change in premium and oversight burden.
+
+**Why both land at BR-4+ honestly.** Closed-world architecture is necessary, not sufficient, for low BR. The framework rates the system's combination of domain consequence, architectural enforcement, composition topology, reversibility, and evidence. Good architecture lets a high-consequence system be *rateable* at BR-4/5 — without it, the same domain is unrateable, which per §4.0 floors at BR-4 and per §14 is commercially uninsurable.
+
 ## 6. Modifiers
 
 ### 6.1 Attack-accessibility (δ_adv)
@@ -461,13 +510,17 @@ Blast radius is not additive. Moderate authority plus high coupling plus low rev
 
 ## 12. The observability gap
 
-Agentic systems may pass monitoring checks, show stable metrics, and appear to improve — while system state has crossed failure thresholds. Blast radius can expand while the system appears healthy. Three practical consequences:
+Agentic systems may pass monitoring checks, show stable metrics, and appear to improve — while system state has crossed failure thresholds. Blast radius can expand while the system appears healthy.
+
+**Why this section is load-bearing, not closing-flourish.** Observability is the axis that makes BR-4 and BR-5 classes *rateable at all*. High-consequence, high-reach, high-coupling, low-reversibility systems cannot be bounded by policy alone; the bounding has to be checkable, continuously, at runtime. Without O ≥ 3, a BR-4 profile is an unverified claim; without O = 4 (architectural invariants checkable at runtime), a BR-5 claim is structurally un-auditable. The §5.4 Kalman extension's whole premise — that σ_B(t) can be computed and reduce to the actuarial υ — rests on observations actually arriving and being trustworthy, which is the O axis operationally. Invariants 1–5 of §9 are only *verifiable* at O ≥ 2 (replay) and only *architecturally enforceable* at O = 4. The observability axis is therefore the hinge between "system was rated" and "system can be proven to still match its rating". Treating it as a single axis among six understates how much everything else depends on it.
+
+**Three practical consequences:**
 
 1. **Coarse telemetry is not observability.** O1 does not surface drift in the C-axis or emergent coupling in the R-axis.
 2. **Post-hoc auditability is not runtime observability.** O2 supports incident review, not real-time intervention.
 3. **O4 requires architectural invariants.** To observe that a capability boundary is still enforced, the boundary must be machine-checkable, not only documented.
 
-Reframe: observability is not "can we investigate an incident" but "would we know, now, that the system is outside its rated profile".
+**Reframe:** observability is not "can we investigate an incident" but "would we know, now, that the system is outside its rated profile". For BR-4/5 systems this question must have a positive answer within seconds or minutes, not days. That is what distinguishes an insurable BR-5 deployment from a regulatorily-compliant-but-uninsurable one.
 
 ## 13. Mapping to security operations
 
@@ -618,106 +671,11 @@ v0.3 delivers these pieces. The minimum shape is disciplined: six axes, three mo
 
 ## 21. Notation and variable reference
 
-The framework uses notation drawn from three traditions (rating vocabularies, actuarial science, Kalman filtering). Three letters are overloaded — the rating axes `A`, `R`, `K` collide with Kalman matrix conventions for state-transition, measurement-noise-covariance, and gain. This appendix collates every symbol and explicitly disambiguates the collisions.
+The full notation reference — every symbol, every tier value, every class definition, with explicit handling of the A / R / K axis-vs-Kalman collisions — lives as a standalone lookup document at **[NOTATION.md](./NOTATION.md)**.
 
-### 21.1 Rating axes and tiers
+That separation is deliberate. Prose documents (this one) are for reading linearly to understand the argument. Reference documents (NOTATION.md) are for quick lookup while building or auditing. A reader checking "what's BR-3 again?" or "is it C4a or C4b for stateless peers?" should not have to re-read §4 to find the answer.
 
-| Symbol | Meaning | Values |
-|---|---|---|
-| **A** | Authority axis | A0 observe / A1 recommend / A2 draft / A3 bounded execute / A4 open-ended execute |
-| **R** | Reach axis | R1 single system / R2 internal multi-system / R3 enterprise multi-tenant / R4 external or regulated |
-| **C** | Coupling axis | C1 isolated / C2 agent+tools / C3 typed workflow/chain / C4a NL-coupled peers / C4b shared-state or recursive |
-| **V** | Reversibility axis | V1 ≤ minutes / V2 ≤ hours / V3 ≤ days / V4 practically irreversible |
-| **K** | Consequence axis | K1 minor / K2 operational / K3-F financial, K3-L legal, K3-P privacy / K4-S safety, K4-R regulated/systemic, K4-F fundamental rights |
-| **O** | Observability axis | O0 none / O1 coarse telemetry / O2 action logs + replay / O3 real-time anomaly+drift / O4 O3 + architectural invariants checkable at runtime |
-
-### 21.2 Modifiers
-
-| Symbol | Meaning | Values |
-|---|---|---|
-| **δ_adv** | Attack-accessibility modifier | 0 analysed+closed / +1 known+mitigated / +2 unanalysed |
-| **τ** | Trajectory modifier | stable / expanding / drifting |
-
-### 21.3 Classes and topologies
-
-| Symbol | Meaning |
-|---|---|
-| **BR-1..BR-5** | Blast-radius classes: Contained / Managed / Expansive / Systemic / Intolerable-without-formal-governance |
-| **T1** | Composition topology: sub-additive — closed-world narrow fail-closed chain |
-| **T2** | Composition topology: super-additive — open-world NL-coupled chain (correlated-failure regime) |
-| **T3** | Composition topology: multiplicative — defence-in-depth attack composition |
-| **T4** | Composition topology: exponential-reducing — voting / parallel redundancy with genuine independence |
-
-### 21.4 Actuarial variables
-
-| Symbol | Meaning |
-|---|---|
-| **λ** | Frequency — how often failures occur |
-| **σ** | Severity — damage distribution per failure |
-| **υ** | Uncertainty in λ and σ estimates. In v0.5, υ ≡ σ_B(t) (direct Kalman output). |
-
-### 21.5 Cardinal score (§5.2, §5.4)
-
-| Symbol | Meaning |
-|---|---|
-| **B(t)** | Expected Compliance Risk at time t — v0.3 point estimate |
-| **B̂(t\|t)** | Kalman-filtered estimate of B(t) given observations up to time t — v0.5 |
-| **σ_B(t)** | Standard deviation of B̂(t\|t); identified with actuarial υ |
-| **w** | Weight vector w = [w_a, w_r, w_c, w_v, w_k, w_o]ᵀ — per-axis weights |
-| **wᵀ** | Transpose of w (row vector) |
-| **k** (scalar) | Multiplier in adaptive threshold `baseline + k · σ_B(t)`; typically 2 (≈95%) or 3 (≈99.7%) under Gaussian assumption. Distinct from Kalman gain K_K. |
-
-### 21.6 Kalman state-space model (§5.4)
-
-Disambiguated with subscript `_K` to avoid collision with rating axes.
-
-| Symbol | Meaning |
-|---|---|
-| **x(t)** | Latent compliance state vector at time t |
-| **x̂(t\|t−1)** | A priori state estimate — before observing y(t) |
-| **x̂(t\|t)** | A posteriori state estimate — after observing y(t) |
-| **P(t\|t−1)** | A priori covariance of x̂ |
-| **P(t\|t)** | A posteriori covariance of x̂ |
-| **y(t)** | Observation vector at time t (rubric evaluations, tool-call outcomes, evidence submissions) |
-| **A_K** | State-transition matrix. **Collision warning**: this is *not* the Authority axis A. |
-| **H** | Observation matrix: mapping from state to observation |
-| **Hᵀ** | Transpose of H |
-| **Q** | Process-noise covariance matrix — prior on how fast the state can shift between observations |
-| **R_K** | Measurement-noise covariance matrix. **Collision warning**: this is *not* the Reach axis R. Calibrated from evidence tiers: forensic tier → low R_K (high trust), minimal tier → high R_K (low trust). |
-| **K_K(t)** | Kalman gain at time t. **Collision warning**: this is *not* the Consequence axis K. Quantifies weight of evidence. |
-| **I** | Identity matrix of matching dimension |
-
-### 21.7 Composition-math variables (§7.2)
-
-| Symbol | Meaning |
-|---|---|
-| **Rᵢ** | Per-component failure probability (0 ≤ Rᵢ ≤ 1). *Not the Reach axis R.* |
-| **BRᵢ** | Per-component blast radius class |
-| **n** | Chain length (number of components) |
-| **P_bypass,ᵢ** | Per-layer attack bypass probability in T3 defence-in-depth (0 ≤ P_bypass,ᵢ ≤ 1) |
-| **ρ** | Correlation coefficient between component failures in T2 (−1 ≤ ρ ≤ 1) |
-| **k** (composition) | Quorum threshold in T4 voting — number of components that must agree |
-| **∏**, **Σ** | Product and sum over components (i = 1..n) |
-
-### 21.8 Statistical / sensitivity analysis
-
-| Symbol | Meaning |
-|---|---|
-| **Sobol index** | Variance-based sensitivity index. Used to identify which defence layer contributes most to residual risk in defence-in-depth compositions (§11, §15). |
-
-### 21.9 Collision summary
-
-Three letters are overloaded because rating-axis conventions and Kalman-filtering conventions independently use the same letters. This framework disambiguates as follows:
-
-| Letter | As rating axis | As Kalman matrix (written with `_K` in §5.4 and this appendix) |
-|---|---|---|
-| **A** | Authority axis (§4.2) | A_K — state-transition matrix |
-| **R** | Reach axis (§4.3) | R_K — measurement-noise covariance matrix |
-| **K** | Consequence axis (§4.6) | K_K — Kalman gain |
-
-Outside §5.4 and §21.6, unqualified `A`, `R`, `K` always mean the rating axes. Inside the Kalman derivation, the subscripted forms are used consistently. In equations where ambiguity would be catastrophic (the filter equations themselves), the subscripted forms are used even in §5.4 to avoid reader error.
-
-The collision is unavoidable if the framework wants to keep both conventions native to their tradition. The alternative — renaming either set — would confuse readers arriving from either direction. Explicit subscripting is the lesser evil.
+NOTATION.md is authoritative for tier enums, class definitions, and the collision-disambiguation rules. If this section (§21) and NOTATION.md ever disagree, NOTATION.md is correct and this section should be updated to match.
 
 ---
 
