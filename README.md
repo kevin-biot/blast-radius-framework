@@ -15,7 +15,7 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 3. **[antipatterns.md](./antipatterns.md)** — 26 named anti-patterns that inflate blast radius and currently ship as "progress". Use for vendor diligence.
 4. **[insurability.md](./insurability.md)** — actuarial companion mapping the framework onto specialist underwriter requirements (Munich Re aiSure, AIUC-1, Armilla/Lloyd's) and the λ/σ/υ variables their pricing needs.
 5. **[spec/](./spec/)** — machine-readable conformance artefacts: JSON Schema for BR profiles, per-invariant test specifications, signed-attestation format, worked examples. This is what makes the framework adoptable, not just readable.
-6. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to François Gagné's multi-agent drift corpus (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, a private reference implementation whose architectural primitives are generalised here, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
+6. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Jason Gagne's multi-agent drift corpus (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, a private reference implementation whose architectural primitives are generalised here, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
 
 ## Reading guide by role
 
@@ -29,7 +29,7 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 | Insurer / underwriter | `framework.md` §§5, 9, 14; `insurability.md` entire |
 | Regulator | `framework.md` §§4, 9, 10, 13, 14; `insurability.md` §4 Quadrant mapping; `manifesto.md` §§8–9 on composition with eIDAS / PSD2 / Basel |
 | Anyone asking "why does this exist?" | `manifesto.md` — the argument, read standalone |
-| Anyone asking "who did the empirical work?" | `ACKNOWLEDGEMENTS.md` — François Gagné's multi-agent drift corpus is the empirical catalyst; cite Gagné 2026 (DOI 10.5281/zenodo.19103616) whenever using Invariant 7 or the C4a claims |
+| Anyone asking "who did the empirical work?" | `ACKNOWLEDGEMENTS.md` — Jason Gagne's multi-agent drift corpus is the empirical catalyst; cite Gagne 2026 (DOI 10.5281/zenodo.19103616) whenever using Invariant 7 or the C4a claims |
 
 ## Status
 

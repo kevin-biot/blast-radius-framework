@@ -9,7 +9,7 @@
 - [framework.md](./framework.md) (rating framework, v0.5)
 - [manifesto.md](./manifesto.md) (the argument)
 - [insurability.md](./insurability.md) (actuarial companion)
-- [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) (credits — Gagné's multi-agent drift corpus, prior published work, private reference implementation)
+- [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) (credits — Gagne's multi-agent drift corpus, prior published work, private reference implementation)
 
 ---
 
@@ -247,7 +247,7 @@ The positive reference for this section is **SAPP (Settlement Anchor Protocol Pl
 
 **Mechanism.** The system *logs* that a violation occurred but did not *prevent* it. Governance is a forensic activity rather than an enforcement activity.
 
-**Why it fails.** By the time the log is reviewed, the unsafe action has happened. In agentic systems with fast-onset drift (Gagné's multi-agent drift corpus shows collapse inside the baseline-establishment window, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)), post-hoc logging is structurally incapable of preventing harm. A log is not a control.
+**Why it fails.** By the time the log is reviewed, the unsafe action has happened. In agentic systems with fast-onset drift (Gagne's multi-agent drift corpus shows collapse inside the baseline-establishment window, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)), post-hoc logging is structurally incapable of preventing harm. A log is not a control.
 
 **Axis damage.** O non-zero but effective V collapses. The framework's §9 at BR-4+ requires *preventive* controls that are architectural, not only detective.
 

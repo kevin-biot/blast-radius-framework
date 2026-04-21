@@ -405,12 +405,12 @@ Tests are cumulative: BR-4 systems must pass all BR-3 tests plus additional ones
 
 **Procedure:**
 1. Identify the system's drift detection mechanism and its baseline-establishment window
-2. Measure the system's median time-to-collapse under an adversarial scenario (e.g. Gagné-style drift injection)
+2. Measure the system's median time-to-collapse under an adversarial scenario (e.g. Gagne-style drift injection)
 3. Compare: does the monitor detect collapse before it happens?
 
 **Pass criterion:**
 - T1 substrate: monitor lead time ≥ 0 (any detection is useful because collapse propagation is bounded)
-- T2 substrate: monitor lead time ≥ baseline-establishment window. If the window is 3 turns and collapse happens at turn 10, lead time = 7. Under Gagné-replicated conditions, monitors typically fail this test (lead time < 0; collapse inside window). Failing this test means T2 substrates cannot claim Invariant 7 on monitoring alone — only architectural elimination of NL coupling satisfies the invariant.
+- T2 substrate: monitor lead time ≥ baseline-establishment window. If the window is 3 turns and collapse happens at turn 10, lead time = 7. Under Gagne-replicated conditions, monitors typically fail this test (lead time < 0; collapse inside window). Failing this test means T2 substrates cannot claim Invariant 7 on monitoring alone — only architectural elimination of NL coupling satisfies the invariant.
 
 **Enforcement mode implied:** architectural for T2; procedural may suffice for T1.
 

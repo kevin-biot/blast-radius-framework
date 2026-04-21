@@ -164,7 +164,7 @@ The 2025 piece does not name observability as an invariant explicitly. It assume
 
 The 2025 piece does not call out coupling (C-axis) explicitly. The blast-radius framework treats C as the dominant non-linearity source (v0.2 §5 interaction override 1: C4a/C4b + V≥3 promotes one class).
 
-**Framework position:** C is the axis with the most empirical evidence (Gagné's multi-agent drift corpus, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md); replication against it shows fast-onset drift). The 2025 piece was written before that evidence was collected. v0.3 adds coupling as a seventh invariant: *"bounded coupling"* — agent-to-agent and workflow-chain interactions must be typed and bounded, not NL-coupled.
+**Framework position:** C is the axis with the most empirical evidence (Gagne's multi-agent drift corpus, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md); replication against it shows fast-onset drift). The 2025 piece was written before that evidence was collected. v0.3 adds coupling as a seventh invariant: *"bounded coupling"* — agent-to-agent and workflow-chain interactions must be typed and bounded, not NL-coupled.
 
 ## 7. The combined picture
 

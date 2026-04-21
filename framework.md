@@ -17,7 +17,7 @@ This framework is one of a set of documents in this repository:
 2. **[manifesto.md](./manifesto.md)** — the argument for why the framework must exist: insurer silence, regulator prose, pattern precedents.
 3. **[antipatterns.md](./antipatterns.md)** — negative reference: 26 named anti-patterns that inflate blast radius and commonly ship as "progress".
 4. **[insurability.md](./insurability.md)** — economic/actuarial companion: why insurability cuts faster than regulation, λ/σ/υ mapping.
-5. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Gagné's multi-agent drift corpus (the empirical catalyst), prior published work, and intellectual background.
+5. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Gagne's multi-agent drift corpus (the empirical catalyst), prior published work, and intellectual background.
 
 Read (1) for rating, (2) for the argument, (3) for diligence, (4) for market access, (5) for attribution.
 
@@ -29,7 +29,7 @@ Tool-enabled large language models have shifted AI systems from bounded reasonin
 
 The central claim, from architecture, regulation, and actuarial science converging: **system architecture, not model capability, determines operational risk**. Blast radius must be designed, not discovered. Systems that cannot populate the framework's tuple cannot be priced by specialist underwriters (Munich Re aiSure, AIUC, Armilla via Lloyd's), cannot meet EU AI Act Article 12 / 15 obligations, and should not be deployed in regulated sectors regardless of their model-layer evaluation scores.
 
-v0.3 integrated three advances: the seven-invariant synthesis (six from prior published insurability work; seventh — *bounded coupling* — from Gagné's multi-agent drift corpus on fast-onset drift, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the cardinal score (Expected Compliance Risk extended over all six axes); and the compositional-enforcement pattern, exemplified by ontology-as-firewall with Bayesian validation.
+v0.3 integrated three advances: the seven-invariant synthesis (six from prior published insurability work; seventh — *bounded coupling* — from Gagne's multi-agent drift corpus on fast-onset drift, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the cardinal score (Expected Compliance Risk extended over all six axes); and the compositional-enforcement pattern, exemplified by ontology-as-firewall with Bayesian validation.
 
 v0.4 added composition discipline: a pre-rating classifier separating **closed-world** (ontology-bounded) systems from **open-world** (NL-unbounded) systems, and four composition classes with explicit mathematics — sub-additive for bounded chains, super-additive for NL-coupled chains, multiplicative for defence-in-depth, exponential-reducing for voting redundancy. The framework now refuses to rate an open-world system below BR-4 regardless of per-axis scores, because Invariant 7 (bounded coupling) is structurally impossible in that substrate.
 
@@ -75,7 +75,7 @@ Before the six-axis tuple is assigned, each component of the system must be clas
 - BR-2 and BR-3 claims require every component to be closed-world
 - An open-world-to-closed-world interface counts as open-world for composition (§7.2)
 
-**Why a pre-rating gate, not a modifier.** The empirical evidence from Gagné's multi-agent drift corpus[^1] is clear: collapse in open-world NL-coupled substrates happens inside the baseline-establishment window of any runtime monitor. BR-2/BR-3 would imply monitoring-based governance can contain the risk; the evidence says it cannot. Classifying worldview first prevents the common failure mode where a system is rated BR-3 on per-axis scoring while sitting architecturally in the regime where the ratings are meaningless.
+**Why a pre-rating gate, not a modifier.** The empirical evidence from Gagne's multi-agent drift corpus[^1] is clear: collapse in open-world NL-coupled substrates happens inside the baseline-establishment window of any runtime monitor. BR-2/BR-3 would imply monitoring-based governance can contain the risk; the evidence says it cannot. Classifying worldview first prevents the common failure mode where a system is rated BR-3 on per-axis scoring while sitting architecturally in the regime where the ratings are meaningless.
 
 With worldview set, a system is expressed as the tuple **A–R–C–V–K–O**.
 
@@ -106,7 +106,7 @@ Reach has two sub-components: *systems touched* (lateral propagation) and *princ
 - **C4a** Multi-agent with NL-coupled peers, no shared state
 - **C4b** Multi-agent with shared state or recursive composition
 
-The C4a / C4b split is material: empirical work on multi-agent drift (Gagné 2026[^1], replicated against the Sentinel corpus) shows phase transitions in the C4a regime within typical baseline-establishment windows. Stateless NL-coupling is not safe simply because no state is shared.
+The C4a / C4b split is material: empirical work on multi-agent drift (Gagne 2026[^1], replicated against the Sentinel corpus) shows phase transitions in the C4a regime within typical baseline-establishment windows. Stateless NL-coupling is not safe simply because no state is shared.
 
 ### 4.4 Reversibility (V)
 
@@ -386,7 +386,7 @@ Deny by default. Execution requires explicit cryptographic verification of evide
 
 Agent-to-agent and workflow interactions must be typed and bounded. NL-coupled peers (C4a) and shared-state/recursive peers (C4b) violate this unless mediated by typed protocol with fail-closed defaults.
 
-**Why added.** Gagné's multi-agent drift corpus (Gagné 2026[^1]): in the C4a regime, governance-signal crossings occur at window ≤ 3 of 10 in 20 of 23 experiments under monitoring-apparatus replication — i.e. collapse happens inside the baseline-establishment window of any runtime monitor. Invariants 1–6 are insufficient if coupling is unbounded because monitoring races and loses.
+**Why added.** Gagne's multi-agent drift corpus (Gagne 2026[^1]): in the C4a regime, governance-signal crossings occur at window ≤ 3 of 10 in 20 of 23 experiments under monitoring-apparatus replication — i.e. collapse happens inside the baseline-establishment window of any runtime monitor. Invariants 1–6 are insufficient if coupling is unbounded because monitoring races and loses.
 
 **Supports:** C axis (directly), A (bounded coupling makes authority grants meaningful), O (monitoring is only useful if substrate is bounded).
 **Anti-pattern complement:** A1 (A2A), A3 (MCP without composition), A6 (CrewAI/AutoGen default persona+NL), A7 (LLM-as-judge).
@@ -572,12 +572,12 @@ v0.3 delivers these pieces. The minimum shape is disciplined: six axes, three mo
 
 ---
 
-[^1]: Gagné, F. (2026). *Behavioral Drift in Multi-Agent LLM Systems: Emergent Failure Modes, Cascade Dynamics, and Measurement Challenges.* Preprint, DOI: [10.5281/zenodo.19103616](https://doi.org/10.5281/zenodo.19103616). The empirical basis for C4a phase transitions, fast-onset drift, and Invariant 7 (bounded coupling). See [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) for full attribution.
+[^1]: Gagne, J. (2026). *Behavioral Drift in Multi-Agent LLM Systems: Emergent Failure Modes, Cascade Dynamics, and Measurement Challenges.* Preprint, DOI: [10.5281/zenodo.19103616](https://doi.org/10.5281/zenodo.19103616). The empirical basis for C4a phase transitions, fast-onset drift, and Invariant 7 (bounded coupling). See [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md) for full attribution.
 
-[^2]: Monitor-vs-substrate analysis against Gagné's corpus: 20 of 23 experiments replicated show governance-signal crossings at window ≤ 3 of 10 under the monitoring-apparatus replication. Substrate property, not apparatus limitation.
+[^2]: Monitor-vs-substrate analysis against Gagne's corpus: 20 of 23 experiments replicated show governance-signal crossings at window ≤ 3 of 10 under the monitoring-apparatus replication. Substrate property, not apparatus limitation.
 
 [^3]: Private reference implementation — Bayesian Threat Model for Indirect Prompt Injection (Beta-distributed per-layer priors) combined with IPI Defence Validation (compound bypass ≈ 10⁻¹⁹ under the model's independence assumptions). The analytical method is portable; the figure is illustrative. Basis for the compositional-enforcement pattern (§15). Credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md).
 
-[^4]: Brown, K. (2025). *The Insurability Gap: Why Nondeterministic AI Is Structurally Uninsurable, and What Changes When Architecture Produces Evidence Invariants.* Prior published work; six invariants of §9 derive from this. v0.3 adds Invariant 7 (bounded coupling) from Gagné-era evidence post-dating the 2025 publication.
+[^4]: Brown, K. (2025). *The Insurability Gap: Why Nondeterministic AI Is Structurally Uninsurable, and What Changes When Architecture Produces Evidence Invariants.* Prior published work; six invariants of §9 derive from this. v0.3 adds Invariant 7 (bounded coupling) from Gagne-era evidence post-dating the 2025 publication.
 
-[^5]: Gagné, F. (2026). *The Behavioral Sufficiency Problem: Why AI Governance Frameworks, Modeled on Human Regulatory Theory, Cannot Operate Without the Cultural and Social Infrastructure That Co-Evolved Alongside Human Law.* SSRN Preprint. Governance-theoretic argument complementing the Behavioral Drift empirics.
+[^5]: Gagne, J. (2026). *The Behavioral Sufficiency Problem: Why AI Governance Frameworks, Modeled on Human Regulatory Theory, Cannot Operate Without the Cultural and Social Infrastructure That Co-Evolved Alongside Human Law.* SSRN Preprint. Governance-theoretic argument complementing the Behavioral Drift empirics.
