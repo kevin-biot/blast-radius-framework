@@ -2,6 +2,27 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## framework v0.5.8 — 2026-04-21 (authoring-notes added: epistemic-partner force function as explicit method)
+
+**New artefact.** [`authoring-notes.md`](./authoring-notes.md) at repo root documents the **human-domain-holder + AI-epistemic-partner force-function method** under which this repository and the Lane2 self-assessment artefacts were produced. Transparent provenance of method alongside transparent provenance of content.
+
+The method, in one paragraph: AI produces candidate rating from visible evidence with a conservative default; human domain-holder points at under-attestations with minimal pointer prompts; AI is obligated to dig into specific repo files it had not opened; honest correction is published with a change-log entry + version bump; iterate until the human stops pointing. A lone AI under-claims because it cannot discover what it does not know to look for; a lone human has inside-view attachment; together with the force function the output converges on accurate.
+
+**Why publish this as a first-class artefact.** Two reasons:
+
+1. **Honest provenance.** Readers of the Lane2 self-assessment should know it was not produced by AI alone or by human alone. The seven-version correction chain (v1.0 → v1.5 across framework v0.5.2 → v0.5.7 in one day) documented in this CHANGELOG is evidence of the method operating. Each correction closed an under-attestation the AI could not have discovered without the domain-holder's pointer; each correction cited existing evidence more precisely.
+
+2. **Prescription for deployers.** A self-assessment produced by an AI alone is not a self-assessment — it is a generative approximation of what a self-assessment would look like if the architecture were knowable from the AI's accessible evidence. For BR-3+ attestations (specialist underwriter / regulator / auditor audience), the force-function discipline is not optional. `authoring-notes.md` gives deployers producing their own ratings the explicit method.
+
+**Counter to anti-patterns:**
+
+- **A14 (autonomy-slider / approval fatigue)** applied to assessment authoring becomes "AI drafts, busy human glances and ships, candidate becomes final". The force-function method is the demotion path.
+- **A7 (LLM-as-judge / recursive evaluation)** applied to assessment authoring becomes "AI assessment receives only AI review". The human domain-holder is the ground-truth gate.
+
+**No change to framework definitions, schema, axis enums, class definitions, composition topologies, or anti-pattern catalogue.** This release adds an artefact (authoring-notes.md) that operates at meta-level — describing how the repo was produced, not changing what it says.
+
+README extended to list `authoring-notes.md` as document 10, and reading guide extended with a row pointing at it for readers asking "how was this written? can I trust it?".
+
 ## framework v0.5.7 — 2026-04-21 (SAPP role-based API surface cited; backlog item 11 reframed; BR-4 floor analysis added)
 
 **Strengthens I2 and §3.3 SAPP component by citing the role-based evidence API surface.** Prior versions described SAPP abstractly as "externally-anchored Merkle-proof evidence with independent signing keys". Actual SAPP design provides a specific role-scoped API surface that converts the architectural claim into an auditable integration point:
