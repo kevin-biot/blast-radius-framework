@@ -152,12 +152,13 @@
     "I2": {
       "status": "holds",
       "enforcement_mode": "architectural",
-      "evidence_summary": "SAPP evidence layer produces externally-anchored Merkle-proof commitments with independent signing keys. Tamper-evident at rest and in transit. Demonstrable in the OBO A2A reference implementation: live public DNS trust anchor (_obo-key.lane2.ai IN TXT), Ed25519 keys, Merkle evidence via Evidence Anchor stub, seven captured test scenarios — third-party verifier can dig the DNS record and verify independently.",
+      "evidence_summary": "SAPP evidence layer produces externally-anchored Merkle-proof commitments with independent signing keys. Three-level proof chain: Evidence root (per-settlement) → Partition root (append-only audit tree, signed every 30s) → Global root (Ed25519-signed every 60s, published to EU Qualified Archive/QTSP every 15 minutes). Role-based evidence API surface (per Lane2 private SAPP specification, demonstrable under PoC): customer/consumer views via GET /evidence/{traceId} (bundle + confidence + liability + reason codes + proof); regulator endpoints GET /regulator/verify/{traceId} and GET /regulator/integrity, privacy-preserving (no consumer DIDs) and QTSP-verifiable. Regulators can verify full system integrity without accessing individual transaction data. Demonstrable in OBO A2A reference implementation with live public DNS trust anchor _obo-key.lane2.ai.",
       "evidence_references": [
         "framework.md §9 Invariant 2",
         "framework.md §15 compositional enforcement pattern",
         "spec/attestation-format.md",
-        "kevin-biot/obo-standard examples/integrations/a2a/ (runnable reference implementation)"
+        "kevin-biot/obo-standard examples/integrations/a2a/ (runnable reference implementation)",
+        "Lane2 SAPP role-based evidence API surface (private specification; extraction to public doc is backlog item 11)"
       ]
     },
     "I3": {

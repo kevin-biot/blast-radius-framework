@@ -2,6 +2,36 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## framework v0.5.7 — 2026-04-21 (SAPP role-based API surface cited; backlog item 11 reframed; BR-4 floor analysis added)
+
+**Strengthens I2 and §3.3 SAPP component by citing the role-based evidence API surface.** Prior versions described SAPP abstractly as "externally-anchored Merkle-proof evidence with independent signing keys". Actual SAPP design provides a specific role-scoped API surface that converts the architectural claim into an auditable integration point:
+
+- `POST /settlements` — evidence submission (caller signs assertions; SAPP anchors hashes into Merkle tree)
+- `GET /evidence/{traceId}` — customer-care and consumer view: bundle + scored confidence + liability allocation + machine-readable reason codes + proof chain
+- `GET /evidence/{traceId}/proof` — three-level Merkle proof: evidence root → partition root → global root
+- `GET /regulator/verify/{traceId}` — regulator endpoint, privacy-preserving (no consumer DIDs exposed); returns chain_verified + global_root match against QTSP-published root + jurisdiction_overlap
+- `GET /regulator/integrity` — Ed25519-signed global root verifiable against QTSP public key; full system integrity check without accessing any individual transaction data
+
+Three-level Merkle proof chain (Evidence root per settlement → Partition root signed every 30s → Global root Ed25519-signed every 60s, published to EU Qualified Archive / QTSP every 15 minutes). This is the public verifiability path for regulators and underwriters.
+
+**Item 11 reframed.** v0.5.6 framed item 11 as "Publish enough of the runtime invariant-checking logic (or its specification) that an external auditor can verify O4 publicly" with quarter effort. That misunderstood the scope — the APIs and the runtime-check logic already exist and produce publicly-verifiable outputs (QTSP-published roots, regulator-queryable integrity endpoints). The remaining work is *extraction of the specification* to a public document (candidate: `sapp-public` sibling repo or extension of `spec/attestation-format.md` in this repo with the full role-based API spec). Reduced to weeks effort, P3 priority.
+
+**§7 demotion-rule analysis added.** Explicit statement that BR-4 is the architecturally minimum-achievable class for this consequence domain: Rule 2 (A ≥ 3 + K4 → minimum BR-4) is a floor, not a cap; even with all components at O4 + V ≤ 2 + all invariants holding (the O4 demotion eligibility condition), the floor prevents demotion below BR-4. Moving to BR-3 would require entering a lower-consequence domain, not improving the architecture. This is the correct reading of the framework's interaction-override rules and should be explicit in the rating.
+
+**Artefacts updated:**
+
+- `self-assessment.md` §3.3 SAPP component: O axis rating unchanged (O4) but justification expanded with role-based API surface
+- `self-assessment.md` §5 I2: evidence-summary strengthened with three-level Merkle proof chain detail + role-based API surface; EU AI Act mapping extended to Art. 26(6), 72, 73
+- `self-assessment.md` §7 aggregation: demotion-rule analysis added
+- `self-assessment.md` §11 footer: version bumped to v1.5 with full change chain
+- `self-assessment.json` I2: evidence_summary and evidence_references strengthened
+- `self-assessment-exec-summary.md` §2.1: adds a paragraph naming the role-based API surface as the integration point for underwriters and regulators
+- `self-assessment-adr-backlog.md` item 11: reframed from "publish runtime invariant-checking logic" (quarter, was P3) to "extract SAPP role-based API specification to public documentation" (weeks, P3). Explicit note that v0.5.6 misunderstood the scope.
+
+**No change to framework definitions, schema, axis enums, class definitions, composition topologies, or anti-pattern catalogue.**
+
+**Honesty-chain status:** seven same-day corrections to self-assessment (v1.0 → v1.5 across v0.5.2 → v0.5.7). Pattern continues: iterative under-attestation discovery on Lane2's own architecture. Each correction strengthens credibility by citing existing evidence more precisely rather than silently strengthening or quietly weakening the rating.
+
 ## framework v0.5.6 — 2026-04-21 (A15 attestation corrected; tool-layer architectural separation documented)
 
 **Corrects A15 (prompt-injection-as-feature) attestation and backlog item 10 after review of pact-public architecture docs.**

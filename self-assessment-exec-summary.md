@@ -28,7 +28,11 @@ Three concrete impacts, decreasing order of material consequence:
 
 ### 2.1 Insurability posture is defensible but not yet priceable
 
-Lane2's architecture satisfies the specialist-underwriter minimum criteria (Munich Re aiSure, AIUC, Armilla/Lloyd's) at the structural level: reproducible decision trails, immutable evidence retention via SAPP, policy-snapshot coherence, bounded blast radius, fail-closed execution. This places Lane2 in the **coverable-with-conditions** category rather than the Verisk-2026-excluded category. However, the cardinal score B̂(t|t) ± σ_B(t) is not yet numerically produced because the Kalman extension implementation is at Phase 0 (theoretical). Underwriters will price conservatively against the ordinal BR-4 rating until Phase 1 lands and σ_B becomes numerically available.
+Lane2's architecture satisfies the specialist-underwriter minimum criteria (Munich Re aiSure, AIUC, Armilla/Lloyd's) at the structural level: reproducible decision trails, immutable evidence retention via SAPP, policy-snapshot coherence, bounded blast radius, fail-closed execution. This places Lane2 in the **coverable-with-conditions** category rather than the Verisk-2026-excluded category.
+
+SAPP specifically provides **role-based evidence APIs** that are the shape underwriters and regulators can consume without bespoke integration: customer-care and consumer verification via `GET /evidence/{traceId}` with scored bundles and machine-readable reason codes; regulator verification via `GET /regulator/verify/{traceId}` and `GET /regulator/integrity` with privacy-preserving, QTSP-anchored responses. Three-level Merkle proof chain published to EU Qualified Archive on 15-minute cycles. This is the integration surface that converts "we have anchored evidence" from an architectural claim into a verifiable API an auditor can hit.
+
+However, the cardinal score B̂(t|t) ± σ_B(t) is not yet numerically produced because the Kalman extension implementation is at Phase 0 (theoretical). Underwriters will price conservatively against the ordinal BR-4 rating until Phase 1 lands and σ_B becomes numerically available.
 
 **Business consequence:** pre-launch, the commercial case is "we are architecturally pricing-friendly BR-4, expected to move toward numerically priceable BR-4 within [PoC window]". Post-Phase-1, Lane2 becomes a reference data-point specialist underwriters can calibrate against.
 
