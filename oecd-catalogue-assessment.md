@@ -38,6 +38,8 @@ This assessment was produced against the following task list:
 
 Tasks 1 through 4 are completed in this note. Task 5 is completed as the prioritised roadmap in §7.
 
+The follow-on execution artefacts now live under [`adoption/`](./adoption/).
+
 ---
 
 ## 3. What the OECD catalogue is
@@ -204,7 +206,7 @@ The list below is the practical output of this assessment.
    Done in this file. Purpose: stop the repeated "does OECD already cover this?" question before it starts.
 
 2. **Add an external-tools mapping annex.**
-   New artefact to produce next:
+   Delivered as [`adoption/external-tools-mapping.md`](./adoption/external-tools-mapping.md):
    - external tool
    - evidence type produced
    - BRF axis / invariant / modifier supported
@@ -216,13 +218,13 @@ The list below is the practical output of this assessment.
 ### P1 — next companion artefacts
 
 4. **Build a BRF benchmark and test harness companion repo.**
-   Suggested shape:
+   Design note now in [`adoption/benchmark-harness-design.md`](./adoption/benchmark-harness-design.md). Suggested shape:
    - OpenEnv-style environment abstraction for realistic agent workflows
    - runner manifest per invariant and per archetype
    - signed result bundle output suitable for BR attestation attachment
 
 5. **Build questionnaire-to-profile conversion tooling.**
-   Input:
+   Design note now in [`adoption/questionnaire-profile-conversion.md`](./adoption/questionnaire-profile-conversion.md). Input:
    - structured answers to `framework.md §17`
    Output:
    - draft `br-profile.schema.json` payload
@@ -230,7 +232,7 @@ The list below is the practical output of this assessment.
    - warnings where answers are inconsistent
 
 6. **Define BRF component cards.**
-   Minimum card types:
+   Design note now in [`adoption/component-cards.md`](./adoption/component-cards.md). Minimum card types:
    - model card
    - dataset / corpus card
    - tool / integration card
@@ -239,6 +241,11 @@ The list below is the practical output of this assessment.
 ### P2 — translation and market adoption
 
 7. **Publish regulatory and assurance crosswalks.**
+   Delivered roadmap and first set now in [`adoption/crosswalks-roadmap.md`](./adoption/crosswalks-roadmap.md). Published crosswalks:
+   - [`adoption/crosswalk-nist-ai-rmf.md`](./adoption/crosswalk-nist-ai-rmf.md)
+   - [`adoption/crosswalk-iso-42001.md`](./adoption/crosswalk-iso-42001.md)
+   - [`adoption/crosswalk-eu-ai-act.md`](./adoption/crosswalk-eu-ai-act.md)
+   - [`adoption/crosswalk-specialist-underwriters.md`](./adoption/crosswalk-specialist-underwriters.md)
    Priority order:
    - NIST AI RMF
    - ISO/IEC 42001
@@ -260,7 +267,7 @@ The list below is the practical output of this assessment.
 ### P3 — ecosystem visibility
 
 10. **Submit BRF to the OECD catalogue.**
-    Candidate submission shape:
+    Plan now in [`adoption/oecd-visibility-plan.md`](./adoption/oecd-visibility-plan.md). Candidate submission shape:
     - procedural tool / rating framework
     - governance and compliance
     - risk management

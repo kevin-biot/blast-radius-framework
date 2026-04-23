@@ -3,7 +3,7 @@
 *Machine-readable artefacts that make the framework adoptable, not just readable.*
 
 **Spec version:** 0.1
-**Date:** 2026-04-21
+**Date:** 2026-04-23
 **For framework version:** 0.5
 
 ---
@@ -13,6 +13,7 @@
 `framework.md` describes the rating framework in prose. This is the spec. An auditor, deployer, underwriter, or regulator working against this directory can:
 
 - Validate a BR profile against a JSON Schema (`br-profile.schema.json`)
+- Validate a BRF component card against a JSON Schema (`component-card.schema.json`)
 - Run a defined conformance test per architectural invariant (`invariant-conformance-tests.md`)
 - Produce a signed, anchored, third-party-verifiable attestation (`attestation-format.md`)
 - Compare against two worked examples (`examples/`)
@@ -26,8 +27,11 @@ The spec is intentionally minimal. It specifies forms, not implementations. Refe
 | File | Purpose | Status |
 |---|---|---|
 | `br-profile.schema.json` | JSON Schema (draft 2020-12) for a complete BR profile — the data shape a deployer produces. | v0.1 — shape complete; open for field-level review |
+| `component-card.schema.json` | JSON Schema (draft 2020-12) for BRF component cards covering models, datasets/corpora, tools/integrations, dependencies, and evidence/anchor mechanisms. | v0.1 — initial component-documentation layer |
 | `invariant-conformance-tests.md` | Per-invariant empirical test specifications. Each test has an ID, procedure, pass criterion, and BR-class applicability. | v0.1 — 7 invariants × 3-4 tests each |
 | `attestation-format.md` | Signed + anchored attestation format. Canonical serialisation (JCS), signature algorithms, anchor types, verification procedure. | v0.1 — algorithms, procedures, skew tolerances |
+| `component-card-format.md` | Companion note explaining how component cards relate to BR profiles and attestations. | v0.1 |
+| `examples/example-component-card-tool-legal-db.json` | Worked example of a tool/integration component card linked to the closed-world BR-2 example profile. | Worked example |
 | `examples/example-profile-closed-world-br2.json` | A worked example of a closed-world BR-2 profile (legal citation review assistant). All invariants hold; cardinal score computed. | Worked example |
 | `examples/example-profile-open-world-br4.json` | A worked example of an open-world BR-4 profile (three-agent NL-coupled research assistant). Invariants mostly fail; cardinal score null. | Worked example showing how failure looks |
 
@@ -78,6 +82,8 @@ The spec is intentionally minimal. It specifies forms, not implementations. Refe
 **Honesty is machine-checkable.** A deployer filling out this schema honestly has no advantage over one filling it out dishonestly *unless* the attestation is verified against actual system behaviour. The test specifications in `invariant-conformance-tests.md` are what make self-attestation verifiable.
 
 **Composition is first-class.** The `composition` object and its `topology` field are required. You cannot claim a BR rating without naming how your components compose; you cannot name a composition without it forcing the mathematics per `framework.md §7.2`.
+
+**Component documentation is linkable.** Component cards provide a structured documentation layer for the models, datasets, tools, dependencies, and evidence mechanisms that sit underneath a BR profile. They do not replace the profile; they make it easier to audit.
 
 **Open-world is marked, not hidden.** The `components[].worldview` field is required. Any open-world component forces BR-4 minimum per `framework.md §4.0`. Deployers cannot claim BR-2 or BR-3 with open-world substrate regardless of how they paint other axes.
 

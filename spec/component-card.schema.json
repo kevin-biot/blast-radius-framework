@@ -1,0 +1,409 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kevin-biot/blast-radius-framework/spec/component-card.schema.json",
+  "title": "Blast Radius Component Card",
+  "description": "Machine-readable documentation card for a component that sits underneath a Blast Radius Framework profile or attestation. Component cards document models, datasets/corpora, tools/integrations, external dependencies, and evidence/anchor mechanisms in a way that is linkable from a BR profile.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "card_id",
+    "card_type",
+    "component_name",
+    "version",
+    "owner",
+    "status",
+    "last_reviewed_at",
+    "related_profile_ids",
+    "evidence_refs",
+    "limits",
+    "details"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "examples": ["0.1"]
+    },
+    "framework_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "examples": ["0.5"]
+    },
+    "card_id": {
+      "type": "string"
+    },
+    "card_type": {
+      "type": "string",
+      "enum": [
+        "model",
+        "dataset_corpus",
+        "tool_integration",
+        "dependency_attestation",
+        "evidence_anchor"
+      ]
+    },
+    "component_name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "owner": {
+      "$ref": "#/$defs/owner"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated", "retired"]
+    },
+    "last_reviewed_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "related_profile_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence_ref"
+      }
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "details": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "card_type": {
+            "const": "model"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "$ref": "#/$defs/model_details"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "card_type": {
+            "const": "dataset_corpus"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "$ref": "#/$defs/dataset_corpus_details"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "card_type": {
+            "const": "tool_integration"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "$ref": "#/$defs/tool_integration_details"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "card_type": {
+            "const": "dependency_attestation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "$ref": "#/$defs/dependency_attestation_details"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "card_type": {
+            "const": "evidence_anchor"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "$ref": "#/$defs/evidence_anchor_details"
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "owner": {
+      "type": "object",
+      "required": ["organisation_name"],
+      "properties": {
+        "organisation_id": {
+          "type": "string"
+        },
+        "organisation_name": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidence_ref": {
+      "type": "object",
+      "required": ["evidence_type", "uri"],
+      "properties": {
+        "evidence_type": {
+          "type": "string",
+          "enum": ["document", "trace", "log", "report", "test_result", "attestation", "anchor_proof", "other"]
+        },
+        "uri": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "model_details": {
+      "type": "object",
+      "required": [
+        "provider",
+        "model_family",
+        "system_role",
+        "allowed_authority_class",
+        "known_failure_modes",
+        "update_cadence"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "model_family": {
+          "type": "string"
+        },
+        "model_release": {
+          "type": "string"
+        },
+        "system_role": {
+          "type": "string"
+        },
+        "allowed_authority_class": {
+          "type": "string",
+          "enum": ["A0", "A1", "A2", "A3", "A4"]
+        },
+        "prompt_boundary_notes": {
+          "type": "string"
+        },
+        "adversarial_exposure_notes": {
+          "type": "string"
+        },
+        "known_failure_modes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "update_cadence": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "dataset_corpus_details": {
+      "type": "object",
+      "required": [
+        "source_type",
+        "provenance",
+        "collection_basis",
+        "retention_semantics",
+        "jurisdictions_represented"
+      ],
+      "properties": {
+        "source_type": {
+          "type": "string"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "collection_basis": {
+          "type": "string"
+        },
+        "retention_semantics": {
+          "type": "string"
+        },
+        "deletion_semantics": {
+          "type": "string"
+        },
+        "jurisdictions_represented": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "principal_populations_affected": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "known_bias_or_coverage_limits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "tool_integration_details": {
+      "type": "object",
+      "required": [
+        "target_system",
+        "capability_mode",
+        "action_class_ceiling",
+        "auth_model",
+        "rollback_semantics",
+        "logging_replay_support"
+      ],
+      "properties": {
+        "target_system": {
+          "type": "string"
+        },
+        "capability_mode": {
+          "type": "string",
+          "enum": ["read_only", "write_bounded", "write_open_ended", "mixed"]
+        },
+        "action_class_ceiling": {
+          "type": "string",
+          "enum": ["A0", "A1", "A2", "A3", "A4"]
+        },
+        "parameter_constraints_summary": {
+          "type": "string"
+        },
+        "auth_model": {
+          "type": "string"
+        },
+        "rollback_semantics": {
+          "type": "string"
+        },
+        "logging_replay_support": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependency_attestation_details": {
+      "type": "object",
+      "required": [
+        "external_party",
+        "dependency_type",
+        "worldview",
+        "reach_contribution",
+        "coupling_contribution"
+      ],
+      "properties": {
+        "external_party": {
+          "type": "string"
+        },
+        "dependency_type": {
+          "type": "string",
+          "enum": ["model_provider", "tool_provider", "data_provider", "orchestrator", "auditor", "anchor_service", "other"]
+        },
+        "worldview": {
+          "type": "string",
+          "enum": ["closed-world", "open-world", "mixed", "unknown"]
+        },
+        "reach_contribution": {
+          "type": "string"
+        },
+        "coupling_contribution": {
+          "type": "string"
+        },
+        "upstream_attestation_ref": {
+          "$ref": "#/$defs/evidence_ref"
+        },
+        "review_cadence": {
+          "type": "string"
+        },
+        "expiry": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidence_anchor_details": {
+      "type": "object",
+      "required": [
+        "evidence_type",
+        "signing_method",
+        "anchor_type",
+        "resolver_details",
+        "retention_policy",
+        "independent_verification_path"
+      ],
+      "properties": {
+        "evidence_type": {
+          "type": "string"
+        },
+        "signing_method": {
+          "type": "string"
+        },
+        "anchor_type": {
+          "type": "string"
+        },
+        "resolver_details": {
+          "type": "string"
+        },
+        "retention_policy": {
+          "type": "string"
+        },
+        "independent_verification_path": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

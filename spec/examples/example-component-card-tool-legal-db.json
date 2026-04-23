@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1",
+  "framework_version": "0.5",
+  "card_id": "tool-legal-citation-db-v1",
+  "card_type": "tool_integration",
+  "component_name": "Legal Citation Database Retrieval API",
+  "version": "1.0",
+  "owner": {
+    "organisation_name": "Fictional Legal Research Provider",
+    "contact": "support@example.org"
+  },
+  "status": "active",
+  "last_reviewed_at": "2026-04-23",
+  "summary": "Read-only legal citation retrieval API used by the closed-world BR-2 legal citation review assistant example profile.",
+  "related_profile_ids": [
+    "example-closed-world-br2"
+  ],
+  "evidence_refs": [
+    {
+      "evidence_type": "document",
+      "uri": "https://example.org/docs/legal-citation-db-api",
+      "notes": "Public API documentation describing read-only retrieval behavior."
+    }
+  ],
+  "limits": [
+    "This card documents the retrieval API surface only; it does not attest to the upstream dataset's legal accuracy or completeness.",
+    "This card does not by itself prove replayability or evidence binding in the consuming system."
+  ],
+  "details": {
+    "target_system": "Legal citation review assistant",
+    "capability_mode": "read_only",
+    "action_class_ceiling": "A1",
+    "parameter_constraints_summary": "Query terms limited to citation and case-reference retrieval parameters; no write operations exposed.",
+    "auth_model": "Service principal with read-only scoped token",
+    "rollback_semantics": "Not applicable to retrieval-only calls; no external state mutation occurs.",
+    "logging_replay_support": "Request/response pairs logged by the consuming system with deterministic query parameters for replay."
+  }
+}
