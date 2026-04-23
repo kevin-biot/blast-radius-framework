@@ -96,3 +96,12 @@ The highest-value first cards are:
 3. one evidence/anchor card for the evidence-verification path
 
 That sequence captures the components most likely to change blast radius or attestation credibility.
+
+## Validation
+
+Use the repo-local validator after installing it once:
+
+1. `./tools/install-jsonschema-local.sh`
+2. `python3 ./tools/validate_json_schema.py ./spec/component-card.schema.json ./spec/examples/example-component-card-tool-legal-db.json`
+
+The validator runtime is installed locally under `.tools/` and is not committed to the repository.

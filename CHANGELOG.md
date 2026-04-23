@@ -13,6 +13,7 @@ All notable changes to the Blast Radius Framework will be documented here. The f
 - Published the second crosswalk deliverable, [`adoption/crosswalk-iso-42001.md`](./adoption/crosswalk-iso-42001.md), translating BRF into ISO/IEC 42001 management-system terms using official ISO summary material. This is a management-system translation layer, not a certification claim.
 - Published the third crosswalk deliverable, [`adoption/crosswalk-eu-ai-act.md`](./adoption/crosswalk-eu-ai-act.md), translating BRF into Regulation (EU) 2024/1689 using the official EUR-Lex text, with emphasis on the logging, transparency, robustness, deployer, FRIA, and post-market-monitoring provisions most relevant to BRF.
 - Published the fourth crosswalk deliverable, [`adoption/crosswalk-specialist-underwriters.md`](./adoption/crosswalk-specialist-underwriters.md), translating BRF into public due-diligence and assurance criteria described by Munich Re aiSure, Armilla, and AIUC-1. This is a public-criteria crosswalk, not a claim about private underwriting manuals or policy terms.
+- Added a repo-local JSON Schema validation utility under [`tools/`](./tools/), with an installer script for a local `jsonschema` runtime in `.tools/` and a validator script for BR profiles and component cards. This closes the earlier syntax-only validation gap for shipped examples.
 
 ## framework v0.5.10 — 2026-04-21 (completes v0.5.9 reorg — fixup commit for untracked files)
 

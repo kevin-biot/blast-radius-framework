@@ -47,6 +47,19 @@ The spec is intentionally minimal. It specifies forms, not implementations. Refe
 4. Sign and anchor the profile per `attestation-format.md`.
 5. Publish the attestation at a stable URI; include it in vendor questionnaires, RFP responses, insurance submissions, and regulatory filings.
 
+### Local validation utility
+
+A repo-local JSON Schema validator is available under [`../tools/`](../tools/):
+
+1. Install the local validator runtime:
+   - `./tools/install-jsonschema-local.sh`
+2. Validate the worked example profile:
+   - `python3 ./tools/validate_json_schema.py ./spec/br-profile.schema.json ./spec/examples/example-profile-closed-world-br2.json`
+3. Validate the worked example component card:
+   - `python3 ./tools/validate_json_schema.py ./spec/component-card.schema.json ./spec/examples/example-component-card-tool-legal-db.json`
+
+The runtime is installed into `.tools/` and kept out of git.
+
 ### As an auditor verifying a BR rating
 
 1. Retrieve the attestation.
