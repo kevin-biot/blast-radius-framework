@@ -31,8 +31,9 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 8. **[reports/](./reports/)** — report templates and worked examples:
    - [`reports/templates/`](./reports/templates/) — three reusable templates (Tier 1 executive summary, Tier 2 technical findings, Tier 3 ADR backlog) for applying the framework to any system
    - [`reports/lane2/`](./reports/lane2/) — Lane2 applying the framework to its own integrated stack as the worked example. Seven-version correction chain documented; three named gaps published honestly
-9. **[authoring-notes.md](./authoring-notes.md)** — transparent provenance of method: how this repo and the self-assessment artefacts were produced under a human-domain-holder + AI-epistemic-partner force-function pattern. Prescription for deployers applying the framework to their own systems. Counter to A14 (approval fatigue) and A7 (LLM-as-judge) applied to assessment authoring.
-10. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Jason Gagne's Sentinel programme (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
+9. **[oecd-catalogue-assessment.md](./oecd-catalogue-assessment.md)** — comparison note for readers asking whether the OECD Catalogue of Tools & Metrics for Trustworthy AI already covers this problem. Separates what the OECD catalogue does, what it does not do, which OECD-linked tools are genuinely useful to BRF adopters, and which BRF roadmap items it makes more urgent.
+10. **[authoring-notes.md](./authoring-notes.md)** — transparent provenance of method: how this repo and the self-assessment artefacts were produced under a human-domain-holder + AI-epistemic-partner force-function pattern. Prescription for deployers applying the framework to their own systems. Counter to A14 (approval fatigue) and A7 (LLM-as-judge) applied to assessment authoring.
+11. **[ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)** — credits to Jason Gagne's Sentinel programme (the empirical catalyst for Invariant 7 and the C4a phase-transition claims), prior published insurability work, and the broader intellectual background (Rules as Code, legal knowledge engineering, eIDAS / PSD2 / Basel precedents).
 
 ## Reading guide by role
 
@@ -47,6 +48,7 @@ Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** con
 | Regulator | `framework.md` §§4, 9, 10, 13, 14; `insurability.md` §4 Quadrant mapping; `manifesto.md` §§8–9 on composition with eIDAS / PSD2 / Basel |
 | Anyone asking "why does this exist?" | `manifesto.md` — the argument, read standalone |
 | Anyone asking "who are you and what do you sell?" | `about.md` — Lane2 positioning, private IP, how to engage for PoC |
+| Anyone asking "does OECD already cover this?" | `oecd-catalogue-assessment.md` — direct comparison with the OECD Catalogue of Tools & Metrics for Trustworthy AI, plus supporting-tool map and action list |
 | Anyone asking "who did the empirical work?" | `ACKNOWLEDGEMENTS.md` — Jason Gagne's **Sentinel** programme at PreneurialWorks is the empirical catalyst. Repo: [github.com/jasongagne-git/sentinel](https://github.com/jasongagne-git/sentinel). Cite Gagne 2026 (DOI [10.5281/zenodo.19477188](https://doi.org/10.5281/zenodo.19477188) preprint; [10.5281/zenodo.19476723](https://doi.org/10.5281/zenodo.19476723) dataset) whenever using Invariant 7 or the C4a claims |
 | Anyone asking "how was this written? can I trust it?" | `authoring-notes.md` — the human-domain-holder + AI-epistemic-partner force-function method; seven-version self-assessment correction chain as evidence the method operates; prescription for deployers producing their own ratings |
 
@@ -81,6 +83,7 @@ Any code, schemas, or conformance test suites added in future versions will be r
 ## Related work
 
 - **OECD Rules as Code** programme
+- **OECD Catalogue of Tools & Metrics for Trustworthy AI** — broad discovery surface for technical, procedural, and educational tools; useful as adjacent ecosystem and evidence-source map, not a substitute for an architecture-first blast-radius rating. See [`oecd-catalogue-assessment.md`](./oecd-catalogue-assessment.md)
 - **eIDAS** (Levels of Assurance with conformance tests) as a precedent for pattern-based EU regulation
 - **Basel III risk-weighted capital** as a precedent for pattern-based financial regulation
 - **MITRE ATLAS** (adversarial ML threat landscape) — attack-shaped, complements this framework's impact-shaped approach

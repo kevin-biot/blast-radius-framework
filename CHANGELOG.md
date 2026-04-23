@@ -2,6 +2,11 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## Unreleased
+
+- Added [`oecd-catalogue-assessment.md`](./oecd-catalogue-assessment.md), a working note comparing the Blast Radius Framework with the OECD Catalogue of Tools & Metrics for Trustworthy AI. The note explains what the OECD catalogue is and is not, identifies OECD-listed supporting tools that are genuinely useful to BRF adopters, names the supporting-tooling gaps the catalogue makes more visible, and turns the result into a prioritised action list.
+- Updated [`README.md`](./README.md) so first-time readers can discover the OECD assessment directly from the documents list, the role-based reading guide, and the related-work section. This is a discoverability and change-control improvement, not a framework-definition change.
+
 ## framework v0.5.10 — 2026-04-21 (completes v0.5.9 reorg — fixup commit for untracked files)
 
 **Honest correction.** The v0.5.9 commit and tag were incomplete. At commit time:
