@@ -99,3 +99,21 @@ Any code, schemas, or conformance test suites added in future versions will be r
 - **EU AI Act** (Regulation 2024/1689) — category-shaped, complements
 
 The framework here occupies the gap none of the above cover: *operational blast radius as a rateable, priceable, composable property of the deployed system*.
+
+## Companion repository
+
+This repository is a companion to
+[Governance Failure Patterns](https://github.com/kevin-biot/governance-failure-patterns).
+
+The relationship is:
+
+- **Blast Radius Framework** rates the operational blast surface of a deployed
+  system and provides an attestation form.
+- **Governance Failure Patterns** names recurring governance failure classes,
+  anti-patterns, and tightening patterns that help explain why systems may be
+  weakly controlled, misleadingly governed, or difficult to audit.
+
+The two repositories are adjacent but not interchangeable:
+
+- BRF is the rating and attestation layer
+- GFP is the diagnosis and remediation-pattern layer
