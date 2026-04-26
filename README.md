@@ -19,6 +19,33 @@ Our integrated commercial product suite — DOP (Deterministic Orchestration Pip
 
 Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** consequence, **O**bservability) with three modifiers (attack-accessibility, trajectory, residual-vs-inherent), five blast-radius classes (BR-1 through BR-5), an ordinal aggregation rule with explicit interaction overrides, a cardinal Kalman-extended Expected Compliance Risk score `B̂(t|t) ± σ_B(t)`, a composition rule for multi-vendor stacks with four named topology classes (sub-additive / super-additive / multiplicative / exponential-reducing), and seven architectural invariants that a BR profile must satisfy to be genuine rather than nominal. The central claim: system architecture, not model capability, determines operational risk — a claim that holds from engineering, regulatory, and actuarial directions simultaneously.
 
+## Public-interest reuse potential
+
+This repository is published openly as public-interest scaffolding, not as a
+private gatekept method. The aim is to reduce months of repeated abstract
+discussion by giving deployers, regulators, standards bodies, auditors, and
+conformity actors a concrete starting shape they can adopt, challenge, refine,
+and formalise.
+
+In particular, the material here is intended to be reusable as input to:
+
+- harmonised standards work
+- European Commission guidance
+- common specifications where standards are delayed or incomplete
+- AI regulatory sandbox methods and exit-report structure
+- conformity assessment and audit practice
+- deployer internal control and evidence design
+
+The repository does **not** claim to be a harmonised standard, Commission
+guidance, or a conformity assessment artifact in itself. It is an open
+candidate scaffold for the technical and governance shapes those official
+artifacts will need.
+
+This repository works especially well when read together with
+[Governance Failure Patterns](https://github.com/kevin-biot/governance-failure-patterns),
+which names the recurring governance weaknesses that a blast-radius rating
+should detect, demote, or force into explicit remediation.
+
 ## The documents
 
 1. **[framework.md](./framework.md)** — the rating framework itself (current version: v0.5.1). Start here for the specification.
