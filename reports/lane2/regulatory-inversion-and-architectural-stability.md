@@ -117,7 +117,91 @@ In the Lane2 shape, the outcome is mostly backlog, not reversal.
 
 ---
 
-## 5. What still needs refinement
+## 5. Market implication
+
+This matters strategically, not only technically.
+
+Even if competitors absorb the language, lessons, or control vocabulary, many
+major players remain materially behind in one specific sense:
+
+- they built around direct LLM-tool coupling,
+- open capability discovery,
+- MCP-first or function-calling-first control surfaces,
+- and natural-language-mediated composition patterns they are now heavily
+  invested in preserving.
+
+For those stacks, later governance pressure is expensive because the required
+changes are not cosmetic. They reach into the substrate:
+
+- authority boundaries
+- tool invocation control
+- evidence capture
+- replayability
+- oversight credibility
+- fail-closed execution
+
+That is not a simple product iteration cycle. It is architectural replacement.
+And incumbent teams usually resist architectural replacement because it forces
+them to invalidate existing integration work, product assumptions, partner
+claims, and market narratives.
+
+The consequence is important:
+
+> diffusion of the ideas is not the same thing as migration of the architecture
+
+Many market participants can adopt the vocabulary of governance faster than
+they can replace a substrate that is structurally hostile to consequential
+deployment.
+
+This note does **not** claim that competitors can never adapt. It claims
+something narrower and more defensible:
+
+> stacks built on direct LLM-tool coupling and open tool ecosystems face a much harder path to credible consequential-domain conformity than stacks that inverted regulation and accountability into the substrate earlier
+
+---
+
+## 6. Empirical support from Jason Gagne's Sentinel work
+
+This architectural argument is not based only on preference or stylistic taste.
+It is reinforced by Jason Gagne's **Sentinel** programme, which provides an
+empirical drift and coupling measurement surface for widely adopted multi-agent
+patterns.
+
+Sentinel's results matter here because they expose failure dynamics in exactly
+the kinds of coupling patterns that became common defaults across the market:
+
+- conversational natural-language agent-to-agent coupling
+- loosely bounded multi-agent chains
+- in-context monitoring assumptions
+- architectures that rely on the language channel itself as the coordination
+  and control surface
+
+As summarised in the framework's acknowledgements, Sentinel reports:
+
+- vocabulary collapse of 23–43%
+- sentiment collapse of 12–60%
+- probe-message divergence of 5–50×
+- and, critically, in-context monitoring pollution of 3–6×
+
+That does not prove every market architecture fails in the same way. Sentinel
+is explicit about scope. But it does show that some of the most widely adopted
+agentic patterns are not just theoretically weak. They are empirically brittle.
+
+For Lane2's public argument, the importance is this:
+
+- the stack rejected those coupling defaults earlier on architectural grounds
+- Sentinel later supplied empirical evidence that those defaults are genuinely
+  dangerous under load and over time
+
+This is exactly the kind of sequence a reference architecture should want:
+
+- theory first
+- empirical falsification surface second
+- refinement and clarification after that
+
+---
+
+## 7. What still needs refinement
 
 The fact that the stack does not need rearchitecture does **not** mean it is
 finished. The current refinement backlog is real and should be named plainly.
@@ -148,7 +232,7 @@ substrate**, not evidence that the substrate was wrong.
 
 ---
 
-## 6. Why this matters for public readers
+## 8. Why this matters for public readers
 
 This is useful beyond Lane2.
 
@@ -178,7 +262,7 @@ architectural stability.
 
 ---
 
-## 7. The safe public claim
+## 9. The safe public claim
 
 The safe claim is not:
 
@@ -198,7 +282,7 @@ candidate reference shape.
 
 ---
 
-## 8. Bottom line
+## 10. Bottom line
 
 The public lesson is straightforward:
 
