@@ -125,6 +125,7 @@ Any code, schemas, or conformance test suites added in future versions will be r
 - **NIST AI RMF** — process-shaped, complements
 - **ISO/IEC 42001** — management-system-shaped, complements
 - **EU AI Act** (Regulation 2024/1689) — category-shaped, complements
+- **[AI Agents Under EU Law](https://arxiv.org/abs/2604.04604)** — legal-technical working paper mapping the regulatory perimeter for agent providers under EU law; complements BRF by highlighting the still-missing operational governance layer for agentic systems
 
 The framework here occupies the gap none of the above cover: *operational blast radius as a rateable, priceable, composable property of the deployed system*.
 
