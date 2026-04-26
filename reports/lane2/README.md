@@ -20,6 +20,7 @@ The Lane2 self-assessment is a complete worked application of the three report t
 | [`self-assessment.md`](./self-assessment.md) | 2 | Detailed technical findings. Component-by-component rating (DOP, aARP, SAPP, PACT pack), composition topology, all seven invariants, all 26 anti-patterns, aggregation with interaction overrides, residual-vs-inherent gap analysis. Start here if you want the architecture-level detail. |
 | [`self-assessment-adr-backlog.md`](./self-assessment-adr-backlog.md) | 3 | Twelve ADR candidates prioritised P0–P3 with dependencies, effort bands, and cross-references. Start here if you want to see the remediation roadmap. |
 | [`self-assessment.json`](./self-assessment.json) | Profile | Machine-readable BR profile, validates against [`../../spec/br-profile.schema.json`](../../spec/br-profile.schema.json). Start here if you want the data surface an auditor or underwriter consumes. |
+| [`regulatory-inversion-and-architectural-stability.md`](./regulatory-inversion-and-architectural-stability.md) | Note | Public note explaining why later EU-agent legal analysis mostly produces refinement backlog for the Lane2 stack rather than forcing rearchitecture. Start here if you want the “why the architecture fit” argument. |
 
 ## Why this self-assessment is published
 
