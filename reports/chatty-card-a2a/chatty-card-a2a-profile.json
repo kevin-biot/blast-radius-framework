@@ -1,0 +1,241 @@
+{
+  "schema_version": "0.1",
+  "framework_version": "0.5.1",
+  "profile_id": "chatty-card-a2a-pattern-rating-2026-04-29",
+  "attestation_date": "2026-04-29T00:00:00Z",
+  "attestation_expiry": "2026-07-29T00:00:00Z",
+  "deployer": {
+    "organisation_id": "BRF-PATTERN-ATTESTATION",
+    "organisation_name": "Blast Radius Framework authors (pattern attestation, not a deployment)",
+    "accountable_executive": {
+      "name": "Kevin Brown",
+      "role": "Framework author",
+      "contact": "https://github.com/kevin-biot/blast-radius-framework"
+    }
+  },
+  "system": {
+    "system_id": "chatty-card-a2a-default-pattern",
+    "system_name": "Chatty-Card A2A pattern (sloppy market default for A2A multi-agent integration)",
+    "system_version": "as-measured-d5-v1.1-2026-04-29",
+    "deployment_context": "Four-agent transactional booking workflow (intake -> broker -> seat assignment + meal assignment) where the broker chooses the next specialist by LLM-prose decision over agent-card descriptions, inter-agent messaging is free-text natural-language briefings (not typed Task/Artifact/Part.data), domain tools are exposed directly to the language model with descriptive parameter schemas but no domain-gate refusals on unmet preconditions, and RAG retrieval is injected unfiltered into broker briefings. This rates the pattern itself; specific vendor implementations using the same pattern inherit. Vendors implementing canonical A2A+MCP per spec are explicitly out of scope.",
+    "principal_population": {
+      "population_class": "multi_tenant_large",
+      "count_estimate": 100000
+    }
+  },
+  "components": [
+    {
+      "component_id": "chatty-a2a-intake",
+      "component_name": "CustomerIntake agent",
+      "worldview": "open-world",
+      "axes": {
+        "A": "A1",
+        "R": "R4",
+        "C": "C4a",
+        "V": "V1",
+        "K": "K4-R",
+        "O": "O1"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 1,
+          "analysis_summary": "Free-text user input is rendered into NL 'understanding' / 'brief' for the broker without normalisation, controlled vocabulary, or out-of-scope detection. Any user-influenced narrative becomes operational input downstream. Threat surface includes prompt injection, narrative claim spoofing, and out-of-scope drift; substrate cannot defend structurally.",
+          "last_red_team_date": "2026-04-29"
+        },
+        "tau": {
+          "value": "drifting",
+          "last_review_date": "2026-04-29",
+          "review_cadence": "pattern-level; trajectory reflects industry incident record on chatty-agent deployments"
+        }
+      },
+      "notes": "A1 not because intake is consequential, but because its output gates downstream consequential action via the broker. The 35% cross-customer contamination measured at the broker is partly attributable to intake's permeability."
+    },
+    {
+      "component_id": "chatty-a2a-broker",
+      "component_name": "Broker agent (load-bearing NL coupling node)",
+      "worldview": "open-world",
+      "axes": {
+        "A": "A4",
+        "R": "R4",
+        "C": "C4a",
+        "V": "V1",
+        "K": "K4-R",
+        "O": "O1"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 1,
+          "analysis_summary": "Adversary-permissive by construction: agent-card prose, retrieved RAG chunks, intake briefings, and any earlier specialist's NL summary all flow into the broker's routing decision and onward briefing. Threat surface includes capability-discovery enumeration (AP010), schema-anchor exploitation (AP018), RAG poisoning, and narrative state divergence. 31% broker-fabrication rate measured on premature-meal events.",
+          "last_red_team_date": "2026-04-29"
+        },
+        "tau": {
+          "value": "drifting",
+          "last_review_date": "2026-04-29",
+          "review_cadence": "pattern-level"
+        }
+      },
+      "notes": "Load-bearing component for the rating. A4 because broker delegates consequential action (assigning a meal to wrong customer is financial / dietary-safety / regulatory event) without external authorisation and on the basis of its own narrative state. C4 because every inter-agent edge is NL. O1 because drift detection on the NL substrate cannot lead the substrate's own faults (Phase B Sentinel re-analysis: 20/23 experiments crossed G5 yellow inside the baseline-establishment window)."
+    },
+    {
+      "component_id": "chatty-a2a-seat-agent",
+      "component_name": "SeatAgent specialist",
+      "worldview": "open-world",
+      "axes": {
+        "A": "A3",
+        "R": "R4",
+        "C": "C4a",
+        "V": "V1",
+        "K": "K4-R",
+        "O": "O1"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 1,
+          "analysis_summary": "Receives free-text NL briefing as input. Tool calls themselves are typed (OpenAI tool-calling format) but the *decision* and *arguments* are LLM-determined from NL input. Schema-anchor concentration (AP018) measured at 86% of reserve attempts on a single example seat under the original schema text.",
+          "last_red_team_date": "2026-04-29"
+        },
+        "tau": {
+          "value": "drifting",
+          "last_review_date": "2026-04-29",
+          "review_cadence": "pattern-level"
+        }
+      },
+      "notes": "Open-world on input; tool boundary is closed-world but does not refuse on unmet precondition. A3 (per-customer ledger mutation) rather than A4 because the seat tool itself is bounded; promoted toward A4 effective via the briefing channel's permeability."
+    },
+    {
+      "component_id": "chatty-a2a-meal-agent",
+      "component_name": "MealAgent specialist",
+      "worldview": "open-world",
+      "axes": {
+        "A": "A4",
+        "R": "R4",
+        "C": "C4a",
+        "V": "V1",
+        "K": "K4-R",
+        "O": "O1"
+      },
+      "modifiers": {
+        "delta_adv": {
+          "value": 1,
+          "analysis_summary": "Same input surface as SeatAgent. The 60% premature-meal rate measured on smoke (assign_meal called with no upstream seat in the ledger) is direct evidence that the tool boundary fails open. AP012 exhibited at the per-event level.",
+          "last_red_team_date": "2026-04-29"
+        },
+        "tau": {
+          "value": "drifting",
+          "last_review_date": "2026-04-29",
+          "review_cadence": "pattern-level"
+        }
+      },
+      "notes": "A4 (rather than A3 like SeatAgent) because empirical fault rate shows assign_meal can mutate the wrong cell or a phantom cell with measurable probability, not just the intended cell."
+    }
+  ],
+  "composition": {
+    "topology": "T2_super_additive",
+    "chain_description": "Open-world chain with NL-coupled interfaces between every consecutive pair of agents. Invariant 7 (bounded coupling) fails on three of three inter-agent edges. Compound BR diverges with chain length per framework §7.2 T2 mathematics. Adjacent T2 fan-out experiment (a2a-coupling-findings) measured S4 = 0.366 between sibling specialists with no direct channel, demonstrating that coupling propagates structurally through implicit vocabulary inheritance, not just observably through the explicit edges.",
+    "edges": [
+      { "from": "chatty-a2a-intake", "to": "chatty-a2a-broker", "interface_type": "natural_language" },
+      { "from": "chatty-a2a-broker", "to": "chatty-a2a-seat-agent", "interface_type": "natural_language" },
+      { "from": "chatty-a2a-broker", "to": "chatty-a2a-meal-agent", "interface_type": "natural_language" },
+      { "from": "chatty-a2a-seat-agent", "to": "chatty-a2a-broker", "interface_type": "natural_language" },
+      { "from": "chatty-a2a-meal-agent", "to": "chatty-a2a-broker", "interface_type": "natural_language" }
+    ]
+  },
+  "invariants": {
+    "I1": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "Same seed + same code produces same overall numerics statistically (4.0% +/- 0.33% across 5 seeds), but per-customer routing, briefing content, and tool argument distributions are LLM-stochastic. Identical inputs do not produce identical observations. Kalman uncertainty extension is structurally inapplicable: measurement noise R_K cannot be separated from compliance drift Q. sigma_B(t) cannot be calibrated. The pattern is structurally unpriceable.",
+      "evidence_references": [
+        "framework.md §9 Invariant 1",
+        "framework.md §5.4 Kalman extension preconditions",
+        "D.5 v1.1 audit substrate at tag d5-v1.1, commit 817c68d9"
+      ]
+    },
+    "I2": {
+      "status": "partially_holds",
+      "enforcement_mode": "procedural",
+      "evidence_summary": "Audit substrate logs every tool call with validation result, customer-id-for, customer-id-about, pre/post state. Strong at tool boundary. Weak at inter-agent boundary: NL briefings are logged but not signed, not bound to a typed contract, not consultable by downstream agents as authoritative state. Briefings are events-after-the-fact, not evidence binding the decision to a specific input.",
+      "evidence_references": [
+        "framework.md §9 Invariant 2",
+        "D.5 v1.1 audit_log table schema"
+      ]
+    },
+    "I3": {
+      "status": "not_applicable",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "The pattern as measured does not carry an explicit policy layer. Deployers adding policy would attest separately.",
+      "evidence_references": []
+    },
+    "I4": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "35% cross-customer contamination on smoke. Reservations and meal assignments commit to the ledger when no rollback exists. Blast radius of any single fault touches the wrong customer's cell with measurable probability. Substrate has no bound on which customer's preferences enter which customer's briefing.",
+      "evidence_references": [
+        "framework.md §9 Invariant 4",
+        "D.5 v1.1 H2 metric across smoke runs"
+      ]
+    },
+    "I5": {
+      "status": "not_applicable",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "Pattern-level abstraction; deployer responsibility.",
+      "evidence_references": []
+    },
+    "I6": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "assign_meal is callable when the workflow ledger has no seat_id for the customer (60% of smoke). Tool boundary does not refuse on unmet precondition; broker does not refuse to route. Pattern fails open.",
+      "evidence_references": [
+        "framework.md §9 Invariant 6",
+        "D.5 v1.1 RT-1.5 smoke baseline"
+      ]
+    },
+    "I7": {
+      "status": "does_not_hold",
+      "enforcement_mode": "documentary",
+      "evidence_summary": "NL on every inter-agent edge. T2 super-additive composition mathematics apply. Bounded coupling is structurally impossible in NL substrate (framework §4.0 worldview classifier). S4 architectural-coupling metric measured at 0.203 +/- 0.001 across 5 seeds (architectural fixed-point on the substrate). Adjacent T2 fan-out experiment showed S4 = 0.366 between agents with no direct channel.",
+      "evidence_references": [
+        "framework.md §4.0 worldview classifier",
+        "framework.md §7.2 T2",
+        "framework.md §9 Invariant 7",
+        "kevin-biot/a2a-coupling-findings T2 fan-out result"
+      ]
+    }
+  },
+  "aggregation": {
+    "ordinal_class": "BR-5",
+    "interaction_overrides_fired": [
+      "open_world_component_floor_BR4",
+      "invariant7_absent_promotion",
+      "observability_O0_or_O1_promotion_on_BR3_plus"
+    ]
+  },
+  "anti_patterns": [
+    { "pattern_id": "A1", "status": "exhibited_without_demotion_path", "evidence_reference": "A2A protocol with public capability discovery is the pattern's defining property; demoting requires changing the architecture to canonical-spec or substrate-replacement variant" },
+    { "pattern_id": "A2", "status": "exhibited_with_demotion_path", "demotion_path": "Domain-gate refusals at MCP boundary (canonical MCP outputSchema); covered by ADR backlog item 2", "evidence_reference": "API-first tool exposure to LLM is structural to the pattern; demotion requires canonical MCP discipline" },
+    { "pattern_id": "A3", "status": "exhibited_with_demotion_path", "demotion_path": "Composition rule per framework §7.1; ADR backlog items 1-3", "evidence_reference": "Tools exposed to LLM with no deterministic permit layer between model and execution" },
+    { "pattern_id": "A4", "status": "not_applicable", "evidence_reference": "Pattern is not a marketplace per se; specific deployments may add this surface" },
+    { "pattern_id": "A5", "status": "not_applicable" },
+    { "pattern_id": "A6", "status": "exhibited_without_demotion_path", "evidence_reference": "Chatty-card A2A IS the CrewAI/AutoGen/LangGraph default pattern at the architectural shape level; cannot demote without changing the architecture" },
+    { "pattern_id": "A7", "status": "not_applicable", "evidence_reference": "Pattern as measured does not include LLM-as-judge loops; specific deployments may" },
+    { "pattern_id": "A8", "status": "not_applicable", "evidence_reference": "Authentication layer is out of scope at pattern level" },
+    { "pattern_id": "A9", "status": "exhibited_with_demotion_path", "demotion_path": "Per-customer scoping on RAG with fail-closed when scoping leaves <2 chunks; ADR backlog item 4", "evidence_reference": "RAG retrieval is injected unfiltered into broker briefings; ungoverned vector memory is the substrate's contamination channel" },
+    { "pattern_id": "A10", "status": "exhibited_without_demotion_path", "evidence_reference": "Context stuffing is structural to the chatty-broker pattern: agent-card prose + retrieved RAG chunks + upstream NL summaries are all concatenated into the broker's prompt context. Demotion requires substrate change, not technique change" },
+    { "pattern_id": "A11", "status": "not_applicable", "evidence_reference": "Pattern as measured is closed-tool agentic, not browser-use" },
+    { "pattern_id": "A12", "status": "not_applicable", "evidence_reference": "Single-customer transaction workflow, not long-running deep-research" },
+    { "pattern_id": "A13", "status": "not_applicable", "evidence_reference": "BYOA out of scope at pattern level" },
+    { "pattern_id": "A14", "status": "not_applicable", "evidence_reference": "Pattern as measured does not include human-approval surface; deployer may add" },
+    { "pattern_id": "A15", "status": "exhibited_without_demotion_path", "evidence_reference": "Inter-agent NL briefings are concatenated to next prompt for the receiving agent. Tool output (NL summaries from SeatAgent) becomes part of the broker's next prompt to MealAgent. This is the prompt-injection-as-feature surface at the inter-agent edge, structurally" },
+    { "pattern_id": "B1", "status": "exhibited_with_demotion_path", "demotion_path": "Move from logs-as-evidence to typed Artifacts as evidence (A2A spec compliance); ADR backlog item 6" },
+    { "pattern_id": "B2", "status": "exhibited_without_demotion_path", "evidence_reference": "Audit substrate is post-hoc logging by construction in the chatty-card pattern; the runtime control layer is what's missing. Demotion requires runtime control insertion, which is item 1+2+3" },
+    { "pattern_id": "B3", "status": "not_applicable", "evidence_reference": "Prompt storage governance is deployer-level, out of scope at pattern level" },
+    { "pattern_id": "B4", "status": "exhibited_without_demotion_path", "evidence_reference": "No delegation chain recorded in NL briefings; broker's narrative state is not a delegation chain. Substrate replacement required" },
+    { "pattern_id": "B5", "status": "not_applicable", "evidence_reference": "Authentication chain is deployer-level" },
+    { "pattern_id": "B6", "status": "not_applicable", "evidence_reference": "Evidence anchoring is deployer-level" },
+    { "pattern_id": "B7", "status": "exhibited_without_demotion_path", "evidence_reference": "No explainability source mapping at the inter-agent edge; broker's narrative justifications cannot be traced to typed evidence inputs" },
+    { "pattern_id": "B8", "status": "not_applicable", "evidence_reference": "Evidence mutability is deployer-level" },
+    { "pattern_id": "B9", "status": "exhibited_without_demotion_path", "evidence_reference": "I1 fails -> deterministic replay impossible -> no replay capability. Closure requires I1 closure (ADR item 1)" },
+    { "pattern_id": "B10", "status": "not_applicable", "evidence_reference": "Retention policy / authority-export are deployer-level" },
+    { "pattern_id": "B11", "status": "exhibited_without_demotion_path", "evidence_reference": "Critical action fail-open is what the 60% premature-meal rate measures directly; closure requires I6 closure (ADR item 2)" }
+  ]
+}
