@@ -35,7 +35,7 @@ Verisk's 2026 commercial general-liability exclusions name AI agent loss as an e
 
 ### 2.2 Regulatory posture is materially weak
 
-EU AI Act Article 25(4) and the recent academic synthesis on agentic systems under EU law (Nannini et al. 2026) both point at the same architectural property: high-risk systems with untraceable behavioral drift cannot be lawfully placed on the EU market. The chatty-card pattern produces drift inside the baseline-establishment window of any monitor a deployer can install — the failure leads any feasible detector. Logs exist, but they tell you about events after they harmed the ledger, not before they happened.
+EU AI Act Article 9 (Risk management system) and Article 15 (Accuracy, robustness, cybersecurity over the lifecycle), together with the recent academic synthesis on agentic systems under EU law (Nannini et al. 2026), point at the same architectural property: high-risk systems with untraceable behavioral drift cannot be lawfully placed on the EU market. The chatty-card pattern produces drift inside the baseline-establishment window of any monitor a deployer can install — the failure leads any feasible detector. Logs exist, but they tell you about events after they harmed the ledger, not before they happened. (Article 25(4), responsibilities along the AI value chain, is a secondary anchor relevant where the chatty-card pattern is supplied as a third-party component into a high-risk deployer's system; it reinforces but does not replace the Article 9 / 15 testing-and-robustness anchors.)
 
 ISO 42001 and NIST AI RMF crosswalks (in [`adoption/`](../../adoption/)) place chatty-card A2A in the categories that require structural remediation, not procedural mitigation.
 
