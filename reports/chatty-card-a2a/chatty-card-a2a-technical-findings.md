@@ -1,5 +1,8 @@
 # Chatty-Card A2A — BRF Technical Findings
 
+
+**Review correction, 2026-10-26:** This is an April assessment, not a current re-attestation. Its numeric profile and measured observations are retained. Statements that the architecture guarantees coverage, avoids exclusions, cannot obtain insurance, or necessarily forecloses lawful deployment are withdrawn. **Coverage not established.** See [current claims policy](../../adoption/claims-and-evidence.md) and [current EU crosswalk](../../adoption/crosswalk-eu-ai-act.md). The historical JSON profile is not re-signed or re-rated by this correction.
+
 *Independent rating of a market-default architectural pattern, anchored to measured per-event harm rates from a 1275-conversation transactional workflow experiment.*
 
 **Date of assessment:** 2026-04-29
@@ -109,13 +112,13 @@ Reading off the broker tuple A4–R4–C4–V1–K4-R–O1, framework Rule 1 (hi
 
 ### 4.3 Composition (framework §7.2 + §7.3)
 
-Topology is T2 (NL-coupled chain). Invariant 7 fails at every interface. Rule 6 (insurability composition): if any component fails Invariant 1 or 2, the composed system is unpriceable regardless of the other components' rating. Invariant 1 fails on the broker (see §5); the composition is unpriceable.
+Topology was assessed as T2 in April. Under the retained rules the unmediated interfaces fail I7. Missing I1/I2 evidence limits verification; it does not determine insurance coverage or make statistical modelling universally impossible.
 
-**Compound class: BR-5 (Catastrophic / Uninsurable as deployed).**
+**Compound class: BR-5 (Catastrophic under the April BRF classification).**
 
 ### 4.4 Cardinal score (framework §5.2 / §5.4)
 
-**The Kalman uncertainty extension is structurally inapplicable to this pattern.** Invariant 1 fails (same input does not produce same observation: routing varies, briefings vary, tool argument distributions vary). Measurement noise R_K cannot be separated from compliance drift Q. σ_B(t) cannot be estimated. The pattern retains an ordinal BR-5 rating but **cannot quantify υ and is structurally unpriceable** — the architectural boundary between insurable and uninsurable made precise (framework §5.4).
+**Cardinal estimate not established.** The apparatus has no published calibrated observation model for the proposed BRF index. Variable outputs do not by themselves make statistical estimation impossible; deterministic boundary replay and model-output variability must be tested separately.
 
 This is the same boundary lane2 navigates from the other side: lane2's Invariant 1 holds (DOP determinism), so its σ_B(t) is producible in principle (Kalman Phase 0 → Phase 1 work, lane2 ADR backlog item 1). For chatty-card A2A, σ_B(t) is *structurally* unproducible. The two stacks sit on opposite sides of the priceability boundary.
 
@@ -131,7 +134,7 @@ This is the same boundary lane2 navigates from the other side: lane2's Invariant
 | **I6 Fail-closed execution control** | **FAILED** | `assign_meal` is callable when the workflow ledger has no `seat_id` for the customer (60% of smoke). The tool boundary does not refuse on unmet precondition; the broker does not refuse to route. The pattern fails open. |
 | **I7 Bounded coupling** | **FAILED** | NL on every inter-agent edge. T2 super-additive composition mathematics apply. Adjacent T2 fan-out experiment showed S4 = 0.366 between agents with no direct channel — coupling propagates structurally, not just observably. |
 
-**Five of seven invariants fail or are inapplicable; two fail definitively (I1, I7) and these are the gatekeepers for insurability and for closed-world status. The pattern is structurally outside the insurable region.**
+**The April invariant findings remain historical observations of the apparatus, not a current re-test, an insurance decision or a universal protocol property.**
 
 ## 6. Anti-pattern attestation
 
@@ -179,7 +182,7 @@ The pattern's δ_adv = +1 reflects that these surfaces are present and the subst
 
 | # | Gap | Owner of remediation | Maps to ADR-backlog item |
 |---|---|---|---|
-| 1 | The pattern fails Invariant 1 structurally; σ_B(t) is unproducible. | Anyone deploying this pattern who needs an actuarially priceable risk profile. | Backlog #1: move to canonical A2A+MCP per spec. |
+| 1 | The April I1 finding is unresolved; no calibrated σ_B(t) estimate is supplied. | Anyone deploying this pattern who needs an actuarially priceable risk profile. | Backlog #1: move to canonical A2A+MCP per spec. |
 | 2 | Invariant 6 (fail-closed) is not enforceable at the LLM tool boundary in this pattern. | Tool-schema designer, MCP-server designer. | Backlog #2: add domain-gate refusal at the MCP `outputSchema` and at the broker. |
 | 3 | Invariant 7 (bounded coupling) fails on every inter-agent edge. | Architecture choice; the pattern itself. | Backlog #3: replace NL briefings with typed `Task` / `Artifact` / `Part.data`. Substrate replacement (canonical A2A, then DOP/AARP, in falsification order). |
 | 4 | AP018 schema-anchor effect is undetected by typical apparatus reviews. | Tool-schema designer, BRF rating reviewer. | Backlog #4: include schema-text review in BR rating; add to GFP `evidence/notes/`. |
@@ -195,7 +198,7 @@ This pattern rating expires when any of:
 - a vendor implementation publishes a self-attestation following this template that diverges from the pattern-level assumptions (e.g., a vendor stack that ships canonical-spec discipline by default)
 - AIID, OECD, or specialist-underwriter records report a chatty-card-A2A incident profile that diverges from this case's measurements
 
-Until then, the rating stands at **BR-5 (Catastrophic / Uninsurable as deployed pattern)**.
+Until then, the rating stands at **BR-5 (Catastrophic under the April BRF classification)**.
 
 ---
 

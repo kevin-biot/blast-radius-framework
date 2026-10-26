@@ -1,9 +1,12 @@
 # Notation and Quick Reference
 
+
+**2026-10-26 evidence correction:** The [claims and evidence policy](./adoption/claims-and-evidence.md) supersedes categorical insurance, legal-admissibility and premium conclusions in this research narrative. BR class does not establish coverage, and compliance-index covariance is not a validated actuarial uncertainty. Historical arguments and notation below remain identifiable as such.
+
 *Standalone lookup document. Every symbol, every tier, every class definition, in one place.*
 
-**For framework version:** v0.5.1
-**Last updated:** 2026-04-21
+**For framework version:** v0.5.11
+**Last updated:** 2026-10-26
 
 ---
 
@@ -145,12 +148,12 @@ Before applying the §7.1 pairwise composition rule, identify the topology. Each
 
 | Topology | Regime | Compound failure math | Compound BR |
 |---|---|---|---|
-| **T1 sub-additive** | Closed-world narrow fail-closed chain | P(fail) ≈ 1 − ∏(1 − Rᵢ) — union bound, ≈ Σ Rᵢ for small Rᵢ | BR ≤ max(BRᵢ) — bounded by typed boundary |
-| **T2 super-additive** | Open-world NL-coupled chain | P(fail) > additive — failures correlate via shared substrate (ρ > 0) | BR > max(BRᵢ); diverges with chain length n |
-| **T3 multiplicative** | Defence-in-depth (attack resistance, not failure propagation) | P(bypass compound) = ∏ P_bypass,ᵢ | Small when each P_bypass,ᵢ small |
+| **T1 sub-additive** | Closed-world narrow fail-closed chain | P(any failure) = 1 − ∏(1 − Rᵢ) only under independence; union bound ≤ Σ Rᵢ otherwise | Containment requires complete mediation, isolation and aggregate budgets |
+| **T2 super-additive** | Open-world NL-coupled chain | Joint failure needs a dependence model, not pairwise ρ alone | No universal divergence theorem; measure propagation and exposure |
+| **T3 multiplicative** | Defence-in-depth (attack resistance, not failure propagation) | P(bypass all) = ∏ P_bypass,ᵢ under independence; conditional terms otherwise | Independence must be justified |
 | **T4 exponential-reducing** | Parallel redundancy with genuine independence (voting with quorum k) | P(joint failure) = P(≥ k fail) — binomial tail, exponentially small in n | Small when components genuinely independent |
 
-**T2-in-disguise test:** most claimed T4 voting ensembles are actually T2 because same-model-family evaluators share substrate and correlate on failure. Require evidence of independence (different families, different providers, different prompt derivations, uncorrelated failure history) before granting T4 treatment.
+**Independence check:** shared-model evaluators can share failure causes; voting alone does not establish T4 assumptions. Require evidence of independence (different families, different providers, different prompt derivations, uncorrelated failure history) before granting T4 treatment.
 
 ---
 
@@ -179,7 +182,7 @@ Applied on top of the base ordinal aggregation (max over axes).
 
 **B(t) = w_a·A + w_r·R + w_c·C + w_v·(1−V) + w_k·K + w_o·(1−O)**
 
-where each axis tier is normalised to [0, 1] and **w = [w_a, w_r, w_c, w_v, w_k, w_o]** is the per-domain weight vector.
+This is a historical research formula, not a validated implementation contract. In particular V tiers increase with irreversibility; the (1−V) term requires a declared reversed normalization rather than naive tier scaling. No canonical normalization is supplied. Formally, with normalized inputs, **w = [w_a, w_r, w_c, w_v, w_k, w_o]** is the per-domain weight vector.
 
 ### v0.5 Kalman-filtered
 
@@ -187,11 +190,11 @@ where each axis tier is normalised to [0, 1] and **w = [w_a, w_r, w_c, w_v, w_k,
 
 Rated output: **B̂(t|t) ± σ_B(t)**, where x̂(t|t) is the Kalman-filtered state estimate and P(t|t) is the filter covariance.
 
-### Actuarial identification
+### Proposed actuarial relevance, not identification
 
 - **Frequency (λ)** — C-axis and O-axis dominate (fast-onset drift in C4a + O≤2)
 - **Severity (σ)** — K-axis and R-axis dominate (K4 with R≥3 produces correlated loss)
-- **Uncertainty (υ)** — ≡ σ_B(t) under the v0.5 Kalman extension
+- **Uncertainty (υ)** — product-specific actuarial uncertainty; not an established identity with σ_B(t)
 
 ---
 
@@ -209,7 +212,7 @@ Disambiguated with subscript `_K` to avoid collision with rating axes.
 | **A_K** | State-transition matrix. *Not* the Authority axis. |
 | **H**, **Hᵀ** | Observation matrix and its transpose |
 | **Q** | Process-noise covariance — prior on state shift between observations |
-| **R_K** | Measurement-noise covariance. *Not* the Reach axis. Calibrated from evidence tiers: forensic → low R_K; minimal → high R_K. |
+| **R_K** | Measurement-noise covariance. *Not* the Reach axis. Requires empirical error calibration; provenance tiers alone do not determine covariance. |
 | **K_K(t)** | Kalman gain. *Not* the Consequence axis. Weight applied to new observations. |
 | **I** | Identity matrix |
 
@@ -268,7 +271,7 @@ Outside §5.4 and this document's §8, unqualified `A`, `R`, `K` always mean the
 ## Versioning
 
 - This document tracks `framework.md` versions.
-- Current: aligned with framework v0.5.1.
+- Current: aligned with framework v0.5.11; tier enums and ordinal floors unchanged.
 - Changes to tier enums, class definitions, or invariant names produce a new framework version and a corresponding update here.
 - Symbol collisions, if introduced, are added to §10 with explicit disambiguation rules.
 

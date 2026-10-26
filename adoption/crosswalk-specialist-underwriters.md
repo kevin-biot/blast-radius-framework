@@ -8,6 +8,8 @@
 
 ---
 
+**2026-10-26 qualification:** This maps public due-diligence themes, not confirmed mandatory underwriting criteria, acceptance of BRF, policy coverage or a pricing formula. The cardinal/Kalman model is experimental; no insurer's acceptance of it is established. See the [current insurance companion](../insurability.md) and [claims policy](./claims-and-evidence.md).
+
 ## 1. Purpose
 
 This note answers a market-facing question:

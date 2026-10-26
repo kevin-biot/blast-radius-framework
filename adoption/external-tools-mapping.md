@@ -56,7 +56,7 @@ This annex uses four evidence roles:
 | Privacy metrics families | leakage counts, anonymisation statistics, re-identification risk | `K3-P`; `delta_adv` | Supporting | magnitude and nature of privacy exposure in a component or corpus | whole-system consequence class without population and topology context |
 | Fairness metrics families | disparity measures, error-rate differences | `K4-F`; parts of `K3-L` | Supporting | differential-impact concerns where the system affects people | operational propagation, reversibility, or composition |
 | Robustness metrics families | adversarial success rates, perturbation sensitivity | `delta_adv`; parts of `O` and `tau` | Supporting | comparative hardening claims and change regression | bounded authority or external reach claims |
-| Drift / anomaly metrics | divergence measures, alert frequencies, baseline deviations | `O`; `tau`; parts of Invariant 6 | Supporting | real-time monitoring maturity and stability trend | architectural enforcement claims without runtime boundary checks |
+| Drift / anomaly metrics | divergence measures, alert frequencies, baseline deviations | `O`; `tau`; supporting I6 outage-denial tests | Supporting | real-time monitoring maturity and stability trend | architectural enforcement claims without runtime boundary checks |
 
 ---
 
@@ -84,7 +84,7 @@ This annex uses four evidence roles:
 | I3 policy snapshot coherence | factsheets, version registries, config lineage systems | immutable snapshot IDs and retrieval proof in the system under audit |
 | I4 bounded blast radius | OpenEnv fault-injection and tenant-isolation runs | actual architectural containment boundaries |
 | I5 jurisdictional / policy boundary integrity | dataset cards, dependency cards, policy metadata | enforceable routing and boundary controls, not just declarations |
-| I6 observability and replay | benchmark traces, drift metrics, event logs | preserved, replayable, audit-admissible traces |
+| I6 fail-closed execution control | observed denied calls and policy-service outage tests | default-deny dispatch evidence, including attempted bypasses; monitoring alone is insufficient |
 | I7 bounded coupling | OpenEnv multi-agent scenarios | typed interfaces and closed-world constraints; no external tool can rescue open-world NL coupling |
 
 ### 4.3 Anti-pattern support
@@ -142,3 +142,7 @@ The correct relationship is:
 - the attestation records the claim and its verification form
 
 The tool does not become the framework. The framework becomes easier to use because the tool has a clearly defined place inside it.
+
+## October implementation status
+
+The [ACS mapping and adapter](./acs-evidence-adapter.md) now has pinned upstream schema validation, a transcript exporter and a tested local allow/deny/outage fixture. See [runnable commands](../tools/README.md). This is not a live upstream Guardian test, Inspect/AgentDojo integration or ACS certification. The [worklist](./update-worklist-2026-10.md) separates those open tasks from delivered guidance.

@@ -1,9 +1,14 @@
 # Law as Pattern
 
+
+**2026-10-26 evidence correction:** The [claims and evidence policy](./adoption/claims-and-evidence.md) supersedes categorical insurance, legal-admissibility and premium conclusions in this research narrative. BR class does not establish coverage, and compliance-index covariance is not a validated actuarial uncertainty. Historical arguments and notation below remain identifiable as such.
+
 *A manifesto for the governance of agentic AI systems.*
 
 **Version:** 0.1
-**Date:** 2026-04-21
+**Date:** 2026-04-21 (historical opinion; qualifications added 2026-10-26)
+
+This manifesto is an argument, not current market or legal research. Claims below about insurer motives, professional-body activity, lobbying and future enforcement are not established by the October review. Use the [review](./adoption/external-review-2026-10.md) and current crosswalks for sourced comparisons.
 
 ---
 

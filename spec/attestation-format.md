@@ -2,8 +2,8 @@
 
 *Signed, anchored, verifiable — the output a vendor produces to claim a BR profile.*
 
-**Version:** 0.1
-**Date:** 2026-04-21
+**Version:** 0.1.1
+**Date:** 2026-10-26
 **Part of:** [spec/](./) — machine-readable conformance artefacts for the Blast Radius Framework
 
 ---
@@ -12,7 +12,7 @@
 
 A BR profile (`br-profile.schema.json`) is the *content*. An **attestation** is the signed, anchored, third-party-verifiable *form* that content takes when a deployer, integrator, or vendor claims a BR rating.
 
-An attestation is what an auditor, underwriter, or regulator receives. Without proper attestation form, a BR profile is a self-assertion; with it, it is admissible evidence.
+An attestation is what an auditor, underwriter, or regulator receives. Signing and anchoring support attribution and integrity under the verifier's trust assumptions. They do not establish factual truth, legal admissibility, regulatory compliance, or insurance coverage on their own.
 
 This specification defines:
 
@@ -35,7 +35,7 @@ Profiles are serialised as JSON following **JCS (JSON Canonicalization Scheme, R
 
 The canonical serialisation is deterministic: two implementations of JCS produce byte-identical output for the same logical input. This makes signatures reproducible.
 
-**Alternative:** COSE_Sign1 (CBOR Object Signing, RFC 8152) is acceptable for systems already CBOR-native, particularly constrained devices or hardware-attestation flows. Attestations specify the canonicalisation form in the `signature.signed_payload_canonical_form` field.
+**COSE:** legacy schemas allow the COSE-Sign1 label, but this revision does not define an interoperable COSE payload profile. Do not claim BRF-JCS-0.1.1 conformance for a COSE envelope. A separately specified and tested COSE profile is future work.
 
 ---
 
@@ -45,7 +45,7 @@ A signed attestation is a JSON object with the profile content plus a `signature
 
 ```json
 {
-  "schema_version": "0.1",
+  "schema_version": "0.1.1",
   "framework_version": "0.5",
   "profile_id": "...",
   ...
@@ -53,6 +53,7 @@ A signed attestation is a JSON object with the profile content plus a `signature
     "algorithm": "Ed25519",
     "signer_id": "did:web:example.com:attestations:2026-q2",
     "signature_value": "base64...",
+    "payload_profile": "BRF-JCS-0.1.1",
     "signed_payload_canonical_form": "JCS-RFC8785",
     "signed_at": "2026-04-21T10:30:00Z"
   }
@@ -61,14 +62,16 @@ A signed attestation is a JSON object with the profile content plus a `signature
 
 ### Signing procedure
 
-1. Populate all profile fields except `signature` (and `anchor`, if anchoring separately)
-2. Produce the canonical serialisation of the unsigned payload
-3. Sign the canonical bytes with the private key
-4. Add the `signature` object to the payload
+New JSON attestations MUST declare `signature.payload_profile: "BRF-JCS-0.1.1"` and `signed_payload_canonical_form: "JCS-RFC8785"`.
 
-Note: `signature.signed_at` is **inside** the signed payload in the envelope above, which means the signing procedure must include it. An alternative is to sign the payload-without-signature and include `signed_at` in the signature object only; both are acceptable if specified and consistent.
+1. Populate the profile and the complete signature metadata, including `algorithm`, `signer_id`, `signed_at`, canonical form, and payload profile.
+2. Copy the object, remove the top-level `anchor` member, and set the existing `signature.signature_value` member to the empty string. Keep every other member, including unknown extension fields.
+3. JCS-canonicalise that copy and sign those bytes with the declared algorithm.
+4. Replace the original object's empty `signature_value` with the base64 signature. Add the external anchor only after signing.
 
-**Recommended:** sign the payload with the `signature` object present but with `signature_value` set to empty string; after signing, replace the empty string with the base64 signature. This is the JWS (RFC 7515) convention extended to canonical JSON.
+Verification MUST reconstruct exactly the same copy. Removing `signature_value` entirely is a different byte sequence and is invalid for this profile. This is a BRF payload convention, not a JWS envelope. Legacy v0.1 attestations omitted the payload-profile marker and admitted ambiguous constructions; reissue them or verify only with an explicitly documented historical construction. Never guess which construction verifies.
+
+The reference byte construction and HMAC-only test helper are in [`../tools/attestation_payload.py`](../tools/attestation_payload.py). HMAC test vectors demonstrate byte handling; they provide no independent witness or asymmetric signature verification. COSE deployments require their own explicit, interoperable COSE profile; this helper does not implement one.
 
 ### Algorithm selection
 
@@ -77,7 +80,8 @@ Note: `signature.signed_at` is **inside** the signed payload in the envelope abo
 | **Ed25519** | Recommended default. Deterministic, compact, fast, no parameter choices. |
 | **ES256** (ECDSA P-256) | When HSM or existing PKI restricts to NIST curves. |
 | **ES384** (ECDSA P-384) | High-assurance deployments where P-256 is considered insufficient. |
-| **RS256** (RSA-PSS 2048) | Only where the receiver requires RSA. Larger signatures, slower. |
+| **RS256** (RSASSA-PKCS1-v1_5 with SHA-256) | Only where the receiver requires this RSA algorithm. |
+| **PS256** (RSASSA-PSS with SHA-256) | RSA-PSS deployments; distinct from RS256 per [RFC 7518](https://www.rfc-editor.org/rfc/rfc7518.html). |
 | **HMAC-SHA256** | Only for intra-organisation attestations with out-of-band key exchange. Not suitable for external distribution. |
 
 ### Key management
@@ -126,7 +130,7 @@ The anchor commitment binds to the canonical serialisation of the attestation pa
 anchor_commitment = Merkle_root(...attestations in the batch... including our attestation hash)
 
 where:
-attestation hash = SHA-256(JCS(profile with signature))
+attestation hash = SHA-256(JCS(profile with populated signature, excluding top-level anchor))
 ```
 
 A verifier recomputes the attestation hash and verifies inclusion in the Merkle root.
@@ -160,15 +164,15 @@ An auditor, underwriter, or regulator verifies an attestation as follows:
 
 ### Step 2 — Verify the signature
 
-1. Strip the `signature_value` from the profile
-2. Canonicalise the payload using the scheme named in `signed_payload_canonical_form`
+1. Require a supported `payload_profile`; for BRF-JCS-0.1.1, remove the top-level `anchor` and set `signature.signature_value` to the empty string on a copy
+2. JCS-canonicalise that copy, preserving all other metadata and profile members
 3. Verify the signature over the canonical bytes using the recovered public key
 4. Confirm the algorithm matches `signature.algorithm`
 
 ### Step 3 — Verify the anchor (BR-3+ if present; BR-4+ required)
 
 1. Resolve `anchor.anchor_uri` and retrieve the proof
-2. Compute the attestation hash as `SHA-256(canonical(payload including signature))`
+2. Compute the attestation hash as `SHA-256(JCS(payload including the populated signature but excluding the top-level anchor))`
 3. Verify Merkle inclusion (or TSA token, or blockchain inclusion) using the proof
 4. Confirm `anchor.anchor_timestamp` is within allowed skew from `signature.signed_at`
 
@@ -177,7 +181,7 @@ An auditor, underwriter, or regulator verifies an attestation as follows:
 1. Confirm `schema_version` matches a known schema
 2. Validate the profile against `br-profile.schema.json`
 3. Recompute `aggregation.ordinal_class` from the axes and modifiers, confirming agreement with the declared class
-4. If `aggregation.cardinal_score` is present, recompute B(t) from the weights and axis tiers, confirming agreement with B_hat within σ_B
+4. If `aggregation.cardinal_score` is present, require the calibration, observations and filter state needed to reproduce it. A filtered estimate cannot in general be reproduced from current axis tiers alone; mark it unverified when those inputs are absent. The score does not establish insurance coverage.
 
 ### Step 5 — Spot-check invariant claims
 
@@ -234,7 +238,7 @@ X.509 certificates, DIDs, JWKS endpoints, and similar existing PKI are acceptabl
 
 ### With regulatory filings
 
-BR attestations are designed to be ingestible by regulatory systems without transformation. EU AI Act Article 12 logging obligations, Article 26(6) authority access, and Article 72 post-market monitoring can all point at the signed-and-anchored attestation as the source of truth.
+BR attestations can support regulatory evidence packets. Article 26(6) concerns deployer log retention; it is not a general authority-access provision. An attestation does not replace the underlying logs, technical documentation or monitoring records. Apply the role, category and dates in the [current EU crosswalk](../adoption/crosswalk-eu-ai-act.md).
 
 ### With insurance submissions
 

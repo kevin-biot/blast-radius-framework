@@ -3,8 +3,8 @@
 *Task list for the six BRF adoption gaps made more visible by the OECD Catalogue of Tools & Metrics for Trustworthy AI.*
 
 **Source:** [`../oecd-catalogue-assessment.md`](../oecd-catalogue-assessment.md) §6
-**Status:** Initial execution pass
-**Date:** 2026-04-23
+**Status:** Design deliverables published; implementation/adoption tracked separately
+**Date:** 2026-04-23; ledger reviewed 2026-10-26
 
 ---
 
@@ -23,14 +23,14 @@ This plan turns the six gaps named in the OECD assessment into explicit work ite
 
 | Order | Gap | Deliverable in this repo | Status in this pass |
 |---|---|---|---|
-| 1 | Missing evidence adapters | [`external-tools-mapping.md`](./external-tools-mapping.md) | completed |
-| 2 | Missing reference harness | [`benchmark-harness-design.md`](./benchmark-harness-design.md) | completed |
-| 3 | Missing questionnaire-to-profile tooling | [`questionnaire-profile-conversion.md`](./questionnaire-profile-conversion.md) | completed |
-| 4 | Missing component-card layer | [`component-cards.md`](./component-cards.md) | completed |
-| 5 | Missing public crosswalks | [`crosswalks-roadmap.md`](./crosswalks-roadmap.md) | completed |
-| 6 | Missing OECD-ecosystem visibility | [`oecd-visibility-plan.md`](./oecd-visibility-plan.md) | completed |
+| 1 | Missing evidence adapters | [`external-tools-mapping.md`](./external-tools-mapping.md) | Guidance published; local ACS exporter/fixture tested; live integration open |
+| 2 | Missing reference harness | [`benchmark-harness-design.md`](./benchmark-harness-design.md) | Design only; unit tests are not the proposed general harness |
+| 3 | Missing questionnaire-to-profile tooling | [`questionnaire-profile-conversion.md`](./questionnaire-profile-conversion.md) | Design only; converter not implemented |
+| 4 | Missing component-card layer | [`component-cards.md`](./component-cards.md) | Schema, example and local validation implemented; no external adoption verified |
+| 5 | Missing public crosswalks | [`crosswalks-roadmap.md`](./crosswalks-roadmap.md) | Guidance published; no conformity/certification or insurer decision established |
+| 6 | Missing OECD-ecosystem visibility | [`oecd-visibility-plan.md`](./oecd-visibility-plan.md) | Plan only; no submission receipt or listing verified |
 
-This pass produces the missing design-and-translation artefacts. It does **not** implement the companion repos or crosswalk documents themselves. It defines the shape they should take so implementation can proceed without re-deriving scope.
+The original April pass delivered design notes, not closure of the operational gaps. Subsequent crosswalks, schemas and local utilities are reflected above. The [October implementation worklist](./update-worklist-2026-10.md) records current results and remaining acceptance criteria.
 
 ---
 

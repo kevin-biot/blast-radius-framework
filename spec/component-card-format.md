@@ -2,8 +2,8 @@
 
 *Machine-readable documentation cards for the components that sit underneath a Blast Radius Framework profile or attestation.*
 
-**Spec version:** 0.1
-**Date:** 2026-04-23
+**Spec version:** 0.1.1
+**Date:** 2026-10-26
 **For framework version:** 0.5
 
 ---
@@ -56,9 +56,19 @@ The minimum linking pattern is:
 2. the component card lists the relevant `related_profile_ids`
 3. reports or attestations point to the card where a reviewer needs component-level detail
 
-An initial example card is included at [`examples/example-component-card-tool-legal-db.json`](./examples/example-component-card-tool-legal-db.json). It links to the closed-world BR-2 worked example via `related_profile_ids: ["example-closed-world-br2"]`.
+An initial example card is included at [`examples/example-component-card-tool-legal-db.json`](./examples/example-component-card-tool-legal-db.json). It links to the closed-world BR-2 worked example via `related_profile_ids: ["example-br2-closed-world-001"]`.
 
 ---
+
+## Authority and Delegation Context
+
+The optional `authority_context` object separates externally supplied mandate evidence from technical delegation. It records `mandate_source` and its accountable owner, `principal_id`, `agent_id`, `audience`, `delegated_scopes`, `expires_at`, `policy_snapshot_id`, `revocation_check`, optional parent-delegation evidence and explicit limits.
+
+A supplied mandate reference is not proof of its legal validity. A successful revocation check must include a timestamp and evidence reference; it is not a promise of continuing validity. Admission must still enforce current scope, expiry, revocation and policy at the execution boundary. Do not put bearer tokens or secrets in cards.
+
+The fictional legal-database example deliberately declares `mandate_source.status: not_established` and `revocation_check.status: not_checked`. It grants nothing. Its profile link resolves to the existing example; the example is not a current re-attestation.
+
+These fields align with questions raised by [NIST's agent identity work](https://www.nist.gov/news-events/news/2026/09/comments-software-and-agentic-ai-identity-concept-paper) and [WIMSE AIMS draft-00](https://datatracker.ietf.org/doc/html/draft-ietf-wimse-aims-00). They do not claim conformance to either. AIMS here means Agent Identity Management System, not the ISO/IEC 42001 management system.
 
 ## Design principles
 
@@ -102,6 +112,6 @@ That sequence captures the components most likely to change blast radius or atte
 Use the repo-local validator after installing it once:
 
 1. `./tools/install-jsonschema-local.sh`
-2. `python3 ./tools/validate_json_schema.py ./spec/component-card.schema.json ./spec/examples/example-component-card-tool-legal-db.json`
+2. `python3 ./tools/validate_json_schema.py --check-repository`
 
-The validator runtime is installed locally under `.tools/` and is not committed to the repository.
+This resolves card/profile IDs as well as checking structure and supported formats. Runtime expiry, revocation, evidence truth and legal authority are not verified. The runtime is local under ignored `.tools/`; see [utility limits](../tools/README.md).

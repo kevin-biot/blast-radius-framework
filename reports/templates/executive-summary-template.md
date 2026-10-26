@@ -52,11 +52,11 @@ Detailed remediation backlog in [`[SYSTEM_NAME]-adr-backlog.md`](./[SYSTEM_NAME]
 
 ## 4. Insurability posture
 
-- **Current position under specialist-underwriter criteria (as of [DATE]):** *[Coverable / coverable with conditions / not coverable]*
-- **Position under Verisk 2026 commercial insurance AI exclusions:** *[Covered / excluded / uncertain]*
+- **Current position under specialist-underwriter criteria (as of [DATE]):** *[Coverage not established by default. If an insurer decision exists, name its scope, source and date.]*
+- **Position under Verisk 2026 commercial insurance AI exclusions:** *[Not established without the applicable policy wording and endorsements. Cite any contract-specific analysis.]*
 - **Gap to Consolidation Zone** (framework §14 Quadrant IV — BR-2/BR-3 with Invariants 1–7 intact)**:** *[List the 2–3 invariants or axis tiers that block. Or state that the current BR class is the minimum achievable for the consequence domain, in which case the Consolidation Zone is reached at the current rating rather than requiring further compression.]*
 
-*[If the system is commercially uninsurable, state it explicitly. This is a board-level fact.]*
+*[Do not infer a coverage or exclusion decision from BR class, missing tests or an experimental cardinal score. Separate legal applicability, architecture findings and the insurer's decision.]*
 
 ## 5. Recommendation
 

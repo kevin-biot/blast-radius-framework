@@ -62,6 +62,9 @@
     "summary": {
       "type": "string"
     },
+    "authority_context": {
+      "$ref": "#/$defs/authority_context"
+    },
     "related_profile_ids": {
       "type": "array",
       "items": {
@@ -168,6 +171,47 @@
   ],
   "additionalProperties": false,
   "$defs": {
+    "authority_context": {
+      "description": "Declared context, not a grant or a determination of legal authority. External mandate evidence is distinct from technical delegation.",
+      "type": "object",
+      "required": ["mandate_source", "principal_id", "agent_id", "audience", "delegated_scopes", "expires_at", "policy_snapshot_id", "revocation_check", "limits"],
+      "properties": {
+        "mandate_source": {
+          "type": "object",
+          "required": ["status", "accountable_owner"],
+          "properties": {
+            "status": {"enum": ["not_established", "reference_provided"]},
+            "accountable_owner": {"type": "string", "minLength": 1},
+            "reference": {"$ref": "#/$defs/evidence_ref"}
+          },
+          "if": {"properties": {"status": {"const": "reference_provided"}}},
+          "then": {"required": ["reference"]},
+          "additionalProperties": false
+        },
+        "principal_id": {"type": "string", "minLength": 1},
+        "agent_id": {"type": "string", "minLength": 1},
+        "audience": {"type": "string", "minLength": 1},
+        "delegated_scopes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "parent_delegation_ref": {"$ref": "#/$defs/evidence_ref"},
+        "expires_at": {"type": "string", "format": "date-time"},
+        "policy_snapshot_id": {"type": "string", "minLength": 1},
+        "revocation_check": {
+          "type": "object",
+          "required": ["status", "mechanism"],
+          "properties": {
+            "status": {"enum": ["not_checked", "active_at_check", "revoked", "unavailable"]},
+            "mechanism": {"type": "string", "minLength": 1},
+            "checked_at": {"type": "string", "format": "date-time"},
+            "evidence_ref": {"$ref": "#/$defs/evidence_ref"}
+          },
+          "if": {"properties": {"status": {"enum": ["active_at_check", "revoked"]}}},
+          "then": {"required": ["checked_at", "evidence_ref"]},
+          "additionalProperties": false
+        },
+        "limits": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
     "owner": {
       "type": "object",
       "required": ["organisation_name"],

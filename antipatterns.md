@@ -2,9 +2,9 @@
 
 *A negative reference for the classification framework*
 
-**Version:** 0.1
+**Version:** 0.1.1
 **Status:** Research draft
-**Date:** 2026-04-21
+**Date:** 2026-10-26
 **Companion to:**
 - [framework.md](./framework.md) (rating framework, v0.5)
 - [manifesto.md](./manifesto.md) (the argument)
@@ -43,17 +43,17 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 ## Part A — Architectural anti-patterns
 
-### A1. A2A (agent-to-agent protocol with public capability discovery)
+### A1. Unmediated agent discovery and delegation (including A2A deployments)
 
-**Mechanism.** Agents publish AgentCards advertising their tools and capabilities to peers. Discovery is the design goal. NL is the interaction medium.
+**Mechanism.** A deployment lets discovered peers acquire consequential authority without per-principal authorization, scoped handoffs or enforced tool preconditions. A public AgentCard alone is not an execution grant. A2A supports structured data, authentication, authorization and restricted extended cards; assess whether the deployment actually uses them. [A2A specification](https://a2a-protocol.org/latest/specification/).
 
-**Axis damage.** Maxes A (each peer grants execution authority to any caller that can reach it). Forces R3+ by construction. Creates **C4a as the default** (NL-coupled peers — the regime where Sentinel shows collapse inside 15 turns). AgentCard is a δ_adv enumeration surface; an attacker who discovers an AgentCard knows exactly what to prompt-inject for.
+**Axis damage.** A, R and C follow the deployed credentials, reachable systems and authority of inter-agent content. Neither R3 nor A4 follows from the protocol name. Untrusted prose directing consequential tools can create C4a exposure.
 
-**Typical BR.** BR-4 before any specific tool is wired; BR-5 when composed with write-capable backends.
+**Typical BR.** Context-dependent; compute from the actual tuple and existing conservative worldview rule. Do not assign BR-4/5 from discovery alone.
 
-**Demotion path.** Typed, signed capability requests with broker mediation (aARP-style). Remove NL from the peer-to-peer channel. Make capability discovery authenticated and per-principal, not public.
+**Demotion path.** Scoped credentials, authenticated and least-enumerating discovery where needed, bounded structured handoffs, tenant and parameter checks, and deny-by-default tool gateways. Verify enforcement with adversarial calls.
 
-**Regulatory risk.** EU AI Act Article 14 (human oversight) — AgentCard-discovered capabilities can be invoked without human confirmation; Article 15 (cybersecurity) — public capability discovery is a threat surface.
+**Regulatory relevance.** Human oversight and cybersecurity evidence depend on legal role/category and applicable dates; use the [EU crosswalk](./adoption/crosswalk-eu-ai-act.md).
 
 ### A2. "API-agent-ready" / API-first tool exposure
 
@@ -67,17 +67,17 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 **Regulatory risk.** EU AI Act Article 13 (transparency) — if users don't know which APIs the agent can hit, transparency obligation fails.
 
-### A3. MCP server ecosystem without composition rule
+### A3. Tool composition without a deployment control inventory (including MCP)
 
-**Mechanism.** Model Context Protocol itself is neutral. The *ecosystem* is the risk: each MCP server is a trust boundary nobody audits, "install this MCP server to give Claude Desktop access to X" pattern becomes the default integration.
+**Mechanism.** A host adds servers or connectors without recording executable permissions, downstream credentials, data destinations and evidence coverage. MCP supplies authorization and security mechanisms; whether they are enabled and enforced is a deployment fact. The checked HTTP authorization specification is [2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization); it treats authorization as optional overall, with transport-specific guidance.
 
-**Axis damage.** A3/A4 trivially reached through any write-capable server. C-axis expands per server installed, composed ad-hoc. O collapses because MCP server internals are opaque. δ_adv unbounded — server authors could be anyone.
+**Axis damage.** A/R/C grow only as actual grants, reachable effects and shared dependencies grow. O depends on correlated host/server/tool evidence. Avoid assuming all servers are opaque or that every added server promotes a class.
 
-**Typical BR.** BR-3 per server; aggregate rapidly reaches BR-5 as servers compose.
+**Typical BR.** Computed from the deployment, with unverified controls recorded explicitly.
 
-**Demotion path.** Formal composition rule (v0.2 §7): each MCP server rated before install; δ_adv analysed; observability requirement on the server-side tool path. MCP servers from unrated sources refused by policy.
+**Demotion path.** Inventory servers and revisions, resource audiences, scopes, client-specific consent, downstream token handling, tenancy, allowed destinations and revocation behaviour. Test confused-deputy, token-passthrough and local-server risks against [MCP security guidance](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices).
 
-**Regulatory risk.** GDPR (data leaving governance boundary through ungoverned MCP server); EU AI Act Article 15 (supply chain integrity).
+**Regulatory relevance.** Data handling and security obligations require role/use-specific review; protocol adoption alone establishes no compliance result.
 
 ### A4. Agent marketplaces / plugin stores
 
@@ -127,17 +127,17 @@ All axis codes refer to the v0.2 framework: **A** authority, **R** reach, **C** 
 
 **Regulatory risk.** EU AI Act Article 14 (human oversight) — if the only reviewer is another LLM, the oversight is nominal.
 
-### A8. OAuth-as-agent-identity (agent authenticates as user)
+### A8. Unscoped user credentials and lost delegation context
 
-**Mechanism.** Agent acquires user's OAuth token; acts with user's full permissions. Principal is conflated.
+**Mechanism.** An agent inherits a user's broad bearer credentials and downstream services cannot distinguish the acting workload, delegating principal or task scope. OAuth is a delegation framework; using it is not itself the anti-pattern.
 
-**Axis damage.** A-axis escalation by identity aliasing: there's no separation between "user can do X" and "agent can do X on user's behalf". Authorisation ledger can't distinguish user intent from agent-initiated action.
+**Axis damage.** A and R depend on effective scope, audience and enforcement. Loss of actor/delegation context weakens O and attribution.
 
-**Typical BR.** BR-3; higher if user permissions are broad.
+**Typical BR.** Context-dependent; no automatic protocol-based class.
 
-**Demotion path.** Delegated-identity model with explicit agent principal, recorded in every action's evidence. Session-execution attestation binds agent identity to session, not user identity; attestation tokens carry subject, tool allowlist, parameter constraints, policy snapshot, and expiry.
+**Demotion path.** Record agent and principal bindings, intended resource/audience, scopes, expiry, policy revision and revocation. Preserve those bindings across delegation and tool-service hops. Consider existing workload/OAuth mechanisms and the [WIMSE AIMS draft-00](https://datatracker.ietf.org/doc/html/draft-ietf-wimse-aims-00), which remains work in progress.
 
-**Regulatory risk.** GDPR (data-subject rights don't know *who* processed data); EU AI Act Article 12 (logging must identify the actor).
+**Regulatory relevance.** Record evidence of technical delegation separately from the organisational/legal mandate.
 
 ### A9. Ungoverned vector memory / RAG-as-memory
 
@@ -391,7 +391,7 @@ The evidence-chain anti-patterns in Part B point collectively to a single archit
 3. **Domain-neutral.** SAPP does not care whether the operation is a bank transfer, an AI decision, a SIM swap, or an insurance claim. The evidence substrate is the same — which is why it can serve as a *standard* rather than a per-domain implementation.
 4. **Evidence scoring.** 10 categories, 0–1.0. An evidence bundle isn't just present — it's *rated*. Low-scoring evidence triggers higher oversight per the Expected Compliance Risk / proportionate-oversight model (framework.md §5.2).
 5. **Deterministic liability allocation.** The evidence model is built to answer "whose fault is this" deterministically, not just "what happened".
-6. **EU AI Act mapping explicit.** The relevant articles (12 automatic logging, 15 robustness/cybersecurity, 19 retention, 26(6) authority access, 72 post-market monitoring, 73 incident reporting) map to specific minimum-profile controls that a SAPP-style evidence platform can satisfy mechanically. A deployer knows what passes.
+6. **EU AI Act mapping scoped.** Evidence-platform controls may support logging, robustness, retention and monitoring work. Article 26(6) concerns deployer log retention, not generic authority access. No platform mechanically establishes legal compliance; use the [reviewed crosswalk](./adoption/crosswalk-eu-ai-act.md).
 7. **PROV-O provenance, depth-gated by confidence.** Cheap when confidence is high; full graph when oversight is flagged.
 8. **Fail-closed on critical actions.** MEP-08 — the opposite of anti-pattern B11.
 

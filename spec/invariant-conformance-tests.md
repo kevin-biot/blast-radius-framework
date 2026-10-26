@@ -25,6 +25,8 @@ Tests are cumulative: BR-4 systems must pass all BR-3 tests plus additional ones
 
 ---
 
+**2026-10-26 interpretation note:** These v0.1 procedures and stable IDs remain identifiable for historical assessments. I1-T2's seed-removal criterion is not a standalone proof of determinism and is withdrawn as such; seeds/temperature do not guarantee reproducibility across environments. The [proposed I1 revision](../adoption/execution-boundary-research.md) separates policy replay, captured events, canonical bytes and model variability. A normative boundary change and corresponding reruns remain open; the local ACS fixture does not satisfy this full suite.
+
 ## Invariant 1 — Deterministic execution
 
 *For identical inputs under identical policy snapshots, the system must produce identical outputs.*
@@ -80,7 +82,7 @@ Tests are cumulative: BR-4 systems must pass all BR-3 tests plus additional ones
 
 ## Invariant 2 — Evidence binding
 
-*Every decision must produce immutable policy state, execution context, and outputs. Tamper-evident, audit-admissible.*
+*Every decision must bind policy state, execution context and outputs in tamper-evident evidence. Legal admissibility and factual completeness require separate assessment.*
 
 ### I2-T1 — Hash chain integrity
 

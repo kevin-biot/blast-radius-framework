@@ -38,7 +38,7 @@ Three reasons:
 - **Inherent BR-5 → Residual BR-4** via architectural controls: six of seven invariants architectural; composition topology T1 sub-additive; all 26 anti-patterns either `not_exhibited` (20) or `exhibited_with_demotion_path` (6 — architectural-maturity items, not design flaws).
 - **Three named gaps:** Kalman Phase 1 (cardinal score theoretical pending implementation); τ trajectory cadence (pre-launch — no operational record yet); principal-population accounting (not instrumented in evidence schema).
 - **Evidence anchors are demonstrable, not just claimed.** OBO + A2A reference implementation at [`kevin-biot/obo-standard/examples/integrations/a2a/`](https://github.com/kevin-biot/obo-standard/tree/main/examples/integrations/a2a) with live public DNS trust anchor (`_obo-key.lane2.ai`) third parties can verify. SAPP role-based API surface (customer / regulator / integrity endpoints) demonstrable under PoC.
-- **Insurability posture:** coverable with conditions under specialist-underwriter criteria (Munich Re aiSure, AIUC, Armilla/Lloyd's); not excluded under Verisk 2026 commercial insurance AI exclusions; cardinal score `B̂(t|t) ± σ_B(t)` not yet numerical pending Kalman Phase 1.
+- **Insurance posture (corrected 2026-10-26):** coverage and exclusions not established. The April numeric profile is historical; the experimental cardinal score was not produced. See the [claims policy](../../adoption/claims-and-evidence.md).
 
 ## Correction chain — the force-function method operating on this assessment
 

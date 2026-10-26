@@ -121,6 +121,22 @@
       "description": "Optional. External anchor commitment (e.g. SAPP, OpenTimestamps, notarised Merkle root). Required for BR-4+ attestations."
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "required": ["schema_version", "signature"],
+        "properties": {"schema_version": {"const": "0.1.1"}}
+      },
+      "then": {
+        "properties": {
+          "signature": {
+            "required": ["payload_profile", "signed_at"],
+            "properties": {"signed_payload_canonical_form": {"const": "JCS-RFC8785"}}
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "worldview": {
       "type": "string",
@@ -352,7 +368,7 @@
         },
         "cardinal_score": {
           "type": "object",
-          "description": "Optional v0.5 Kalman-extended cardinal score. Required for BR-4+ insurability claims.",
+          "description": "Optional experimental v0.5 cardinal estimate. Numerical claims require disclosed normalization and calibration; no coverage implication.",
           "properties": {
             "B_hat": {
               "type": "number",
@@ -361,7 +377,7 @@
             "sigma_B": {
               "type": "number",
               "minimum": 0,
-              "description": "Kalman uncertainty σ_B(t). Directly usable as the actuarial υ variable."
+              "description": "Model-dependent uncertainty in the compliance index; mapping to insured-loss uncertainty requires independent calibration."
             },
             "weights": {
               "type": "object",
@@ -419,7 +435,7 @@
       "properties": {
         "algorithm": {
           "type": "string",
-          "enum": ["Ed25519", "ES256", "ES384", "RS256", "HMAC-SHA256"],
+          "enum": ["Ed25519", "ES256", "ES384", "RS256", "PS256", "HMAC-SHA256"],
           "description": "Ed25519 recommended. HMAC-SHA256 only acceptable for attestations with out-of-band key exchange."
         },
         "signer_id": {
@@ -435,7 +451,11 @@
           "enum": ["JCS-RFC8785", "COSE-Sign1"],
           "description": "How the payload was canonicalised for signing. JCS (RFC 8785) recommended for JSON."
         },
-        "signed_at": { "type": "string", "format": "date-time" }
+        "signed_at": { "type": "string", "format": "date-time" },
+        "payload_profile": {
+          "const": "BRF-JCS-0.1.1",
+          "description": "Signature-input construction introduced in attestation format 0.1.1; required for new JSON attestations by the format specification."
+        }
       }
     },
     "anchor": {

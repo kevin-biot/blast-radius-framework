@@ -22,6 +22,10 @@ What this directory adds is the operational layer around those forms:
 
 ## Files
 
+Current execution status is in [the October update worklist](./update-worklist-2026-10.md). Read the [claims policy](./claims-and-evidence.md), [ACS adapter](./acs-evidence-adapter.md), [validation programme](./execution-boundary-research.md) and [runnable utilities](../tools/README.md) for this maintenance pass.
+
+The latest reassessment is [`external-review-2026-10.md`](./external-review-2026-10.md), dated 2026-10-26. It reviews market and project changes, identifies claims and validation gaps requiring attention, and lists open update tasks.
+
 1. [`gap-closure-plan.md`](./gap-closure-plan.md) — the task list and execution order for the six gaps surfaced by the OECD assessment.
 2. [`external-tools-mapping.md`](./external-tools-mapping.md) — evidence-adapter annex mapping adjacent tools and metrics into BRF claims.
 3. [`benchmark-harness-design.md`](./benchmark-harness-design.md) — design note for a BRF benchmark and invariant-test companion repo.

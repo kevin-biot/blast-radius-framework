@@ -1,5 +1,8 @@
 # Lane2 Self-Assessment against the Blast Radius Framework
 
+
+**Review correction, 2026-10-26:** This is an April assessment, not a current re-attestation. Its numeric profile and measured observations are retained. Statements that the architecture guarantees coverage, avoids exclusions, cannot obtain insurance, or necessarily forecloses lawful deployment are withdrawn. **Coverage not established.** See [current claims policy](../../adoption/claims-and-evidence.md) and [current EU crosswalk](../../adoption/crosswalk-eu-ai-act.md). The historical JSON profile is not re-signed or re-rated by this correction.
+
 *Eating our own sauce. Honest rating of the integrated Lane2 stack at the public-observable level.*
 
 **Date of assessment:** 2026-04-21
@@ -175,7 +178,7 @@ No T2 super-additive substrate anywhere. No T4 voting composition (Lane2's archi
 - **Evidence summary:** SAPP evidence layer produces externally-anchored Merkle-proof commitments with independent signing keys. Every decision output is bound to a policy snapshot hash + an evidence envelope. Tamper-evident at rest (append-only anchor); tamper-evident in transit (signed envelope). Three-level Merkle proof chain: Evidence root (per-settlement) → Partition root (append-only audit tree, signed every 30s) → Global root (root-of-roots, Ed25519 signed every 60s, published to EU Qualified Archive / QTSP every 15 minutes).
 - **Demonstrable in working reference:** the OBO repo's `examples/integrations/a2a/` ships a runnable end-to-end OBO + A2A reference implementation with Ed25519 keys, a live public DNS trust anchor (`_obo-key.lane2.ai IN TXT "v=obo1 ed25519=…"`), and Merkle evidence via an Evidence Anchor stub. Three Docker containers; no pre-shared config; no crypto mocks; seven captured test scenarios. A third-party verifier can `dig _obo-key.lane2.ai` and independently verify the DNS trust anchor without contacting Lane2 infrastructure.
 - **Role-based evidence API surface:** SAPP exposes role-scoped verification APIs (per Lane2 private specification, demonstrable under PoC): customer-care and consumer views via `GET /evidence/{traceId}` (bundle + scored confidence + liability allocation + machine-readable reason codes + proof); proof retrieval via `GET /evidence/{traceId}/proof` (three-level Merkle); regulator endpoints `GET /regulator/verify/{traceId}` and `GET /regulator/integrity` (privacy-preserving — no consumer DIDs; returns chain_verified + global_root match against QTSP + jurisdiction_overlap). A regulator can verify full system integrity without accessing any individual transaction data. Extraction of this API specification to a public sibling document is the subject of backlog item 11.
-- **EU AI Act mapping:** Art. 12 (automatic logging), Art. 15 (robustness integrity), Art. 19 (retention), Art. 26(6) (authority access) supported architecturally via the role-based API surface; Art. 72/73 (post-market monitoring/incident) supported via the integrity endpoints + machine-readable reason codes.
+- **EU AI Act mapping:** Art. 12 (automatic logging), Art. 15 (robustness integrity), Art. 19 (retention), Art. 26(6) (deployer log retention) supported architecturally via the role-based API surface; Art. 72/73 (post-market monitoring/incident) supported via the integrity endpoints + machine-readable reason codes.
 
 ### I3 — Policy snapshot coherence
 
@@ -297,7 +300,7 @@ Three named gaps. Each seeds an ADR candidate in [`self-assessment-adr-backlog.m
 
 ### Gap-1 — Kalman extension (σ_B(t)) is theoretical
 
-Framework §5.4 v0.5 Kalman extension is specified; implementation in the Lane2 reference stack is Phase 0 (not yet scalar Phase 1 on a deployer metric). σ_B(t) cannot be produced for this self-assessment. The consequence: cardinal score is not computed; actuarial υ variable is not numerically expressible; specialist underwriters will price with a conservative default where σ_B would otherwise give them a tighter figure. Remediation: implement Phase 1 scalar Kalman on a selected deployer metric (the obvious candidate is the compliance-decision ratio in a pilot deployment).
+Framework §5.4 v0.5 Kalman extension is specified; implementation in the Lane2 reference stack is Phase 0 (not yet scalar Phase 1 on a deployer metric). σ_B(t) cannot be produced for this self-assessment. The consequence: the experimental cardinal score is not computed. Neither its absence nor a future σ_B estimate establishes insurer appetite or price. Remediation: implement Phase 1 scalar Kalman on a selected deployer metric (the obvious candidate is the compliance-decision ratio in a pilot deployment).
 
 ### Gap-2 — Trajectory review cadence is nominal (pre-launch)
 

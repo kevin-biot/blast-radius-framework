@@ -10,10 +10,6 @@ python3 -m pip install \
   --disable-pip-version-check \
   --target "${TARGET_DIR}" \
   --upgrade \
-  jsonschema \
-  referencing \
-  rpds-py \
-  attrs \
-  jsonschema-specifications
+  --requirement "${ROOT_DIR}/tools/requirements.txt"
 
 echo "Installed local jsonschema runtime to ${TARGET_DIR}"

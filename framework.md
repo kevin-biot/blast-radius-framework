@@ -2,10 +2,10 @@
 
 *A classification framework for governing agentic AI systems*
 
-**Version:** 0.5.1
+**Version:** 0.5.11
 **Status:** Research note, open for comment
-**Date:** 2026-04-21
-**Prior versions:** v0.1 (initial draft); v0.2 (aggregation rule, composition rule, §14 security-ops mapping); v0.3 (cardinal-score synthesis, seven architectural invariants, insurability as economic gate, compositional-enforcement pattern); v0.4 (pre-rating closed/open-world classifier, composition classes with sub-additive / super-additive / multiplicative / redundant mathematics, Invariant 7 as composition gate); v0.5 (Kalman extension — cardinal score becomes a filtered estimate B̂(t|t) ± σ_B(t); tiered evidence confidence maps to measurement noise R; σ_B(t) is the direct actuarial uncertainty υ output); v0.5.1 (§5.5 two worked examples — clinical and payments — added to make tuple values concrete; §12 observability strengthened to make its load-bearing role for BR-4/5 explicit; notation extracted to standalone [NOTATION.md](./NOTATION.md) for lookup use).
+**Date:** 2026-10-26
+**Prior versions:** v0.1 (initial draft); v0.2 (aggregation rule, composition rule, §14 security-ops mapping); v0.3 (cardinal-score synthesis, seven architectural invariants, insurability argument, compositional-enforcement pattern); v0.4 (pre-rating closed/open-world classifier, four composition topologies, Invariant 7 as composition gate); v0.5 (Kalman compliance-index estimate; its original actuarial identification is qualified in v0.5.11); v0.5.1 (§5.5 worked examples, strengthened §12 observability, notation extracted to [NOTATION.md](./NOTATION.md)). Releases v0.5.2-v0.5.10 added assessments, evidence references and repository reorganisation; see [CHANGELOG.md](./CHANGELOG.md).
 
 ---
 
@@ -24,17 +24,21 @@ Read (1) for rating, (2) for the argument, (3) for diligence, (4) for market acc
 
 ---
 
+## Current Evidence Qualifications (v0.5.11)
+
+The [claims and evidence policy](./adoption/claims-and-evidence.md) governs current interpretation of this research draft and historical assessments. The six axes, tier enums and ordinal floors are retained. The worldview floor is conservative BRF policy pending counterexample testing. Cardinal/Kalman outputs and composition equations are conditional research models; they do not establish insurance coverage, premium or legal compliance. See the [execution-boundary validation programme](./adoption/execution-boundary-research.md).
+
 ## Abstract
 
 Tool-enabled large language models have shifted AI systems from bounded reasoning to real-world action. Evaluation practice has not kept pace: accuracy benchmarks and model-level guardrails do not capture system-level impact. This note proposes a six-axis framework — authority, reach, coupling, reversibility, consequence, observability — with three modifiers, an ordinal aggregation rule, a cardinal *Expected Compliance Risk* score extended to all six axes, an explicit composition rule for multi-vendor stacks, and seven architectural invariants that must hold for any BR class claim to be genuine.
 
-The central claim, from architecture, regulation, and actuarial science converging: **system architecture, not model capability, determines operational risk**. Blast radius must be designed, not discovered. Systems that cannot populate the framework's tuple cannot be priced by specialist underwriters (Munich Re aiSure, AIUC, Armilla via Lloyd's), cannot meet EU AI Act Article 12 / 15 obligations, and should not be deployed in regulated sectors regardless of their model-layer evaluation scores.
+Architecture bounds reachable impact; model behaviour and deployment conditions influence failures within those bounds. Missing evidence is a finding about a rating, not a universal insurer or legal decision.
 
 v0.3 integrated three advances: the seven-invariant synthesis (six from prior published insurability work; seventh — *bounded coupling* — from Gagne's multi-agent drift corpus on fast-onset drift, see [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the cardinal score (Expected Compliance Risk extended over all six axes); and the compositional-enforcement pattern, exemplified by ontology-as-firewall with Bayesian validation.
 
 v0.4 added composition discipline: a pre-rating classifier separating **closed-world** (ontology-bounded) systems from **open-world** (NL-unbounded) systems, and four composition classes with explicit mathematics — sub-additive for bounded chains, super-additive for NL-coupled chains, multiplicative for defence-in-depth, exponential-reducing for voting redundancy. The framework now refuses to rate an open-world system below BR-4 regardless of per-axis scores, because Invariant 7 (bounded coupling) is structurally impossible in that substrate.
 
-v0.5 adds the Kalman extension. The cardinal score B(t) is no longer a point estimate — it becomes a filtered estimate B̂(t|t) with uncertainty σ_B(t) that is directly usable by specialist underwriters as the actuarial υ variable. Tiered evidence-confidence ratings map formally to Kalman measurement noise R, turning evidence quality into a quantitative input to uncertainty rather than a qualitative label. Systems failing Invariants 1–2 cannot produce σ_B(t) and fall back to ordinal rating with no uncertainty quantification — a structural boundary between insurable and uninsurable that the framework now makes explicit.
+v0.5 introduced a model-dependent compliance-index estimate. v0.5.11 qualifies its earlier interpretation: calibration and outcome validation are required, and covariance is not automatically actuarial uncertainty.
 
 ---
 
@@ -50,7 +54,7 @@ Three communities need a classification of operational agentic AI impact, and no
 
 - **Engineering.** Cloud systems have failure domains; finance has VaR and counterparty exposure; safety engineering has blast radius. Agentic AI has no equivalent tuple notation.
 - **Regulation.** ISO/IEC 42001 is process-shaped; NIST AI RMF is prose; the EU AI Act classifies systems by risk *category* (unacceptable / high / limited / minimal) rather than operational blast radius; MITRE ATLAS and OWASP LLM Top 10 are attack-shaped; Anthropic RSP and OpenAI Preparedness are frontier-capability-shaped.
-- **Actuarial.** Specialist insurers (Munich Re aiSure, AIUC, Armilla/Lloyd's) require data for pricing that nondeterministic systems cannot supply (stable frequency λ, bounded severity σ, quantifiable uncertainty υ). The 2025 insurability piece named the gap formally; the implication is that uninsurable systems are commercially foreclosed in regulated sectors regardless of regulatory compliance.
+- **Actuarial.** Underwriters need product-specific evidence about exposure, performance and controls. BRF can support that packet; each insurer decides appetite, terms and price.
 
 The three communities converge on the same requirement: a way to classify *how far unintended impact can propagate* from an autonomous or semi-autonomous action. This note names that classification.
 
@@ -76,7 +80,7 @@ Before the six-axis tuple is assigned, each component of the system must be clas
 - BR-2 and BR-3 claims require every component to be closed-world
 - An open-world-to-closed-world interface counts as open-world for composition (§7.2)
 
-**Why a pre-rating gate, not a modifier.** The empirical evidence from Gagne's multi-agent drift corpus[^1] is clear: collapse in open-world NL-coupled substrates happens inside the baseline-establishment window of any runtime monitor. BR-2/BR-3 would imply monitoring-based governance can contain the risk; the evidence says it cannot. Classifying worldview first prevents the common failure mode where a system is rated BR-3 on per-axis scoring while sitting architecturally in the regime where the ratings are meaningless.
+**Status of the gate.** This is a conservative framework policy motivated by the cited apparatus. Those experiments do not establish collapse before every possible runtime monitor or prove that independent execution gateways cannot contain effects. The v0.6 comparison programme tests that distinction before changing the floor.
 
 With worldview set, a system is expressed as the tuple **A–R–C–V–K–O**.
 
@@ -88,7 +92,7 @@ With worldview set, a system is expressed as the tuple **A–R–C–V–K–O**
 - **A3** Execute bounded actions (pre-approved classes, parameter limits)
 - **A4** Execute open-ended actions (tool access without structural bounds)
 
-Tool access is a grant of authority, not merely capability.
+A records executable authority under deployed credential and policy boundaries. Record organisational mandate separately; discovery or reachability alone does not grant execution authority.
 
 ### 4.2 Reach (R)
 
@@ -163,9 +167,11 @@ An internal reference implementation defines Expected Compliance Risk as `B(t) =
 
 **B(t) = w_a·A + w_r·R + w_c·C + w_v·(1−V) + w_k·K + w_o·(1−O)**
 
-where each axis tier is normalised to [0, 1] and weights are calibrated per deployment domain (clinical weights differ from payments weights differ from analytics weights). The ordinal BR class is a thresholding of B(t); the cardinal score is what specialist underwriters can use directly.
+where each axis tier is normalised to [0, 1] and weights are calibrated per deployment domain (clinical weights differ from payments weights differ from analytics weights). No canonical public calibration establishes cardinal thresholds for the ordinal class; the index is experimental and requires disclosed normalization and weights.
 
-The cardinal score and the ordinal class must agree within one BR class; disagreement is a calibration signal for the weights.
+The historical target was cardinal/ordinal agreement within one class; no validated threshold mapping is supplied. Disagreement is a research/calibration finding, not grounds to silently change an ordinal floor.
+
+**Normalization gap:** V tiers increase with irreversibility, whereas the historical formula uses (1−V). A deployer would need an explicitly reversed V normalization rather than naive tier scaling. This draft supplies no canonical mapping and does not claim a calibrated cardinal implementation.
 
 ### 5.3 λ / σ / υ priors implied by the tuple
 
@@ -173,13 +179,13 @@ The tuple implies actuarial priors:
 
 - **Frequency (λ)** — C-axis and O-axis dominate. C4a + O≤2 systems have empirically fast-onset drift (Sentinel); expected incident frequency is structurally higher and unstable under model updates.
 - **Severity (σ)** — K-axis and R-axis dominate. K4 with R≥3 produces correlated loss across the principal population.
-- **Uncertainty (υ)** — under v0.4 this was derived from V-axis and δ_adv qualitatively. Under v0.5 (§5.4) it becomes the direct output of the Kalman-filtered cardinal estimate: υ ≡ σ_B(t).
+- **Uncertainty (υ)** — insurer uncertainty about frequency/severity requires product-specific estimates. Compliance-index uncertainty σ_B(t) is a research input, not an established identity with υ.
 
-The cardinal score feeds these priors directly when Invariants 1–2 (deterministic execution + evidence binding per §9) are present. Absent those invariants, no priors can be extracted and the system is structurally unpriceable.
+The tuple informs hypotheses about these quantities. Priors and covariance need a declared statistical model and data; evidence binding does not by itself identify loss distributions.
 
 ### 5.4 Kalman extension — uncertainty-aware rating
 
-The v0.3 cardinal score is a point estimate. Kalman filtering provides the operational mechanism to extend it to a filtered estimate with explicit uncertainty, producing the form underwriters actually need. The framework-centric architecture and Kalman-as-compliance-state-estimator approach derive from an internal reference implementation (credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the specification below distils the mechanism into a portable form.
+The v0.3 cardinal score is a point estimate. Kalman filtering provides the operational mechanism to extend it to a filtered estimate with explicit uncertainty, producing a model-dependent estimate for monitoring research. The framework-centric architecture and Kalman-as-compliance-state-estimator approach derive from an internal reference implementation (credited in [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)); the specification below distils the mechanism into a portable form.
 
 **Notational note.** The Kalman formalism uses matrices conventionally named `A`, `R`, and `K`, which collide with the rating axes `A` (Authority), `R` (Reach), and `K` (Consequence). To disambiguate, this section writes the Kalman matrices as **A_K**, **R_K**, and **K_K**. See §21 (notation appendix) for the full variable glossary.
 
@@ -231,25 +237,20 @@ where:
 - **B̂(t|t)** is the filtered compliance-risk estimate
 - **σ_B(t)** is its standard deviation, derived directly from the filter covariance P(t|t) by the standard variance-of-linear-combination formula
 
-The rated output is **B̂(t|t) ± σ_B(t)**, replacing the v0.3 point score. σ_B(t) is directly identifiable with the actuarial uncertainty variable υ in §5.3.
+The experimental output is **B̂(t|t) ± σ_B(t)**. Mapping it to insured loss, actuarial uncertainty or premium requires validation. Provenance and measurement variance are distinct: signing a biased or incomplete observation does not make its error small.
 
 **What this changes:**
 
-1. **υ becomes a direct Kalman output.** Specialist underwriters (Munich Re aiSure, AIUC, Armilla/Lloyd's) receive point estimate + quantified uncertainty — the minimum data their actuarial models need. The v0.4 framework produced υ qualitatively; v0.5 produces it numerically.
-2. **Evidence tier has quantitative effect.** Moving a control from minimal-tier evidence to forensic-tier evidence *reduces σ_B(t)* by reducing R_K. Evidence investment becomes directly price-relevant, not merely compliance-relevant.
-3. **Adaptive BR thresholds.** The §5.1 interaction overrides are ordinal; Kalman supports continuous adaptive thresholds: *threshold(t) = baseline + k · σ_B(t)* where *k* is a scalar (typically 2 or 3, corresponding to roughly 95% or 99.7% confidence bands under a Gaussian assumption). High-noise sessions get looser thresholds; low-noise sessions get tighter ones. Alerts fire on *statistically significant* deviations, not on arbitrary fixed bands.
+1. **Index uncertainty becomes explicit.** Covariance concerns the chosen state/observation model and needs held-out validation.
+2. **Evidence quality requires calibration.** Estimate measurement noise from observed error and dependence, rather than tier labels alone.
+3. **Uncertainty informs review.** Calibrated bands may inform alerts. Increased uncertainty must not loosen executable authorization limits or override ordinal floors.
 4. **Kalman gain K_K(t) makes weight-of-evidence explicit.** Each new observation's influence on the estimate is quantified by K_K(t), with forensic-grade evidence (low R_K) producing higher gain and minimal-grade (high R_K) producing lower. Auditors can trace why a particular evidence submission moved the rating by how much.
 
-**Subsumption of prior truth-value models.** The NAL truth-value model (frequency f, confidence c, from Xu 2025 AIKR grounding) is a special case of Kalman with scalar state and no dynamics. The same relationship holds here: v0.3's ordinal aggregation is Kalman with infinite Q (no prior carried forward); v0.3's point cardinal score is Kalman at a single observation. v0.5 generalises both to the temporal-dynamic case.
+**Model limits.** Ordinal rules, truth-value models and weighted scores are not established special cases of this filter. Equivalence requires a derivation under stated assumptions.
 
 **Dependencies on the invariants.**
 
-The Kalman extension is only meaningful if Invariants 1–2 hold:
-
-- Invariant 1 (deterministic execution) — the filter requires that identical inputs under identical policy snapshots produce identical observations. Without it, measurement noise R_K cannot be separated from genuine compliance drift (process noise Q absorbs the non-determinism and σ_B(t) balloons to the point of uselessness).
-- Invariant 2 (evidence binding) — R_K is meaningful only if evidence tiers are attested and tamper-evident. Unsigned evidence has unknown R_K and the filter cannot be calibrated.
-
-A system failing Invariant 1 or 2 cannot produce σ_B(t). It retains an ordinal rating but **cannot quantify υ and is structurally unpriceable**. This is the architectural boundary between insurable and uninsurable made precise.
+The extension needs an identifiable observation model, calibrated process/measurement uncertainty and inspectable data. Stochastic observations can be modelled. Failure of deterministic model resampling is not proof that filtering or underwriting is impossible. Omit numerical uncertainty where calibration is absent.
 
 **Three-phase implementation path:**
 
@@ -257,7 +258,7 @@ A system failing Invariant 1 or 2 cannot produce σ_B(t). It retains an ordinal 
 - Phase 2 — multivariate state vector (e.g. compliance-decision ratio, resolution-tier distribution, evidence-confidence mean). Full covariance P(t) captures correlations between drift signals.
 - Phase 3 — per-session compliance trajectory. Per-session Kalman state maintained across tool-call sequence. *dB̂/dt* becomes the compliance trajectory signal.
 
-**Research arc beyond v0.5.** Kalman is the optimal linear estimator. For nonlinear compliance dynamics, EKF or UKF apply. For non-Gaussian compliance distributions, particle filters are the general solution. Beyond that, HMM regime detection captures phase transitions. Framework versions after v0.5 will encode richer estimators as implementation experience accrues.
+**Research arc beyond v0.5.** Under its linear-model and covariance assumptions, Kalman filtering is a minimum mean-square linear estimator. For nonlinear compliance dynamics, EKF or UKF apply. For non-Gaussian compliance distributions, particle filters are the general solution. Beyond that, HMM regime detection captures phase transitions. Framework versions after v0.5 will encode richer estimators as implementation experience accrues.
 
 **Honesty note.** Implementations of the Kalman extension are under way in a private reference implementation; public deployer implementations at the time of v0.5 are limited. Until Phase 1 lands in a deployer's environment, σ_B(t) is a theoretical construct; claims of σ_B(t) without implementation are overstating.
 
@@ -282,7 +283,7 @@ A closed-world ontology-bounded assistant that ingests imaging, labs, and patien
 
 **Aggregation.** Base = max over axes = BR-4, driven by K4-S and O4. Interaction overrides: rule 1 (C4a/b + V≥3) does not fire (C3); rule 2 (A≥3 + K4) does not fire (A2); rule 3 (R4 + O≤1) does not fire. The O4 + V≤2 demotion rule cannot fire because V=V3. **Final class: BR-4.**
 
-**Cardinal score** (if Kalman Phase 1 is deployed): B̂(t|t) is low because evidence tier is forensic (signed imaging DICOM + signed lab reports) giving low R_K and tight σ_B. A BR-4 system with a small σ_B is the *pricing-friendly* BR-4 — the one a specialist underwriter will quote rather than decline.
+**Cardinal score.** Not computed in this illustrative example. Signed imaging and lab reports establish provenance only; measurement-error covariance and estimator bias need empirical calibration. A narrow index interval would not by itself establish clinical safety, coverage or pricing.
 
 **Reading.** Even a well-designed, closed-world, architecturally-enforced clinical assistant sits at BR-4 because the consequence domain (clinical safety) puts it there. The framework does not pretend otherwise. Governance at BR-4 is the cost of operating in clinical, not evidence of poor architecture.
 
@@ -303,11 +304,11 @@ A closed-world agent that receives an instant SEPA SCT-inst instruction at an or
 
 **Final class: BR-5.**
 
-**Cardinal score.** If δ_adv on the legacy free-text hop is +1 (analysed, mitigated but not structurally closed), some weight of evidence is documentary on that hop; B̂(t|t) increases and σ_B inflates on the legacy-hop component. The Kalman extension makes the cost of the single legacy interface quantifiable.
+**Cardinal score.** Not computed. A legacy free-text hop changes the declared coupling exposure; any quantitative effect on the experimental score or covariance requires an explicit observation model and calibration data.
 
-**Reading.** This is the most useful example. Three of four hops are architecturally exemplary — typed aARP routing, OBO-anchored evidence, closed-world ontology, forensic-tier evidence on the modern side. *One* legacy free-text interface is enough to promote the entire corridor from BR-4 to BR-5 via Invariant 7 (bounded coupling) failing partially on that hop. The framework surfaces that the marginal architectural weakness (one NL interface in an otherwise typed chain) changes the regulatory and insurability posture of the whole corridor. A remediation programme that closes that interface moves the system from BR-5 back to BR-4, which is a material change in premium and oversight burden.
+**Reading.** Under the retained ordinal rules, this example's unmediated free-text interface promotes the corridor from BR-4 to BR-5. Closing the interface warrants re-rating and regression tests; it does not mechanically change legal classification, insurance terms or premium.
 
-**Why both land at BR-4+ honestly.** Closed-world architecture is necessary, not sufficient, for low BR. The framework rates the system's combination of domain consequence, architectural enforcement, composition topology, reversibility, and evidence. Good architecture lets a high-consequence system be *rateable* at BR-4/5 — without it, the same domain is unrateable, which per §4.0 floors at BR-4 and per §14 is commercially uninsurable.
+**Why both land at BR-4+ honestly.** Closed-world architecture is necessary, not sufficient, for low BR. The framework rates the system's combination of domain consequence, architectural enforcement, composition topology, reversibility, and evidence. Good architecture lets a high-consequence system be *rateable* at BR-4/5 — without it, the same domain is unrateable, which per §4.0 floors at BR-4 under current BRF policy; coverage requires a separate decision.
 
 ## 6. Modifiers
 
@@ -342,13 +343,15 @@ If System X invokes System Y (ungoverned or governed under a different framework
 3. Take max(C_X, C_Y); promote by one if the X–Y interface is NL rather than typed
 4. Take min(O_X, O_Y) on the joint action path
 5. Apply §6.1 δ_adv to the interface itself
-6. **Insurability composition:** if either X or Y fails Invariant 1 or 2 (§9), the composed system is unpriceable regardless of the other component's rating. Insurability is not preserved under composition with uninsurable components.
+6. **Evidence composition:** missing reproducibility or integrity evidence in a dependency limits verification of the composed claim. Record the uncertainty; coverage requires a separate insurer decision.
 
 Vendors that cannot supply a rating for their side of the interface cannot be composed into a rated system; the integrator must rate them or decline the composition.
 
 ### 7.2 Composition classes — four topologies, four mathematics
 
 Before applying §7.1 pairwise, the composition *topology* must be identified. Four topologies appear in agentic systems, each with distinct compound-risk mathematics. Reading the topology wrong leads to the common error of rating a chain as if it behaves like voting, or vice versa.
+
+**Model limits:** these are illustrative probability models, not arithmetic on ordinal BR classes. T1's independent union probability is exact only under independence; the union bound without independence is P(any failure) ≤ Σ Rᵢ. Correlation can increase joint or systemic loss without increasing the probability of any failure. T2 has no universal divergence theorem; finite exposure caps and enforcement boundaries still apply. T3 requires conditional bypass probabilities when layers share failure causes; T4 requires a justified independence assumption. See the [comparison programme](./adoption/execution-boundary-research.md).
 
 **Notation used in this section** (context-local; §21 collates the full glossary):
 
@@ -365,9 +368,8 @@ Before applying §7.1 pairwise, the composition *topology* must be identified. F
 
 Components are closed-world (§4.0), each fail-closed, connected by typed interfaces. One component's failure halts the chain; failure does not propagate into the next component's reasoning.
 
-- **P(chain failure)** ≈ 1 − ∏(1 − Rᵢ) (union bound; approximately Σ Rᵢ for small Rᵢ)
-- **BR(compound | failure)** ≤ max(BRᵢ) — blast radius is bounded by the worst component's individual BR because the typed boundary stops propagation
-- **Expected compound BR** is bounded, not divergent with chain length
+- **P(any component failure)** = 1 − ∏(1 − Rᵢ) under independence; without independence use the union bound ≤ Σ Rᵢ. Neither expression determines the magnitude of loss.
+- **Containment hypothesis:** complete mediation, state isolation and aggregate budgets must bound composed reachable effects; typed syntax alone does not establish the bound.
 
 Reference: multi-agent deployment with aARP routing. Each agent's ontology firewall halts on ambiguity; the next agent never sees NL output.
 
@@ -375,19 +377,16 @@ Reference: multi-agent deployment with aARP routing. Each agent's ontology firew
 
 Components are open-world (§4.0), connected by NL. One agent's output becomes the next's context. Failures correlate through shared substrate: model-provider updates, drift synchronisation, context poisoning travel.
 
-- **P(chain failure)** exceeds additive — failures are correlated with non-trivial ρ
-- **BR(compound | failure)** > max(BRᵢ) — propagation is unbounded because NL carries the failure to the next component's reasoning surface
-- **Expected compound BR diverges with n** — this is the reinsurance correlated-loss pattern named in the 2025 insurability piece
+- **Correlated failure:** measure shared causes and joint failures; pairwise correlation alone does not identify the joint distribution.
+- **Propagation hypothesis:** unmediated NL can expand effects, but no universal divergence with chain length is established. Measure a defined quantity in domain units, not an expected value of ordinal BR classes.
 
-Reference: A2A peer chains, CrewAI/AutoGen default, LLM-as-judge recursion. Sentinel empirical evidence: collapse inside 15 turns for n ≥ 2.
+Reference: A2A peer chains, CrewAI/AutoGen default, LLM-as-judge recursion. Sentinel provides apparatus-specific observations; disclose the experiment and failure definition before generalising.
 
 **T3. Multiplicative — defence-in-depth attack composition.**
 
 Distinct from T1/T2 because it concerns *attack bypass*, not *failure propagation*. Layers are in series for an attacker (must bypass each one); compound bypass probability is the product.
 
-- **P(bypass compound)** = ∏ P_bypass,ᵢ (independent layers) or product with correlation term (realistic)
-- Reference: a private reference implementation's Bayesian threat-model analysis over 8 layers of indirect-prompt-injection defence gives compound bypass ≈ 10⁻¹⁹ under the model's independence assumptions. Sobol sensitivity identifies the dominant-contributor layer for remediation priority. The analytical shape (Bayesian per-layer priors, Monte Carlo sampling of compound bypass, Sobol indices for residual risk concentration) is portable and is what this framework references; the specific number is illustrative, not canonical.
-- **Important distinction:** T3 mathematics applies to *attack resistance* against an adversary trying to bypass controls, not to *failure propagation* from one component to another. Both T1 and T3 can coexist in the same system (T1 for failure propagation, T3 for attack bypass) and they reinforce each other.
+- **P(bypass all)** = ∏ P_bypass,ᵢ under independence. Generally use the probability chain rule with conditional terms; an unspecified correlation multiplier is not a model.
 
 **T4. Exponential-reducing — voting / parallel redundancy.**
 
@@ -437,7 +436,7 @@ For identical inputs under identical policy snapshots, the system must produce i
 
 ### Invariant 2 — Evidence binding
 
-Every decision must produce immutable policy state, execution context, and outputs. Tamper-evident, audit-admissible.
+Every decision must bind policy state, execution context and outputs in tamper-evident evidence. Legal admissibility and factual completeness require separate assessment.
 
 **Supports:** O (evidence is the observable surface), K (regulatory evidence requirements).
 **Anti-pattern complement:** B1 (logs-as-evidence), B6 (unsigned or self-signed-only), B8 (mutable at rest).
@@ -502,7 +501,7 @@ Controls must match the class. At BR-4 and BR-5, controls must include architect
 | BR-4 | All BR-3 plus: Invariants 1–7 documented and verifiable; independent oversight; adversarial testing; O4 architectural invariants at runtime; coupling constraints enforced structurally; composition attestation for dependencies |
 | BR-5 | All BR-4 plus: pre-deployment architectural proof; formal assurance documentation; regulatory alignment evidence; **insurability evidence** (reproducible decision trails, immutable evidence retention per an externally-anchored Merkle-proof minimum profile, policy snapshot coherence, documented blast-radius containment with quantified bounds, jurisdictional enforcement record); independent pre-deployment review; demonstrated reversibility plan |
 
-Absence of insurability evidence at BR-5 is not a nice-to-have gap — it foreclosures commercial deployment in regulated sectors via specialist underwriters' exclusions (e.g. Verisk 2026 AI exclusions applied through commercial insurance contracts).
+Missing containment and evidence tests are material BRF findings. Whether they prevent a deployment or fall within an insurance exclusion depends on applicable law, contracts and the policy wording; a BR class alone cannot decide that.
 
 ## 11. Non-linearity of risk
 
@@ -512,7 +511,7 @@ Blast radius is not additive. Moderate authority plus high coupling plus low rev
 
 Agentic systems may pass monitoring checks, show stable metrics, and appear to improve — while system state has crossed failure thresholds. Blast radius can expand while the system appears healthy.
 
-**Why this section is load-bearing, not closing-flourish.** Observability is the axis that makes BR-4 and BR-5 classes *rateable at all*. High-consequence, high-reach, high-coupling, low-reversibility systems cannot be bounded by policy alone; the bounding has to be checkable, continuously, at runtime. Without O ≥ 3, a BR-4 profile is an unverified claim; without O = 4 (architectural invariants checkable at runtime), a BR-5 claim is structurally un-auditable. The §5.4 Kalman extension's whole premise — that σ_B(t) can be computed and reduce to the actuarial υ — rests on observations actually arriving and being trustworthy, which is the O axis operationally. Invariants 1–5 of §9 are only *verifiable* at O ≥ 2 (replay) and only *architecturally enforceable* at O = 4. The observability axis is therefore the hinge between "system was rated" and "system can be proven to still match its rating". Treating it as a single axis among six understates how much everything else depends on it.
+**Why observability matters.** The O axis distinguishes a documented boundary from one whose operation can be checked. BRF requires stronger verification at higher classes. Observations must identify the tested configuration, coverage gaps, missed events and intervention latency. Availability of signed observations does not establish unbiased measurements, a calibrated σ_B(t), or any identity with actuarial uncertainty υ.
 
 **Three practical consequences:**
 
@@ -520,7 +519,7 @@ Agentic systems may pass monitoring checks, show stable metrics, and appear to i
 2. **Post-hoc auditability is not runtime observability.** O2 supports incident review, not real-time intervention.
 3. **O4 requires architectural invariants.** To observe that a capability boundary is still enforced, the boundary must be machine-checkable, not only documented.
 
-**Reframe:** observability is not "can we investigate an incident" but "would we know, now, that the system is outside its rated profile". For BR-4/5 systems this question must have a positive answer within seconds or minutes, not days. That is what distinguishes an insurable BR-5 deployment from a regulatorily-compliant-but-uninsurable one.
+**Reframe:** ask whether a material departure from the rated configuration would be detected before the declared harm budget is exceeded. Measure detection and stop latency against the deployment's exposure; seconds or minutes are not universally adequate. Coverage and legal compliance remain separate conclusions.
 
 ## 13. Mapping to security operations
 
@@ -565,12 +564,12 @@ Insurability cuts faster than regulation.
 
 - Regulation moves on multi-year cycles; insurers reprice annually or faster.
 - Regulation sets minimum acceptable standards; insurers set pricing that determines deployment viability.
-- A system can be regulatorily compliant and commercially uninsurable — at which point it cannot be deployed in regulated sectors regardless of what the regulation permits.
+- Legal compliance and insurance availability are separate determinations; contractual or sector requirements may make coverage necessary for a particular deployment.
 - Verisk's 2026 AI exclusions take effect through commercial insurance contracts, not regulatory enforcement.
 
-Specialist underwriters (Munich Re aiSure, AIUC with AIUC-1 certification, Armilla via Lloyd's) have already published criteria: reproducible decision trails, immutable evidence retention, policy coherence over time, blast-radius containment, jurisdictional boundaries. These are Invariants 1–6 by different names. A system that satisfies the seven invariants can be priced; one that cannot satisfy Invariants 1–2 is structurally unpriceable and should be treated as uninsurable.
+Specialist offerings use different evidence, triggers and underwriting approaches. See the [market crosswalk](./adoption/crosswalk-specialist-underwriters.md). BRF invariants support a submission; no class guarantees acceptance, exclusion or price.
 
-The v0.5 Kalman extension (§5.4) makes this precise. Tiered evidence confidence maps to the Kalman measurement noise R, so the actuarial uncertainty σ_B(t) is a direct function of the evidence quality the system produces. This closes the actuarial circuit: invariants → evidence tiers → R → σ_B(t) → υ → premium. A deployer that invests in forensic-grade evidence reduces R and therefore reduces σ_B(t) and therefore reduces the υ component of the underwriter's price. Evidence investment becomes price-relevant, not just compliance-relevant — which is the economic mechanism that rewards architecture over policy.
+The proposed evidence-to-covariance-to-loss-to-premium chain is a research hypothesis. Each link needs empirical calibration and insurer acceptance.
 
 The 2×2 survivability map (architectural invariant enforcement × market access under constraint) yields four quadrants. The useful mapping:
 
@@ -634,11 +633,11 @@ A vendor that cannot produce this disclosure for a BR-3+ product has not rated i
 
 ## 18. Central claim
 
-The operational risk of agentic AI systems is determined by architecture, not model capability. This single claim is true from three independent directions:
+Architecture constrains reachable impact; model behaviour and deployment conditions influence operational risk.
 
 - **Engineering.** Systems with bounded A–R–C–V–K–O tuples and Invariants 1–7 enforced exhibit quantifiable, attestable behaviour; systems without do not.
 - **Regulatory.** EU AI Act Articles 12, 15, 19, 26(6), 72 require evidence that architecture must produce; policy layered on top cannot substitute.
-- **Actuarial.** Specialist underwriters cannot price systems that fail Invariants 1–2; Consolidation Zone is BR-2/BR-3 with Invariants 1–7 intact.
+- **Actuarial.** Underwriters need product-specific evidence about exposure, performance and controls. BRF can support that packet; each insurer decides appetite, terms and price.
 
 The three communities arrive at the same requirement.
 
@@ -665,7 +664,7 @@ v0.3 delivers these pieces. The minimum shape is disciplined: six axes, three mo
 
 ---
 
-**Architecture is the executable form of governance, of regulatory compliance, and of insurability. These are not three problems — they are one problem with three audiences. If blast radius is not designed, it is not controlled, not priced, and not deployable in regulated sectors.**
+**Architecture can enforce technical limits on reachable effects. Organisational authority, legal compliance and insurance coverage also require external evidence and accountable decisions; a runtime cannot establish them by itself.**
 
 ---
 

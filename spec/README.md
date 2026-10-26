@@ -2,8 +2,8 @@
 
 *Machine-readable artefacts that make the framework adoptable, not just readable.*
 
-**Spec version:** 0.1
-**Date:** 2026-04-23
+**Spec version:** 0.1.1 (backward-compatible schema additions; explicit signing profile for new attestations)
+**Date:** 2026-10-26
 **For framework version:** 0.5
 
 ---
@@ -18,7 +18,7 @@
 - Produce a signed, anchored, third-party-verifiable attestation (`attestation-format.md`)
 - Compare against two worked examples (`examples/`)
 
-The spec is intentionally minimal. It specifies forms, not implementations. Reference implementations will arrive as separate repositories once the form is stable.
+The spec defines forms and test procedures. The [local utilities](../tools/README.md) provide validation, canonical-payload helpers and an ACS-shaped fixture, not a production enforcement runtime or general conformance harness.
 
 ---
 
@@ -26,11 +26,12 @@ The spec is intentionally minimal. It specifies forms, not implementations. Refe
 
 | File | Purpose | Status |
 |---|---|---|
-| `br-profile.schema.json` | JSON Schema (draft 2020-12) for a complete BR profile — the data shape a deployer produces. | v0.1 — shape complete; open for field-level review |
-| `component-card.schema.json` | JSON Schema (draft 2020-12) for BRF component cards covering models, datasets/corpora, tools/integrations, dependencies, and evidence/anchor mechanisms. | v0.1 — initial component-documentation layer |
+| `br-profile.schema.json` | JSON Schema (draft 2020-12) for BR profiles, with explicit new signing profile and PS256 option. | v0.1.1; legacy examples retained |
+| `component-card.schema.json` | JSON Schema for five card types with optional structured authority context. | v0.1.1; older cards remain valid |
 | `invariant-conformance-tests.md` | Per-invariant empirical test specifications. Each test has an ID, procedure, pass criterion, and BR-class applicability. | v0.1 — 7 invariants × 3-4 tests each |
-| `attestation-format.md` | Signed + anchored attestation format. Canonical serialisation (JCS), signature algorithms, anchor types, verification procedure. | v0.1 — algorithms, procedures, skew tolerances |
-| `component-card-format.md` | Companion note explaining how component cards relate to BR profiles and attestations. | v0.1 |
+| `attestation-format.md` | Signed + anchored attestation format with explicit BRF-JCS-0.1.1 signature input. | v0.1.1; legacy input construction must be declared |
+| `component-card-format.md` | Profile linking plus separate organisational-mandate and technical-delegation context. | v0.1.1; additive fields |
+| `acs-evidence.schema.json` | Observed decision/dispatch bundle for the version-pinned ACS adapter. | Local fixture tested; not ACS certification |
 | `examples/example-component-card-tool-legal-db.json` | Worked example of a tool/integration component card linked to the closed-world BR-2 example profile. | Worked example |
 | `examples/example-profile-closed-world-br2.json` | A worked example of a closed-world BR-2 profile (legal citation review assistant). All invariants hold; cardinal score computed. | Worked example |
 | `examples/example-profile-open-world-br4.json` | A worked example of an open-world BR-4 profile (three-agent NL-coupled research assistant). Invariants mostly fail; cardinal score null. | Worked example showing how failure looks |
@@ -49,16 +50,14 @@ The spec is intentionally minimal. It specifies forms, not implementations. Refe
 
 ### Local validation utility
 
-A repo-local JSON Schema validator is available under [`../tools/`](../tools/):
+Run from the repository root:
 
-1. Install the local validator runtime:
-   - `./tools/install-jsonschema-local.sh`
-2. Validate the worked example profile:
-   - `python3 ./tools/validate_json_schema.py ./spec/br-profile.schema.json ./spec/examples/example-profile-closed-world-br2.json`
-3. Validate the worked example component card:
-   - `python3 ./tools/validate_json_schema.py ./spec/component-card.schema.json ./spec/examples/example-component-card-tool-legal-db.json`
+```sh
+bash tools/install-jsonschema-local.sh
+python3 tools/validate_json_schema.py --check-repository
+```
 
-The runtime is installed into `.tools/` and kept out of git.
+This checks schema/format validity and declared reference/semantic rules, including component-card profile links. It does not verify freshness, complete BR arithmetic, signatures, anchors or runtime behaviour. See [tool commands and limits](../tools/README.md) for individual validation, ACS setup and tests. Local dependencies and upstream schema caches stay in ignored `.tools/`.
 
 ### As an auditor verifying a BR rating
 
@@ -66,17 +65,15 @@ The runtime is installed into `.tools/` and kept out of git.
 2. Validate against `br-profile.schema.json`.
 3. Run the verification procedure in `attestation-format.md §4`.
 4. For at least one test per invariant, re-run the test and confirm the result.
-5. Recompute the ordinal class and cardinal score; confirm agreement with declared values.
+5. Independently recompute the ordinal class. If an experimental cardinal score is claimed, obtain its normalization, observations, estimator state and calibration; it cannot be reconstructed from tier labels alone.
 6. Issue a findings report with any failures documented per step.
 
-### As a specialist underwriter pricing a BR rating
+### As an underwriter reviewing a BR packet
 
-1. Retrieve the attestation.
-2. Verify per the auditor procedure.
-3. Extract `aggregation.cardinal_score.B_hat` and `sigma_B` as the actuarial point estimate and uncertainty.
-4. Map `K` sub-tag to the relevant regulatory regime for pricing the severity σ.
-5. Apply your own actuarial priors on frequency λ per composition topology (§7.2).
-6. Quote.
+1. Verify the attestation and inspect its actual deployment scope and unresolved findings.
+2. Obtain product-specific exposure, incident, loss and control-test evidence.
+3. Treat any cardinal score/covariance as experimental; require calibration before considering it as an input to a loss model.
+4. Determine appetite, wording, limits and price separately. BR class and signatures do not establish coverage.
 
 ### As a regulator assessing a deployment
 
@@ -94,15 +91,15 @@ The runtime is installed into `.tools/` and kept out of git.
 
 **Honesty is machine-checkable.** A deployer filling out this schema honestly has no advantage over one filling it out dishonestly *unless* the attestation is verified against actual system behaviour. The test specifications in `invariant-conformance-tests.md` are what make self-attestation verifiable.
 
-**Composition is first-class.** The `composition` object and its `topology` field are required. You cannot claim a BR rating without naming how your components compose; you cannot name a composition without it forcing the mathematics per `framework.md §7.2`.
+**Composition is first-class.** The `composition` object and its `topology` field are required. You cannot claim a BR rating without naming how your components compose; the mathematical models in `framework.md §7.2` require explicit independence, containment and exposure assumptions.
 
 **Component documentation is linkable.** Component cards provide a structured documentation layer for the models, datasets, tools, dependencies, and evidence mechanisms that sit underneath a BR profile. They do not replace the profile; they make it easier to audit.
 
 **Open-world is marked, not hidden.** The `components[].worldview` field is required. Any open-world component forces BR-4 minimum per `framework.md §4.0`. Deployers cannot claim BR-2 or BR-3 with open-world substrate regardless of how they paint other axes.
 
-**Cardinal score is optional but increasingly demanded.** BR-1 through BR-3 attestations may omit `cardinal_score`. BR-4+ insurability claims require it. Without the cardinal score, specialist underwriters have no υ variable to price; they will either decline to quote or apply a conservative default.
+**Cardinal scores are experimental and optional.** Require normalization, calibration and reproducible estimator inputs for a numerical claim. BR class and index covariance do not establish coverage, underwriting acceptance or a premium. See the [claims policy](../adoption/claims-and-evidence.md).
 
-**Anchoring is non-optional above BR-4.** A signed attestation without an independent anchor is a self-assertion. An underwriter or regulator accepting one is accepting risk they cannot independently verify.
+**Independent anchors support integrity, not truth.** BRF requires anchoring for BR-4+ attestations. Check the anchor and trust model independently; neither signatures nor anchors prove the asserted behaviour.
 
 ---
 
@@ -114,13 +111,13 @@ The runtime is installed into `.tools/` and kept out of git.
 - **Automated questionnaire → profile conversion.** `framework.md §17` is a prose questionnaire; converting a filled questionnaire into a valid profile is useful tooling and v0.2.
 - **Batch attestation semantics.** When a deployer publishes many attestations, they may batch under a single anchor. Merkle inclusion semantics are standard but not yet specified here.
 
-All of the above are tracked in `framework.md §19` open questions and will arrive as separate commits once the v0.1 form has had real-world use.
+These are open work, not promised delivery or evidence of real-world adoption. See the [update worklist](../adoption/update-worklist-2026-10.md).
 
 ---
 
 ## Versioning
 
-Spec versions track framework versions. Spec v0.1 is the machine-readable companion to framework v0.5; spec v0.2 will accompany framework v0.6 or a material additions to the spec itself.
+Spec 0.1.1 accompanies framework 0.5.11 and is included in the repository tag `v0.5.11`. Additive fields retain legacy 0.1 profiles; new JSON signatures use the explicit 0.1.1 payload profile. Historical examples are not re-signed by schema validation. Normative I1/worldview changes are reserved for a versioned revision.
 
 The JSON Schema's `$id` includes the schema filename without a version in the URL, but the `schema_version` field inside a profile identifies the schema version the profile conforms to. This permits evolution without URL churn.
 

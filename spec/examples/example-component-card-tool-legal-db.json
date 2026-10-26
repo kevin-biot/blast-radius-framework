@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.1.1",
   "framework_version": "0.5",
   "card_id": "tool-legal-citation-db-v1",
   "card_type": "tool_integration",
@@ -10,11 +10,28 @@
     "contact": "support@example.org"
   },
   "status": "active",
-  "last_reviewed_at": "2026-04-23",
+  "last_reviewed_at": "2026-10-26",
   "summary": "Read-only legal citation retrieval API used by the closed-world BR-2 legal citation review assistant example profile.",
   "related_profile_ids": [
-    "example-closed-world-br2"
+    "example-br2-closed-world-001"
   ],
+  "authority_context": {
+    "mandate_source": {
+      "status": "not_established",
+      "accountable_owner": "Fictional Legal Research Provider governance owner"
+    },
+    "principal_id": "fictional:legal-research-team",
+    "agent_id": "fictional:citation-review-agent",
+    "audience": "https://example.org/legal-citation-db",
+    "delegated_scopes": ["citations:read"],
+    "expires_at": "2026-11-26T00:00:00Z",
+    "policy_snapshot_id": "fictional:read-only-policy-v1",
+    "revocation_check": {
+      "status": "not_checked",
+      "mechanism": "Fictional token introspection; not exercised by this example"
+    },
+    "limits": ["Documentation example only: no credential or valid corporate/legal mandate is established.", "Expiry and revocation are declarations, not live admission checks."]
+  },
   "evidence_refs": [
     {
       "evidence_type": "document",

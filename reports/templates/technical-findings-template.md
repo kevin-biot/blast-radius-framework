@@ -141,7 +141,7 @@ Each of the 26 anti-patterns in [`antipatterns.md`](../../antipatterns.md) recei
 - Kalman phase: *[0/1/2/3]*
 - Evidence-tier → R_K mapping reference: *[URI or "internal"]*
 
-If cardinal score is not computable (Invariants 1 or 2 do not hold): state "Cardinal score not produced — Invariant [1/2] prerequisite not met; system is ordinal-rateable but not underwriter-priceable until prerequisite closed."
+If no calibrated cardinal score is available, state "Experimental cardinal score not produced" and name the missing observation model, calibration or replay evidence. Do not infer insurer pricing or coverage from its absence.
 
 ## 8. Residual vs inherent
 

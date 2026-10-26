@@ -4,6 +4,23 @@ All notable changes to the Blast Radius Framework will be documented here. The f
 
 ## Unreleased
 
+No unreleased changes.
+
+## framework v0.5.11 / spec v0.1.1 - 2026-10-26
+
+### Maintenance Implementation
+
+- Qualified insurance, legal and quantitative claims; replaced the insurance companion's categorical conclusions; corrected report summaries, templates and Article 26(6) references. Cardinal/Kalman outputs remain experimental, and organisational mandate is distinct from runtime permission.
+- Refreshed the EU crosswalk for Regulation (EU) 2026/1744, with dated legal sources, applicability limits and a role/article evidence matrix. Rewrote A1/A3/A8 around deployment enforcement rather than protocol-wide assumptions.
+- Added offline schema self-validation, supported format checks, strict JSON loading and declared reference/semantic checks; fixed the example component-card link. Added optional delegation context with separate mandate and revocation evidence.
+- Defined BRF-JCS-0.1.1 signature-input bytes, corrected RS256/PS256 naming and added canonical/HMAC vectors. No asymmetric verifier, trusted-key service or independent anchor resolver is claimed.
+- Added an ACS v0.1.4 schema fetcher, offline transcript exporter, output schema, local allow/deny/outage fixture and negative tests. This does not execute or certify the upstream Guardian.
+- Documented revised-boundary and composition experiments, async-effect scenarios and evaluation/telemetry mappings without claiming unrun results. Reconciled the adoption ledger and published [execution status](./adoption/update-worklist-2026-10.md) and [reproduction commands](./tools/README.md).
+- Existing axis tiers, worldview floor and historical profile JSON ratings remain unchanged. New normative I1 definitions, empirical calibration, live interoperability and independent assessment remain open. Framework 0.5.11 and spec 0.1.1 are published together under tag `v0.5.11`.
+
+### Review and Previously Unreleased Adoption Work
+
+- **2026-10-26:** Added [External Market and Project Review](./adoption/external-review-2026-10.md), with primary-source comparisons, a repository validation audit, and prioritised open update tasks. Linked the review from the root and adoption indexes. Framework definitions and existing ratings remain unchanged pending the proposed revisions.
 - Added [`oecd-catalogue-assessment.md`](./oecd-catalogue-assessment.md), a working note comparing the Blast Radius Framework with the OECD Catalogue of Tools & Metrics for Trustworthy AI. The note explains what the OECD catalogue is and is not, identifies OECD-listed supporting tools that are genuinely useful to BRF adopters, names the supporting-tooling gaps the catalogue makes more visible, and turns the result into a prioritised action list.
 - Updated [`README.md`](./README.md) so first-time readers can discover the OECD assessment directly from the documents list, the role-based reading guide, and the related-work section. This is a discoverability and change-control improvement, not a framework-definition change.
 - Added [`adoption/`](./adoption/), a new companion-workstream directory that closes the six supporting adoption gaps named in the OECD assessment at the design-and-planning layer. It now includes a gap-closure plan, external-tools mapping annex, benchmark-harness design note, questionnaire-to-profile conversion design note, component-card format note, four published crosswalks, a crosswalk roadmap, and an OECD visibility plan.

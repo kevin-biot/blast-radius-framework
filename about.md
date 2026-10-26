@@ -1,9 +1,12 @@
 # About Lane2 and this repository
 
+
+**2026-10-26 evidence correction:** The [claims and evidence policy](./adoption/claims-and-evidence.md) supersedes categorical insurance, legal-admissibility and premium conclusions in this research narrative. BR class does not establish coverage, and compliance-index covariance is not a validated actuarial uncertainty. Historical arguments and notation below remain identifiable as such.
+
 *A living statement. Updates when the business changes.*
 
-**Last updated:** 2026-04-21
-**Version:** 0.3
+**Last updated:** 2026-10-26 (evidence/tooling correction; business status not independently refreshed)
+**Version:** 0.3.1
 **Homepage:** [lane2.ai](https://lane2.ai)
 
 ---
@@ -24,13 +27,13 @@ The framework specifically contains the distilled *shapes* of what we learned bu
 
 We are releasing these shapes under **CC-BY-4.0** because a classification framework that cannot be freely adopted, redistributed, and built upon is not a standard. It is a product. We want this to be a standard. Others — competitors, complementors, standards bodies, regulators, specialist underwriters — are invited to adopt, critique, and extend.
 
-The repository does not include working code (yet). The `spec/` directory includes a JSON Schema, per-invariant test specifications, and worked example profiles — enough for someone to implement against. Reference implementations, when they arrive, will arrive in separate repositories with appropriate licensing.
+The repository now includes local validation, canonical-payload helpers and a bounded ACS-shaped evidence fixture under [`tools/`](./tools/README.md). It does not contain a production enforcement runtime or a general conformance harness. Private product claims below are author descriptions, not independently verified results of the October review.
 
 ## 3. Why a target, not a manual
 
 The framework is deliberately sharp-edged. A deployer who applies §4.0 (worldview classifier) plus §9 (seven invariants) plus the anti-pattern catalogue to their current agentic stack may find the stack comes out rated BR-4 or BR-5 — or unrateable by construction. That is the framework doing its job.
 
-If the framework reads as "you have been building bad architecture", the honest question is whether it is right. Often it is. Most agentic-AI stacks shipping in production today satisfy one or two of the seven invariants and leave the others as documentary claims. Most use at least three of the fifteen architectural anti-patterns. Most cannot supply the evidence that a specialist underwriter needs to price the deployment, which means they are commercially uninsurable in the sectors their go-to-market narrative is aimed at.
+Treat the framework as a set of testable questions, not a survey of the market. This repository has no representative sample establishing how many production stacks exhibit its anti-patterns, nor evidence that architecture alone decides their coverage.
 
 Better to discover this at redesign time, when the cost is architectural rework, than to discover it via an incident, a regulator letter, a Verisk 2026-style commercial insurance exclusion, or an EU AI Act Article 26 authority request that the system cannot answer. The framework is offered in that spirit: a mirror held up honestly, not a sales pitch with decorative criticism attached.
 

@@ -17,7 +17,7 @@ Our integrated commercial product suite — DOP (Deterministic Orchestration Pip
 
 ## The framework in one paragraph
 
-Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** consequence, **O**bservability) with three modifiers (attack-accessibility, trajectory, residual-vs-inherent), five blast-radius classes (BR-1 through BR-5), an ordinal aggregation rule with explicit interaction overrides, a cardinal Kalman-extended Expected Compliance Risk score `B̂(t|t) ± σ_B(t)`, a composition rule for multi-vendor stacks with four named topology classes (sub-additive / super-additive / multiplicative / exponential-reducing), and seven architectural invariants that a BR profile must satisfy to be genuine rather than nominal. The central claim: system architecture, not model capability, determines operational risk — a claim that holds from engineering, regulatory, and actuarial directions simultaneously.
+Six axes (**A**uthority, **R**each, **C**oupling, **V** reversibility, **K** consequence, **O**bservability) with three modifiers (attack-accessibility, trajectory, residual-vs-inherent), five blast-radius classes (BR-1 through BR-5), an ordinal aggregation rule with explicit interaction overrides, a cardinal Kalman-extended Expected Compliance Risk score `B̂(t|t) ± σ_B(t)`, a composition rule for multi-vendor stacks with four named topology classes (sub-additive / super-additive / multiplicative / exponential-reducing), and seven architectural invariants that a BR profile must satisfy to be genuine rather than nominal. Architecture bounds reachable impact; model behaviour and deployment conditions influence failures. The cardinal score is experimental, and BR class does not establish coverage or legal compliance. See [claims and evidence](./adoption/claims-and-evidence.md).
 
 ## Public-interest reuse potential
 
@@ -48,7 +48,9 @@ should detect, demote, or force into explicit remediation.
 
 ## The documents
 
-1. **[framework.md](./framework.md)** — the rating framework itself (current version: v0.5.1). Start here for the specification.
+For the current maintenance review, see [External Market and Project Review (2026-10-26)](./adoption/external-review-2026-10.md). It covers agent controls, identity standards, evaluation tooling, insurance, EU implementation changes, and an update backlog. The [execution worklist](./adoption/update-worklist-2026-10.md) records implemented changes and remaining live/independent tests; [local utility commands](./tools/README.md) reproduce the checks.
+
+1. **[framework.md](./framework.md)** — the rating framework itself (current version: v0.5.11). Start here for the specification.
 2. **[NOTATION.md](./NOTATION.md)** — standalone lookup reference: every symbol, every tier enum, every class definition, every interaction override, every invariant, every anti-pattern ID. Use this when building or auditing. Authoritative over the embedded framework.md §21 pointer.
 3. **[manifesto.md](./manifesto.md)** — *Law as Pattern*. The argument for why a framework like this must exist.
 4. **[about.md](./about.md)** — who we are (Lane2, pre-launch), what is open and what is private (DOP, aARP, SAPP, CaaS, RTGF, Shared Ontology, PACT packs — available for PoC engagement), and the historical genesis of why we rejected direct-LLM-tool coupling. Covers how the four open Lane2 repositories compose and the OBO↔aARP relationship.
@@ -88,11 +90,11 @@ should detect, demote, or force into explicit remediation.
 
 ## Status
 
-- **Current version:** v0.5.10 (2026-04-21) — completes the v0.5.9 structural reorg (v0.5.9 shipped with six untracked files and unstaged sed modifications). Templates under [`reports/templates/`](./reports/templates/); Lane2 self-assessment artefacts under [`reports/lane2/`](./reports/lane2/) with all links now resolving correctly. See CHANGELOG for the process-error note. No framework definition changes.
+- **Current release:** v0.5.11 (2026-10-26), a maintenance release qualifying claims and adding validation and ACS evidence tooling. Historical profiles retain their declared framework versions.
 - **Maturity:** research draft; open for comment
 - **Stability:** major-version increments preserve section numbering; minor revisions may refine equations and add open questions; patch versions (v0.5.1, v0.5.2, …) clarify and reorganise without changing definitions.
-- **Spec v0.1 has shipped** as of 2026-04-23 — see [spec/](./spec/). Includes JSON Schema for BR profiles, JSON Schema for component cards, per-invariant conformance tests, signed-attestation format, and two worked example profiles (closed-world BR-2; open-world BR-4). Axis-scoring rubric and third-party certification format remain v0.6+ work.
-- **Tags:** `v0.5` (initial public release), `v0.5.1` (notation extracted, worked examples added, observability strengthened), `v0.5.2` (report template, Lane2 self-assessment, worked template application), `v0.5.3` (self-assessment I5 correction), `v0.5.4` (OBO A2A reference implementation evidence added), `v0.5.5` (PACT three-layer model clarified; backlog items 8 and 9 reframed), `v0.5.6` (A15 tool-layer architectural separation documented), `v0.5.7` (SAPP role-based API surface cited; backlog item 11 reframed; BR-4 floor analysis), `v0.5.8` (authoring-notes.md — epistemic-partner force-function method documented), `v0.5.9` (structural reorg — incomplete; see v0.5.10), `v0.5.10` (completes v0.5.9 reorg — fixup commit for untracked files). External citations should use explicit version tags — e.g. `framework.md v0.5.1 §5.1` — rather than tracking `main`. Do not use `v0.5.9` — use `v0.5.10` or later for the complete reorg.
+- **Spec revision: 0.1.1** (2026-10-26; included in tag `v0.5.11`). The April 0.1 examples retain their original versions. See [spec/](./spec/). Includes JSON Schema for BR profiles, JSON Schema for component cards, per-invariant conformance tests, signed-attestation format, and two worked example profiles (closed-world BR-2; open-world BR-4). Axis-scoring rubric and third-party certification format remain v0.6+ work.
+- **Earlier tags:** `v0.5` (initial public release), `v0.5.1` (notation extracted, worked examples added, observability strengthened), `v0.5.2` (report template, Lane2 self-assessment, worked template application), `v0.5.3` (self-assessment I5 correction), `v0.5.4` (OBO A2A reference implementation evidence added), `v0.5.5` (PACT three-layer model clarified; backlog items 8 and 9 reframed), `v0.5.6` (A15 tool-layer architectural separation documented), `v0.5.7` (SAPP role-based API surface cited; backlog item 11 reframed; BR-4 floor analysis), `v0.5.8` (authoring-notes.md — epistemic-partner force-function method documented), `v0.5.9` (structural reorg — incomplete; see v0.5.10), `v0.5.10` (completes v0.5.9 reorg — fixup commit for untracked files). External citations should use explicit version tags — e.g. `framework.md v0.5.1 §5.1` — rather than tracking `main`. Do not use `v0.5.9` — use `v0.5.10` or later for the complete reorg.
 
 ## Versioning policy
 
@@ -112,7 +114,7 @@ Open questions live at the tail of `framework.md §19`. Proposals to close any o
 
 The text of this repository is licensed under [Creative Commons Attribution 4.0 International (CC-BY-4.0)](./LICENSE). You may copy, redistribute, and build upon the material for any purpose, including commercially, under the terms of that licence.
 
-Any code, schemas, or conformance test suites added in future versions will be released under Apache 2.0 alongside the text.
+Code, JSON schemas and test suites are under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0), as provided by this repository's code-licensing policy; prose remains CC-BY-4.0. Locally downloaded third-party dependencies and schemas retain their upstream licences.
 
 ## Related work
 
@@ -127,7 +129,7 @@ Any code, schemas, or conformance test suites added in future versions will be r
 - **EU AI Act** (Regulation 2024/1689) — category-shaped, complements
 - **[AI Agents Under EU Law](https://arxiv.org/abs/2604.04604)** — legal-technical working paper mapping the regulatory perimeter for agent providers under EU law; complements BRF by highlighting the still-missing operational governance layer for agentic systems
 
-The framework here occupies the gap none of the above cover: *operational blast radius as a rateable, priceable, composable property of the deployed system*.
+BRF focuses on operational blast radius of the deployed system. Adjacent work overlaps usefully; the [October review](./adoption/external-review-2026-10.md) identifies reusable controls, evaluation tools and remaining validation gaps.
 
 ## Companion repository
 
