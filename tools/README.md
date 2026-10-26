@@ -43,9 +43,9 @@ Exporter exit codes: 0 means all supplied records were dispatch-consistent and p
 
 ## Reproduction Limits
 
-Unit tests test these utilities, not an external deployment. The post-release [alignment pass](../adoption/alignment-implementation.md) adds the native ACS/Inspect readers and real local OPA example below. AgentDojo, OCSF ingestion, live Guardian interoperability, production asynchronous-effect tests and independent assessment remain open.
+Unit tests test these utilities, not an external deployment. The published [alignment pass](../adoption/alignment-implementation.md) adds native ACS/Inspect readers and the real local OPA example below. The [live boundary experiments](../adoption/live-boundary-experiments.md) add real Guardian/shim processes and durable local race tests. AgentDojo, OCSF ingestion, full agent-client interoperability, production asynchronous-effect tests and independent assessment remain open.
 
-## Optional Native Integrations (Unreleased)
+## Optional Native Integrations
 
 These require Python 3.11+. The OPA installer supports macOS arm64/x86_64 and Linux aarch64/x86_64. No Docker daemon or model API key is needed.
 
@@ -53,6 +53,7 @@ These require Python 3.11+. The OPA installer supports macOS arm64/x86_64 and Li
 bash tools/install-jsonschema-local.sh
 bash tools/install-integrations-local.sh
 python3 tools/install_opa_local.py
+python3 tools/install_acs_runtime.py
 python3 tools/fetch_acs_schemas.py
 python3 tools/fetch_acs_trace_assets.py
 bash tools/check-alignment-local.sh
@@ -60,7 +61,22 @@ bash tools/check-alignment-local.sh
 
 The optional venv pins Inspect 0.3.283. OPA 1.21.4 is downloaded from its official release and checked against an embedded platform-specific SHA-256. Downloaded code/data stay under ignored `.tools/`; Inspect may also use its normal application-data trace/cache directory. Python direct dependencies are pinned, not the full transitive graph. Installation/fetch needs network; checks use local data and a mock model, with no external model calls.
 
-The check runner executes unit tests and the separate native integration suite, validates repository artifacts and retains fresh evidence under `.tools/alignment-check.*`. Missing optional dependencies are errors, not skipped passes. The added GitHub workflow runs the same commands; its presence is not proof of a successful hosted run.
+The check runner executes unit tests and the separate native integration suite, validates repository artifacts and retains fresh evidence under `.tools/alignment-check.*`. Missing optional dependencies are errors, not skipped passes. The v0.5.12 [hosted baseline passed](https://github.com/kevin-biot/blast-radius-framework/actions/runs/40345335934); later workflow changes require their own successful run.
+
+### Live Guardian and Asynchronous Effects
+
+```sh
+python3 tools/install_acs_runtime.py
+python3 tools/run_acs_live.py --run-dir .tools/acs-live-example
+python3 tools/run_async_boundary.py --run-dir .tools/async-boundary-example
+python3 tools/validate_json_schema.py spec/execution-evidence.schema.json .tools/acs-live-example/evidence.json .tools/async-boundary-example/evidence.json
+```
+
+The installer supports macOS arm64 and Linux x86_64. It checks a pinned Bun 1.3.11 archive digest, installs only under `.tools/`, checks out ACS v0.1.4's exact commit and runs its frozen install with lifecycle scripts disabled. It refuses a changed tracked upstream checkout; it never resets user changes. The cached binary digest detects ordinary local replacement, not malicious modification of both binary and local manifest. Third-party native code still executes.
+
+The live runner executes the actual Guardian and shipped hook but not the Claude Code application. A separate HTTP tool durably increments a private ledger; shell proposals are inert strings, never executed commands. Eight cases preserve the default fail-open posture and compare explicit fail-closed, honored denial and deliberate denial bypass. Upstream wire IDs, converted host failure spans and raw-capture digests are retained. The async runner adds eleven receipt-backed retry/budget/revocation cases with atomic enforcement and deliberately stale-check controls. See the [complete task/results note](../adoption/live-boundary-experiments.md).
+
+Both runners require a **new** run directory. Exit 0 means experimental expectations matched, including unsafe negative controls, not a safety pass; 1 means a mismatch; 2 means an operational error. They bind only to loopback and use fresh fixture credentials, no production/model APIs. Observation is same-machine read-only SQLite, not an independent witness. Bundles are unsigned and cannot establish corporate authority, full protocol conformance or a production BR class. Token files are removed on ordinary shutdown; review retained raw artifacts before sharing.
 
 ### Native ACS OTLP
 

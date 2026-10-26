@@ -2,6 +2,13 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## tooling v0.5.13 / framework v0.5.11 / spec v0.1.1 - 2026-10-26
+
+- Executed the pinned ACS v0.1.4 Guardian and shipped hook against a separate durable HTTP tool. Eight cases distinguish wire decisions from receipts: allow, honored deny, intentional bypass and outage under default/fail-closed postures. Preserved upstream fail-open behavior rather than replacing it with the local fixture's semantics.
+- Added eleven asynchronous effect cases with explicit race barriers: idempotent retries, lost responses, payload conflicts, simultaneous key reuse, aggregate budgets, queued/in-flight revocation and already-committed residual effects. Stale-check controls reproduce overspend and post-revocation commits; atomic local transactions prevent those selected races.
+- Added a digest-pinned local Bun/ACS installer, an unsigned execution-evidence schema, eight integration regression tests and both experiment runners to the full check command and hosted workflow. Added the [task-by-task results, reproduction and limits](./adoption/live-boundary-experiments.md). These are fixed-proposal mechanism tests, not live agent-client conformance, production proof or a corporate-authority model.
+- Verified and tagged tooling `v0.5.12` after its [hosted workflow passed](https://github.com/kevin-biot/blast-radius-framework/actions/runs/40345335934). Framework definitions 0.5.11, spec 0.1.1 and existing ratings remain unchanged. DSSE/in-toto and CycloneDX remain separate next tasks.
+
 ## tooling v0.5.12 / framework v0.5.11 / spec v0.1.1 - 2026-10-26
 
 - **2026-10-26 alignment implementation:** Added native ACS OTLP/JSON/JSONL analysis pinned to ACS v0.1.4, with session/request joins, failure precedence, reported result correlation and explicit enforcement-not-verified status. Added pinned upstream trace-data retrieval; no live Guardian or OCSF conformance claim.

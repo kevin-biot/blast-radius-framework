@@ -25,6 +25,7 @@ jobs:
           bash tools/install-jsonschema-local.sh
           bash tools/install-integrations-local.sh
           python3 tools/install_opa_local.py
+          python3 tools/install_acs_runtime.py
       - name: Fetch pinned upstream data
         run: |
           python3 tools/fetch_acs_schemas.py

@@ -22,7 +22,7 @@ What this directory adds is the operational layer around those forms:
 
 ## Files
 
-The post-v0.5.11 [alignment implementation](./alignment-implementation.md) records native ACS ingestion, the Inspect exporter, the OPA worked example, repeatable checks and remaining live/independent work. These additions are unreleased.
+The [alignment implementation](./alignment-implementation.md) records native ACS ingestion, the Inspect exporter, the OPA worked example and repeatable checks published in tooling v0.5.12. The subsequent [live boundary experiments](./live-boundary-experiments.md) record the approved task list, actual upstream Guardian/shim integration, durable receipts and asynchronous race tests in v0.5.13. Independent assessment and production coverage remain open.
 
 Current execution status is in [the October update worklist](./update-worklist-2026-10.md). Read the [claims policy](./claims-and-evidence.md), [ACS adapter](./acs-evidence-adapter.md), [validation programme](./execution-boundary-research.md) and [runnable utilities](../tools/README.md) for this maintenance pass.
 

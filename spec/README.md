@@ -34,6 +34,7 @@ The spec defines forms and test procedures. The [local utilities](../tools/READM
 | `acs-evidence.schema.json` | Observed decision/dispatch bundle for the version-pinned ACS adapter. | Local fixture tested; not ACS certification |
 | `acs-trace-evidence.schema.json` | Native ACS OTLP analysis; every record explicitly leaves enforcement unverified. | Reader tested on pinned synthetic upstream sample; tooling v0.5.12 |
 | `evaluation-evidence.schema.json` | Separate task-success and boundary-violation scores with source digest, provenance, counts and unknown/error states. | Native Inspect/OPA integrations; tooling v0.5.12 |
+| `execution-evidence.schema.json` | Fixed-proposal live/async cases separating decisions, durable receipts, violations and residual effects. | Unsigned local mechanism tests; tooling v0.5.13 |
 | `examples/example-component-card-tool-legal-db.json` | Worked example of a tool/integration component card linked to the closed-world BR-2 example profile. | Worked example |
 | `examples/example-profile-closed-world-br2.json` | A worked example of a closed-world BR-2 profile (legal citation review assistant). All invariants hold; cardinal score computed. | Worked example |
 | `examples/example-profile-open-world-br4.json` | A worked example of an open-world BR-4 profile (three-agent NL-coupled research assistant). Invariants mostly fail; cardinal score null. | Worked example showing how failure looks |
@@ -122,6 +123,8 @@ These are open work, not promised delivery or evidence of real-world adoption. S
 Spec 0.1.1 accompanies framework 0.5.11 and is included in the repository tag `v0.5.11`. Additive fields retain legacy 0.1 profiles; new JSON signatures use the explicit 0.1.1 payload profile. Historical examples are not re-signed by schema validation. Normative I1/worldview changes are reserved for a versioned revision.
 
 Repository/tooling tag `v0.5.12` adds companion evidence schemas and tested readers without revising the profile schema version or framework definitions.
+
+Tooling `v0.5.13` adds an independent companion execution-evidence format (format version 0.1.0) and live local experiments; it does not revise profile spec 0.1.1 or claim production conformance.
 
 The JSON Schema's `$id` includes the schema filename without a version in the URL, but the `schema_version` field inside a profile identifies the schema version the profile conforms to. This permits evolution without URL churn.
 

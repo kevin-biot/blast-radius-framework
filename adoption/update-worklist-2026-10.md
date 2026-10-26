@@ -8,6 +8,8 @@ This records implementation status, not only documents delivered. Existing ordin
 
 **Post-release update:** repository/tooling release `v0.5.12` adds native ACS trace ingestion, an Inspect exporter and an actual OPA fixed-proposal comparison. The rows below preserve the v0.5.11 framework baseline; the [alignment implementation](./alignment-implementation.md) records subsequent progress and remaining work.
 
+**Next package:** tooling `v0.5.13` executes the pinned upstream Guardian/shim and a separate durable test tool, plus retry/budget/revocation experiments. See the [approved task list and measured local outcomes](./live-boundary-experiments.md). This advances local mechanism testing, not production conformance, external authority or independent assessment.
+
 | Order | Item | This pass | Remaining exit condition |
 |---|---|---|---|
 | 1 | R01: claims audit | Publication-baseline corrections applied to framework, notation, insurance companion, summaries and templates; historical material explicitly qualified | Independent review of claims and source sufficiency; no coverage finding claimed |

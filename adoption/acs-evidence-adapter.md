@@ -1,15 +1,15 @@
 # ACS Control and Evidence Adapter
 
-**Status:** Implemented local fixture and transcript exporter; live interoperability not run
+**Status:** Local fixture/transcript exporter plus separate live Guardian/shim experiment; no full ACS conformance claim
 **Reviewed:** 2026-10-26
 
-**Unreleased extension:** the [native ACS OTLP reader](./alignment-implementation.md) can now ingest the pinned upstream synthetic trace sample and correlate its decision/failure events. It does not replace the transcript adapter below, execute the Guardian or establish actual enforcement.
+**Published extensions:** the [native ACS OTLP reader](./alignment-implementation.md) ingests pinned upstream traces and correlates decision/failure events. The separate [live experiment](./live-boundary-experiments.md) executes the pinned Guardian and upstream hook against a durable test tool. Neither changes the scope of the transcript adapter below or makes trace events alone proof of enforcement.
 
 ## Pinned Surface
 
 The adapter uses [ACS v0.1.4](https://github.com/GenAI-Security-Project/agent-control-standard/releases/tag/v0.1.4), commit `834f3f0d51e7bbbd9a68ff682bec89f97ddd72d8`, whose wire/schema version is 0.1.0. It supports the `steps/toolCallRequest` hook and final dispositions. Other hooks and full `modify`, `ask` and `defer` workflows are not implemented. The fixture pauses those dispositions; only `allow` can dispatch.
 
-The [OWASP introduction](https://genai.owasp.org/resource/agent-control-standard-acs/) describes the standard. Neither that announcement nor schema-valid messages establish that a deployment is fail-closed. The [reference README checked in the review](https://github.com/GenAI-Security-Project/agent-control-standard/blob/4cf23d4cce832e522ffab69e7dd8d7209ec11a9a/README.md) discloses fail-open and authentication limitations. We have not executed that Guardian here.
+The [OWASP introduction](https://genai.owasp.org/resource/agent-control-standard-acs/) describes the standard. Neither that announcement nor schema-valid messages establish that a deployment is fail-closed. The [reference README checked in the review](https://github.com/GenAI-Security-Project/agent-control-standard/blob/4cf23d4cce832e522ffab69e7dd8d7209ec11a9a/README.md) discloses fail-open and authentication limitations. The later live experiment runs the exact v0.1.4 commit named above, not an unspecified current main.
 
 ## Evidence Map
 
@@ -30,11 +30,11 @@ Every record keeps the decision and the actual outcome separate. Execution after
 
 Use the exact install, fetch, fixture, export and validation commands in [`../tools/README.md`](../tools/README.md). Output follows [`../spec/acs-evidence.schema.json`](../spec/acs-evidence.schema.json). The demo has no external state mutation and does not contact the upstream Guardian.
 
-Next integration acceptance criteria: run the pinned upstream implementation under a recorded configuration; observe the protected tool independently; exercise allow, denial, outage and bypass paths; retain request/response and external receipts; test cross-tenant isolation, revocation and retries. Report fail-open behaviour rather than silently replacing it with the local fixture's semantics.
+The [live experiment](./live-boundary-experiments.md) now covers pinned runtime/configuration, allow/deny/outage/bypass paths and separate-process durable tool receipts. The companion asynchronous fixture covers selected revocation and retry mechanisms. Cross-tenant isolation, production credentials, full client integration and independent observation remain open. Fail-open behavior is reported, not silently replaced with the local fixture's semantics.
 
 ## Telemetry and Evaluation Bridge
 
-The following is a **mapping design**, not a shipped OpenTelemetry exporter or native Inspect/AgentDojo reader. Pin an upstream telemetry convention revision before selecting concrete attribute names from the [GenAI conventions repository](https://github.com/open-telemetry/semantic-conventions-genai).
+The following is a **mapping design**, not a general OpenTelemetry exporter or AgentDojo reader. Native ACS trace and Inspect importers are implemented separately in tooling v0.5.12; they do not implement every row below. Pin an upstream telemetry convention revision before selecting concrete attribute names from the [GenAI conventions repository](https://github.com/open-telemetry/semantic-conventions-genai).
 
 | BRF logical field | Telemetry/evaluation input to retain | Additional binding needed |
 |---|---|---|

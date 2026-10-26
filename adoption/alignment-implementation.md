@@ -5,14 +5,16 @@
 
 The first package implements native ACS trace ingestion, a native Inspect log exporter and an OPA-backed fixed-proposal comparison. These are interoperability and mechanism tests, not a certification programme or new agent failure-rate study.
 
+**Follow-up:** [live boundary experiments](./live-boundary-experiments.md) in tooling v0.5.13 execute the real pinned Guardian/shim and add durable asynchronous effect tests. The original v0.5.12 verification record below remains historical; the follow-up records its own scope and results.
+
 ## Task List and Results
 
 | Order | Work | Implemented and run | Still open |
 |---|---|---|---|
-| 1 | Native ACS ingestion | OTLP/JSON and JSONL reader; pinned mapping/sample; joins by session + request, result references, failure precedence and conflict checks | Live upstream Guardian deployment, OCSF reader, authenticated observation and complete ACS-Trace conformance |
+| 1 | Native ACS ingestion | OTLP/JSON and JSONL reader; pinned mapping/sample; joins by session + request, result references, failure precedence and conflict checks; separate v0.5.13 live local experiment | Production Guardian deployment, OCSF reader, authenticated independent observation and complete ACS-Trace conformance |
 | 2 | Native Inspect exporter | Pinned Inspect 0.3.283 API reads both `.eval` and JSON; separate task/violation scores; missing scores, cancelled/truncated/invalidated runs remain inconclusive | AgentDojo importer, model-driven adversarial workload and independently audited scorers |
-| 3 | Non-Lane2 policy example | Digest-pinned OPA 1.21.4 executed real Rego decisions; same eight fixed scenarios in three modes; Inspect produced a real log with no LLM generation | Full canonical A2A/MCP comparison, concurrent/in-flight effects and external reproduction |
-| 4 | Repeatable verification | One-command local checks; CI workflow with commit-pinned actions and read-only permissions | GitHub-hosted workflow result after publication; transitive Python dependencies are not fully locked |
+| 3 | Non-Lane2 policy example | Digest-pinned OPA 1.21.4 executed real Rego decisions; same eight fixed scenarios in three modes; Inspect produced a real log with no LLM generation; separate v0.5.13 local async race tests | Full canonical A2A/MCP comparison, distributed external effects and independent reproduction |
+| 4 | Repeatable verification | One-command local checks; CI workflow with commit-pinned actions and read-only permissions; v0.5.12 hosted Linux run passed | Follow-up hosted runs checked separately; transitive Python dependencies are not fully locked |
 | 5 | Standard evidence packaging | No change in this pass | Optional in-toto/DSSE export and an independent verification example |
 | 6 | Component inventory interoperability | No change in this pass | CycloneDX import/linking without treating inventory as runtime exposure proof |
 | 7 | Identity and threat coverage | Existing delegation cards and test proposals retained | Live credential revocation/audience tests and selected OWASP scenario mappings |
@@ -43,12 +45,12 @@ The [worked example](../examples/opa-boundary/README.md) compares `unmediated`, 
 
 Use the [local utility instructions](../tools/README.md) to install optional runtimes and fetch pinned assets, then run `bash tools/check-alignment-local.sh`. The check runner preserves new evidence in a unique ignored directory and expects nonzero finding exits from the upstream ACS sample and the intentionally unsafe comparison baselines. Missing dependencies cause errors, not skipped integration passes.
 
-Network access is needed for installation and pinned data retrieval. The checks themselves use local OPA, local files and Inspect's mock model; they make no external model calls. Inspect may use its normal application-data trace/cache directory in addition to the chosen log directory. The local run used macOS arm64 / Python 3.14.3; the added GitHub workflow targets Linux / Python 3.12 and has not yet been executed on GitHub.
+Network access is needed for installation and pinned data retrieval. The v0.5.12 checks use local OPA, local files and Inspect's mock model; they make no external model calls. Inspect may use its normal application-data trace/cache directory in addition to the chosen log directory. The local run used macOS arm64 / Python 3.14.3; [the published v0.5.12 workflow passed on Linux / Python 3.12](https://github.com/kevin-biot/blast-radius-framework/actions/runs/40345335934). The v0.5.13 checks also start isolated loopback Guardian and tool processes.
 
-No independent assessment, full live ACS integration, insurance outcome, legal compliance decision or revised BR rating is claimed. The next research step remains a preregistered model-driven comparison with actual protocol implementations and an external observer.
+No independent assessment, full agent-client ACS integration, insurance outcome, legal compliance decision or revised BR rating is claimed. The next research step remains a preregistered model-driven comparison with actual protocol implementations and an external observer.
 
 ## Verification Record
 
 On 2026-10-26, `bash tools/check-alignment-local.sh` passed 44 unit tests and 12 native integration tests. The check also validated four existing profiles, one component card and all three generated evidence bundles. The pinned ACS synthetic sample produced six request pairs and three reported failure pairs; all enforcement states remained unverified. OPA matched all eight fixture expectations with zero declared violation cases; the two negative-control modes each had six violation cases. Inspect produced and re-imported a native `.eval` log with eight scored samples and no model generation.
 
-Python compilation, shell syntax, changed/new-file whitespace and new relative-link checks passed. The workflow YAML parsed with read-only permissions and commit-pinned actions; hosted execution remains pending publication. Release v0.5.12 packages these tools without changing classifications. The unrelated DAREB note was not modified.
+Python compilation, shell syntax, changed/new-file whitespace and new relative-link checks passed. The workflow YAML parsed with read-only permissions and commit-pinned actions. Publication was followed by successful hosted run `40345335934`, then tag v0.5.12. This packages the tools without changing classifications. The unrelated DAREB note was not modified.
