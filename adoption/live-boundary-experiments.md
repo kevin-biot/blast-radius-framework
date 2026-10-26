@@ -17,6 +17,8 @@ These experiments distinguish a policy verdict, host dispatch, a durable tool co
 
 Steps 2 and 3 are repeatable local integration experiments. Their presence in CI configuration does not by itself establish a successful hosted run, independent reproduction or production coverage.
 
+**Hosted verification:** [run 40348621393 passed](https://github.com/kevin-biot/blast-radius-framework/actions/runs/40348621393) at implementation commit `22803bc836e57ace3117a782b9b9adafd0c91da9` on Ubuntu 24.04 / Python 3.12. Its logs confirm 44 base tests, 20 native integration tests, eight live cases and eleven asynchronous cases. This is a second platform under the same project-controlled workflow, not independent assessment. Subsequent successful runs retain a fixture-only evidence artifact for 14 days; download may require GitHub sign-in. Only allowlisted JSON/JSONL evidence and fake-input wire captures are uploaded, not credentials, SQLite databases, dependency trees or arbitrary application logs.
+
 **Local verification:** on 2026-10-26, `bash tools/check-alignment-local.sh` passed 44 base tests and 20 native integration tests on macOS arm64 / Python 3.14.3. All nineteen new experiment cases matched their predeclared outcomes. Four existing profiles, one component card and all five generated evidence bundles validated. Python compilation, shell syntax and workflow YAML checks passed; relative-link checking found no new broken links (five historical changelog references predate this package). The unrelated DAREB note was not changed or staged.
 
 ## Live ACS: Eight Cases

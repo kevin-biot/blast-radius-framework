@@ -32,3 +32,21 @@ jobs:
           python3 tools/fetch_acs_trace_assets.py
       - name: Run offline checks and native integrations
         run: bash tools/check-alignment-local.sh
+      - name: Retain fixture-only evidence
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: brf-fixture-evidence-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+          path: |
+            .tools/alignment-check.*/acs-trace.json
+            .tools/alignment-check.*/opa-comparison.json
+            .tools/alignment-check.*/inspect-evidence.json
+            .tools/alignment-check.*/acs-live/evidence.json
+            .tools/alignment-check.*/async-boundary/evidence.json
+            .tools/alignment-check.*/acs-live/*/envelopes.jsonl
+            .tools/alignment-check.*/acs-live/*/audit.jsonl
+            .tools/alignment-check.*/acs-live/*/trace.jsonl
+            .tools/alignment-check.*/acs-live/*/host-trace.jsonl
+            .tools/alignment-check.*/acs-live/*/trace-analysis.json

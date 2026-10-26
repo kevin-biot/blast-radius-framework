@@ -63,6 +63,8 @@ The optional venv pins Inspect 0.3.283. OPA 1.21.4 is downloaded from its offici
 
 The check runner executes unit tests and the separate native integration suite, validates repository artifacts and retains fresh evidence under `.tools/alignment-check.*`. Missing optional dependencies are errors, not skipped passes. The v0.5.12 [hosted baseline passed](https://github.com/kevin-biot/blast-radius-framework/actions/runs/40345335934); later workflow changes require their own successful run.
 
+The expanded live/async implementation also [passed hosted CI](https://github.com/kevin-biot/blast-radius-framework/actions/runs/40348621393). Subsequent successful workflow runs retain the five evidence bundles and allowlisted fake-input ACS wire/audit/trace captures for 14 days. The artifact is linked from the workflow run and may require GitHub sign-in to download. Token files, databases and dependency directories are not selected; these uploads are not signed BRF attestations.
+
 ### Live Guardian and Asynchronous Effects
 
 ```sh
