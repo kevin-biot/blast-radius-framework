@@ -22,6 +22,8 @@ What this directory adds is the operational layer around those forms:
 
 ## Files
 
+The post-v0.5.11 [alignment implementation](./alignment-implementation.md) records native ACS ingestion, the Inspect exporter, the OPA worked example, repeatable checks and remaining live/independent work. These additions are unreleased.
+
 Current execution status is in [the October update worklist](./update-worklist-2026-10.md). Read the [claims policy](./claims-and-evidence.md), [ACS adapter](./acs-evidence-adapter.md), [validation programme](./execution-boundary-research.md) and [runnable utilities](../tools/README.md) for this maintenance pass.
 
 The latest reassessment is [`external-review-2026-10.md`](./external-review-2026-10.md), dated 2026-10-26. It reviews market and project changes, identifies claims and validation gaps requiring attention, and lists open update tasks.

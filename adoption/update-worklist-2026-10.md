@@ -6,6 +6,8 @@
 
 This records implementation status, not only documents delivered. Existing ordinal profiles and test IDs retain their historical versions. No independent assessor, insurer or standards body has endorsed this pass.
 
+**Post-release update:** repository/tooling release `v0.5.12` adds native ACS trace ingestion, an Inspect exporter and an actual OPA fixed-proposal comparison. The rows below preserve the v0.5.11 framework baseline; the [alignment implementation](./alignment-implementation.md) records subsequent progress and remaining work.
+
 | Order | Item | This pass | Remaining exit condition |
 |---|---|---|---|
 | 1 | R01: claims audit | Publication-baseline corrections applied to framework, notation, insurance companion, summaries and templates; historical material explicitly qualified | Independent review of claims and source sufficiency; no coverage finding claimed |

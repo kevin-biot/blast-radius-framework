@@ -90,7 +90,8 @@ For the current maintenance review, see [External Market and Project Review (202
 
 ## Status
 
-- **Current release:** v0.5.11 (2026-10-26), a maintenance release qualifying claims and adding validation and ACS evidence tooling. Historical profiles retain their declared framework versions.
+- **Alignment tooling:** native ACS OTLP reader, Inspect log exporter and OPA-backed fixed-proposal example; see the [implementation status](./adoption/alignment-implementation.md) and [local commands](./tools/README.md). These are included from repository tag `v0.5.12`.
+- **Current repository release:** v0.5.12 (2026-10-26), adding tested interoperability tooling and CI. **Framework definitions remain v0.5.11; spec remains 0.1.1.** Historical profiles retain their declared framework versions.
 - **Maturity:** research draft; open for comment
 - **Stability:** major-version increments preserve section numbering; minor revisions may refine equations and add open questions; patch versions (v0.5.1, v0.5.2, …) clarify and reorganise without changing definitions.
 - **Spec revision: 0.1.1** (2026-10-26; included in tag `v0.5.11`). The April 0.1 examples retain their original versions. See [spec/](./spec/). Includes JSON Schema for BR profiles, JSON Schema for component cards, per-invariant conformance tests, signed-attestation format, and two worked example profiles (closed-world BR-2; open-world BR-4). Axis-scoring rubric and third-party certification format remain v0.6+ work.

@@ -1,0 +1,14 @@
+{
+  "fixture_version": "0.1",
+  "context": {"principal": "fixture-agent-alpha", "tenant": "alpha", "scopes": ["ledger:increment"], "expires_at": 200, "now_epoch": 100, "budget": 3},
+  "scenarios": [
+    {"id": "allowed", "actions": [{"tool": "ledger.increment", "tenant": "alpha", "audience": "fixture-ledger", "amount": 2}], "expected_allow": [true]},
+    {"id": "cross-tenant", "actions": [{"tool": "ledger.increment", "tenant": "beta", "audience": "fixture-ledger", "amount": 2}], "expected_allow": [false]},
+    {"id": "amount-limit", "actions": [{"tool": "ledger.increment", "tenant": "alpha", "audience": "fixture-ledger", "amount": 100}], "expected_allow": [false]},
+    {"id": "expired", "context": {"expires_at": 99}, "actions": [{"tool": "ledger.increment", "tenant": "alpha", "audience": "fixture-ledger", "amount": 2}], "expected_allow": [false]},
+    {"id": "wrong-audience", "actions": [{"tool": "ledger.increment", "tenant": "alpha", "audience": "other-ledger", "amount": 2}], "expected_allow": [false]},
+    {"id": "cumulative-budget", "actions": [{"tool": "ledger.increment", "tenant": "alpha", "audience": "fixture-ledger", "amount": 2}, {"tool": "ledger.increment", "tenant": "alpha", "audience": "fixture-ledger", "amount": 2}], "expected_allow": [true, false]},
+    {"id": "missing-scope", "context": {"scopes": []}, "actions": [{"tool": "ledger.increment", "tenant": "alpha", "audience": "fixture-ledger", "amount": 2}], "expected_allow": [false]},
+    {"id": "malformed-amount", "actions": [{"tool": "ledger.increment", "tenant": "alpha", "audience": "fixture-ledger", "amount": "2"}], "expected_allow": [false]}
+  ]
+}

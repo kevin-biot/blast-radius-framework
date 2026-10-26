@@ -3,6 +3,8 @@
 **Status:** Implemented local fixture and transcript exporter; live interoperability not run
 **Reviewed:** 2026-10-26
 
+**Unreleased extension:** the [native ACS OTLP reader](./alignment-implementation.md) can now ingest the pinned upstream synthetic trace sample and correlate its decision/failure events. It does not replace the transcript adapter below, execute the Guardian or establish actual enforcement.
+
 ## Pinned Surface
 
 The adapter uses [ACS v0.1.4](https://github.com/GenAI-Security-Project/agent-control-standard/releases/tag/v0.1.4), commit `834f3f0d51e7bbbd9a68ff682bec89f97ddd72d8`, whose wire/schema version is 0.1.0. It supports the `steps/toolCallRequest` hook and final dispositions. Other hooks and full `modify`, `ask` and `defer` workflows are not implemented. The fixture pauses those dispositions; only `allow` can dispatch.

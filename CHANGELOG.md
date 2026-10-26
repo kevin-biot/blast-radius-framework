@@ -2,9 +2,12 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
-## Unreleased
+## tooling v0.5.12 / framework v0.5.11 / spec v0.1.1 - 2026-10-26
 
-No unreleased changes.
+- **2026-10-26 alignment implementation:** Added native ACS OTLP/JSON/JSONL analysis pinned to ACS v0.1.4, with session/request joins, failure precedence, reported result correlation and explicit enforcement-not-verified status. Added pinned upstream trace-data retrieval; no live Guardian or OCSF conformance claim.
+- Added an Inspect 0.3.283 native log exporter for `.eval` and JSON, separate task/violation scores, explicit string-score mapping, source digests and conservative handling of missing, cancelled, invalidated or truncated evaluations.
+- Added a digest-pinned OPA 1.21.4 local installer and non-Lane2 fixed-proposal comparison covering tenant, amount, audience, expiry, scope and sequential budgets. Inspect can execute and score the fixture without a model API call. No canonical A2A/MCP implementation or population failure-rate claim is implied.
+- Added schema-valid evidence outputs, unit/native integration tests, a one-command check runner and read-only CI with commit-pinned actions. Documented [scope and remaining work](./adoption/alignment-implementation.md). Repository/tooling release `v0.5.12` leaves framework 0.5.11, spec 0.1.1, definitions and existing ratings unchanged. Hosted CI is checked after publication, separately from local verification.
 
 ## framework v0.5.11 / spec v0.1.1 - 2026-10-26
 

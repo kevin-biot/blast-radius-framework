@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false,
+  "required": ["tool", "tenant", "audience", "amount"],
+  "properties": {
+    "tool": {"const": "ledger.increment"},
+    "tenant": {"type": "string", "minLength": 1},
+    "audience": {"type": "string", "minLength": 1},
+    "amount": {"type": "integer"}
+  }
+}

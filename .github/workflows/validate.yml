@@ -1,0 +1,33 @@
+name: Validate BRF evidence utilities
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Install local runtimes
+        run: |
+          bash tools/install-jsonschema-local.sh
+          bash tools/install-integrations-local.sh
+          python3 tools/install_opa_local.py
+      - name: Fetch pinned upstream data
+        run: |
+          python3 tools/fetch_acs_schemas.py
+          python3 tools/fetch_acs_trace_assets.py
+      - name: Run offline checks and native integrations
+        run: bash tools/check-alignment-local.sh

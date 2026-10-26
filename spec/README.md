@@ -32,6 +32,8 @@ The spec defines forms and test procedures. The [local utilities](../tools/READM
 | `attestation-format.md` | Signed + anchored attestation format with explicit BRF-JCS-0.1.1 signature input. | v0.1.1; legacy input construction must be declared |
 | `component-card-format.md` | Profile linking plus separate organisational-mandate and technical-delegation context. | v0.1.1; additive fields |
 | `acs-evidence.schema.json` | Observed decision/dispatch bundle for the version-pinned ACS adapter. | Local fixture tested; not ACS certification |
+| `acs-trace-evidence.schema.json` | Native ACS OTLP analysis; every record explicitly leaves enforcement unverified. | Reader tested on pinned synthetic upstream sample; tooling v0.5.12 |
+| `evaluation-evidence.schema.json` | Separate task-success and boundary-violation scores with source digest, provenance, counts and unknown/error states. | Native Inspect/OPA integrations; tooling v0.5.12 |
 | `examples/example-component-card-tool-legal-db.json` | Worked example of a tool/integration component card linked to the closed-world BR-2 example profile. | Worked example |
 | `examples/example-profile-closed-world-br2.json` | A worked example of a closed-world BR-2 profile (legal citation review assistant). All invariants hold; cardinal score computed. | Worked example |
 | `examples/example-profile-open-world-br4.json` | A worked example of an open-world BR-4 profile (three-agent NL-coupled research assistant). Invariants mostly fail; cardinal score null. | Worked example showing how failure looks |
@@ -118,6 +120,8 @@ These are open work, not promised delivery or evidence of real-world adoption. S
 ## Versioning
 
 Spec 0.1.1 accompanies framework 0.5.11 and is included in the repository tag `v0.5.11`. Additive fields retain legacy 0.1 profiles; new JSON signatures use the explicit 0.1.1 payload profile. Historical examples are not re-signed by schema validation. Normative I1/worldview changes are reserved for a versioned revision.
+
+Repository/tooling tag `v0.5.12` adds companion evidence schemas and tested readers without revising the profile schema version or framework definitions.
 
 The JSON Schema's `$id` includes the schema filename without a version in the URL, but the `schema_version` field inside a profile identifies the schema version the profile conforms to. This permits evolution without URL churn.
 

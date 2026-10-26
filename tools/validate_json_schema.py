@@ -41,9 +41,13 @@ def finite_float(value):
     return number
 
 
-def load_json(path: Path):
-    return json.loads(path.read_text(encoding="utf-8"),
+def decode_json(text):
+    return json.loads(text,
                       object_pairs_hook=unique_object, parse_constant=reject_constant, parse_float=finite_float)
+
+
+def load_json(path: Path):
+    return decode_json(path.read_text(encoding="utf-8"))
 
 
 def offline_resource(uri):

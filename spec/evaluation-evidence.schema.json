@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kevin-biot/blast-radius-framework/spec/evaluation-evidence.schema.json",
+  "title": "BRF Evaluation Evidence (descriptive scores only)",
+  "type": "object", "additionalProperties": false,
+  "required": ["bundle_version", "source_format", "source_kind", "created_at", "source", "policy_snapshot_id", "target_revision", "records", "summary", "statistical_scope", "limits"],
+  "properties": {
+    "bundle_version": {"const": "0.1"},
+    "source_format": {"enum": ["Inspect", "BRF-OPA-fixture"]},
+    "source_kind": {"enum": ["local_fixture", "supplied_evaluation"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sha256", "producer", "producer_version", "task", "model", "configuration"],
+      "properties": {
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "producer": {"type": "string"}, "producer_version": {"type": "string"},
+        "task": {"type": "string"}, "model": {"type": "string"},
+        "configuration": {"type": "object"}
+      }
+    },
+    "policy_snapshot_id": {"type": "string", "minLength": 1},
+    "target_revision": {"type": "string", "minLength": 1},
+    "records": {"type": "array", "minItems": 1, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sample_id", "sample_id_type", "epoch", "task_success", "boundary_violation", "error"],
+      "properties": {
+        "sample_id": {"type": "string"}, "sample_id_type": {"enum": ["string", "integer"]},
+        "epoch": {"type": "integer", "minimum": 1},
+        "task_success": {"type": ["boolean", "null"]},
+        "boundary_violation": {"type": ["boolean", "null"]},
+        "error": {"type": "boolean"},
+        "mode": {"enum": ["unmediated", "schema_only", "opa_enforced"]},
+        "receipts": {"type": "array", "items": {
+          "type": "object", "additionalProperties": false, "required": ["index", "tenant", "amount"],
+          "properties": {"index": {"type": "integer", "minimum": 0}, "tenant": {"type": "string"}, "amount": {"type": "integer"}}
+        }}
+      }
+    }},
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_count", "complete_records", "unknown_or_error_records", "task_successes", "violation_records", "planned_samples", "evaluation_status"],
+      "properties": {
+        "record_count": {"type": "integer", "minimum": 1}, "complete_records": {"type": "integer", "minimum": 0},
+        "unknown_or_error_records": {"type": "integer", "minimum": 0}, "task_successes": {"type": "integer", "minimum": 0},
+        "violation_records": {"type": "integer", "minimum": 0}, "planned_samples": {"type": ["integer", "null"], "minimum": 0},
+        "evaluation_status": {"enum": ["pass", "fail", "inconclusive"]}
+      }
+    },
+    "statistical_scope": {"const": "descriptive_only"},
+    "limits": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  }
+}
