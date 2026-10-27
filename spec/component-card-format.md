@@ -72,6 +72,8 @@ A supplied mandate reference is not proof of its legal validity. A successful re
 
 The fictional legal-database example deliberately declares `mandate_source.status: not_established` and `revocation_check.status: not_checked`. It grants nothing. Its profile link resolves to the existing example; the example is not a current re-attestation.
 
+The separate [credential-boundary tests](../adoption/credential-boundary-tests.md) now exercise selected signed-token audience, scope, tenant, expiry and local revocation mechanisms. They do not validate this example card's declarations, establish its external mandate or convert it into a tested deployment.
+
 These fields align with questions raised by [NIST's agent identity work](https://www.nist.gov/news-events/news/2026/09/comments-software-and-agentic-ai-identity-concept-paper) and [WIMSE AIMS draft-00](https://datatracker.ietf.org/doc/html/draft-ietf-wimse-aims-00). They do not claim conformance to either. AIMS here means Agent Identity Management System, not the ISO/IEC 42001 management system.
 
 ## Design principles

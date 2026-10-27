@@ -139,3 +139,21 @@ python3 tools/validate_json_schema.py spec/inventory-links.schema.json .tools/cy
 The bridge uses the complete official JSON schema set pinned to release 1.7.2, validates offline, refuses unknown remote references and never fetches BOM-Links or endpoints. It projects metadata/top-level/nested components and services, requires reviewed explicit links and exact versions, and resolves each linked card's profile IDs. Other versions/XML are rejected, not converted. Missing dependency declarations, unmapped entries and entries without `bom-ref` remain explicit. The [fictional example](../examples/cyclonedx/README.md) yields four entries and one card link. Exit 0 means inventory/link checks completed, not completeness or reach; errors return 2. Existing output files are never overwritten. File digests and declared links are not identity, permissions or corporate authority.
 
 Successful hosted checks retain the existing fixture artifact plus copied subject evidence, two DSSE envelopes, inventory links and `demo-public.pem` for 14 days. The allowlist does not include private keys. The demo public key is for reproduction only and is not a BRF institutional identity. Original native bundles retain their unsigned/unverified markers even when wrapped in DSSE.
+
+## Signed Credential Boundary
+
+Tooling v0.5.15 adds a separate loopback JWT-protected tool and local issuer fixture, using pinned PyJWT 2.15.1 and Ed25519 keys. It tests issuer, audience, tenant, scope, type/algorithm, expiry, local revocation, scoped idempotency and control-plane separation. See the [34-case task/results guide and OWASP mapping](../adoption/credential-boundary-tests.md). This does not add authentication to the upstream ACS Guardian or implement an external identity provider.
+
+```sh
+bash tools/install-integrations-local.sh
+.tools/integration-env/bin/python tools/run_credential_boundary.py --run-dir .tools/credential-example
+.tools/integration-env/bin/python tools/run_credential_boundary.py --run-dir .tools/credential-example --check-only
+python3 tools/validate_json_schema.py spec/execution-evidence.schema.json .tools/credential-example/evidence.json
+python3 tools/validate_json_schema.py spec/credential-context.schema.json .tools/credential-example/credential-context.json
+```
+
+Run mode requires a new directory. Check-only mode starts no service and checks bounded file snapshots, capture/key bindings, schemas, receipt correlation and internal accounting; it rejects arbitrary capture paths and symbolic-link files. Neither mode authenticates the observer or establishes external authority. Exit 0 means all predeclared experimental outcomes matched, including unsafe controls; 1 means an experimental mismatch; 2 means invalid input or operational failure.
+
+Credential execution uses companion format 0.1.1; existing ACS/async 0.1.0 bundles remain valid, and profile spec 0.1.1 is unchanged. The execution bundle hash-binds its context/public-key captures and can use the existing DSSE `execution` exporter. DSSE verification does not automatically resolve capture files; validate the explicit packet separately. The standard projection totals both tenants, while the context retains the per-tenant/principal/client receipt identities. Resource-grant `active` is not token validity.
+
+The full check runner executes these tests and retains `credential-boundary/evidence.json`, `credential-context.json` and `issuer-public.pem` through the explicit CI allowlist. No JWT or private signing key is written to those exports; fixture-admin secret files are removed on ordinary shutdown. The local issuer is an in-memory test signer, not a company trust anchor. Bearer reuse, real identity proof, holder binding, provider federation, distributed revocation and corporate/legal mandate are not solved by these checks.

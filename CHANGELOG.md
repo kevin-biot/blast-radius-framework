@@ -2,6 +2,13 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## tooling v0.5.15 / framework v0.5.11 / spec v0.1.1 - 2026-10-27
+
+- Added a separate signed-JWT credential-boundary experiment with pinned PyJWT 2.15.1, fixed Ed25519 issuer key, issuer/audience/type/scope/tenant checks, bounded lifetime and actual expiry. No external identity provider, corporate mandate or upstream ACS wire authentication is implied.
+- Added 34 receipt-backed cases for invalid credentials, tenant/principal/client-scoped idempotency, control-plane separation, local revocation and unavailable-state handling. Commit-time rechecks are compared with deliberately unsafe admission-only controls. Bearer reuse and already-committed residuals remain explicit limitations rather than being mislabeled as prevented.
+- Added credential-context evidence, an execution-companion format 0.1.1 accepting legacy 0.1.0 bundles, and a check-only command for packet hashes, key binding, case correlation and internal accounting. Existing DSSE execution packaging remains compatible. CI retains only the new evidence/context/public-key files, never access tokens or private signing keys.
+- Published the [task list, selected OWASP mappings, reproduction and limits](./adoption/credential-boundary-tests.md). Runtime permission checks do not validate external organizational authority. Framework definitions 0.5.11, profile spec 0.1.1, existing ratings and class floors remain unchanged.
+
 ## tooling v0.5.14 / framework v0.5.11 / spec v0.1.1 - 2026-10-27
 
 - Completed the remaining evidence-portability and inventory-linking tasks. Added optional Ed25519 DSSE envelopes carrying a one-subject in-toto Statement v1 and a versioned custom BRF evidence predicate. Original evidence bytes are SHA-256-bound; native inconclusive/unsigned observations are not rewritten into verified claims.

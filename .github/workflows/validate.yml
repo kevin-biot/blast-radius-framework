@@ -56,3 +56,6 @@ jobs:
             .tools/alignment-check.*/portability/inventory-links.json
             .tools/alignment-check.*/portability/inventory-links.dsse.json
             .tools/alignment-check.*/portability/demo-public.pem
+            .tools/alignment-check.*/credential-boundary/evidence.json
+            .tools/alignment-check.*/credential-boundary/credential-context.json
+            .tools/alignment-check.*/credential-boundary/issuer-public.pem

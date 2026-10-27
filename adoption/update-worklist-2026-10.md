@@ -12,6 +12,8 @@ This records implementation status, not only documents delivered. Existing ordin
 
 **2026-10-27:** tooling `v0.5.14` adds [DSSE/in-toto companion evidence and CycloneDX inventory links](./evidence-portability-and-inventory.md), completing tasks 4 and 5 of that list. Native BR-profile asymmetric/anchor verification, identity trust and deployed reach remain distinct open work; the original baseline rows below are preserved.
 
+**Credential follow-up:** tooling `v0.5.15` adds [signed runtime-credential checks and selected threat mappings](./credential-boundary-tests.md). This advances local audience/scope/tenant/expiry/revocation testing, not issuer federation, real-world identity or company mandate. The historical R08 row below records the earlier release baseline.
+
 | Order | Item | This pass | Remaining exit condition |
 |---|---|---|---|
 | 1 | R01: claims audit | Publication-baseline corrections applied to framework, notation, insurance companion, summaries and templates; historical material explicitly qualified | Independent review of claims and source sufficiency; no coverage finding claimed |

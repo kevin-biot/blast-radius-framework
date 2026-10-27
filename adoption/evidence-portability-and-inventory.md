@@ -5,6 +5,8 @@
 
 This implements the remaining two tasks from the [live-boundary work list](./live-boundary-experiments.md). It makes evidence easier to exchange and supporting components easier to find. It does not promote an inventory into a runtime boundary or a signature into an organizational mandate.
 
+The subsequent [v0.5.15 credential-boundary experiment](./credential-boundary-tests.md) adds issuer/audience/tenant/scope/expiry/revocation tests. Its execution-companion 0.1.1 bundle remains exportable through the existing DSSE `execution` predicate; source observations and external authority are still not verified by signing.
+
 ## Task List
 
 | Task | Acceptance Criteria | Implemented and Tested | Still Outside Scope |

@@ -18,8 +18,8 @@ from time import time_ns
 class Ledger(ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self, database, token, mode):
-        super().__init__(("127.0.0.1", 0), Handler)
+    def __init__(self, database, token, mode, handler=None):
+        super().__init__(("127.0.0.1", 0), handler or Handler)
         self.database, self.token, self.mode = database, token, mode
         self.lock = threading.Lock()
         self.gates, self.waiting = {}, {}

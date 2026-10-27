@@ -3,6 +3,8 @@
 **Status:** Proposed v0.6 tests; no new empirical agent failure rates claimed.
 **Date:** 2026-10-26
 
+**Implementation follow-ups:** the [live/async local experiments](./live-boundary-experiments.md) exercise selected retry, budget and residual mechanisms; the [v0.5.15 credential experiment](./credential-boundary-tests.md) adds signed-token tenant/audience/scope/expiry and local revocation races. These are fixed-proposal mechanism tests, not the preregistered model-driven or independently assessed comparison proposed below.
+
 ## Comparison
 
 Use the same transactional workload, models, tools and initial ledger across unmediated prose delegation, canonical A2A/MCP structured requests, and an independent gateway enforcing tenant, action, parameter, budget and destination limits. Changes in prompts, models or datasets must not be mistaken for the effect of the gateway.

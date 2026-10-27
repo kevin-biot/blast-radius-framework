@@ -26,6 +26,8 @@ The [alignment implementation](./alignment-implementation.md) records native ACS
 
 Tooling v0.5.14 completes the next two tasks: [DSSE/in-toto evidence portability and CycloneDX component-card linking](./evidence-portability-and-inventory.md), with independent-command verification and full pinned offline inventory schemas. Neither signing nor inventory substitutes for runtime evidence or organizational authority.
 
+Tooling v0.5.15 advances [identity and threat coverage](./credential-boundary-tests.md) with signed runtime-credential checks, receipt-backed revocation/expiry races and selected OWASP mappings. It does not implement company-policy validation, an OAuth/OIDC provider or authenticated upstream ACS transport.
+
 Current execution status is in [the October update worklist](./update-worklist-2026-10.md). Read the [claims policy](./claims-and-evidence.md), [ACS adapter](./acs-evidence-adapter.md), [validation programme](./execution-boundary-research.md) and [runnable utilities](../tools/README.md) for this maintenance pass.
 
 The latest reassessment is [`external-review-2026-10.md`](./external-review-2026-10.md), dated 2026-10-26. It reviews market and project changes, identifies claims and validation gaps requiring attention, and lists open update tasks.

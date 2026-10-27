@@ -9,6 +9,8 @@ The first package implements native ACS trace ingestion, a native Inspect log ex
 
 **2026-10-27 follow-up:** tooling v0.5.14 implements [DSSE/in-toto portability and CycloneDX linking](./evidence-portability-and-inventory.md). These are optional companion formats, not new BR ratings or a key-trust service.
 
+**Credential follow-up:** tooling v0.5.15 implements the next [local credential-boundary and threat-mapping tasks](./credential-boundary-tests.md), without treating technical issuer claims as external authority.
+
 ## Task List and Results
 
 | Order | Work | Implemented and run | Still open |
@@ -19,7 +21,7 @@ The first package implements native ACS trace ingestion, a native Inspect log ex
 | 4 | Repeatable verification | One-command local checks; CI workflow with commit-pinned actions and read-only permissions; v0.5.12 hosted Linux run passed | Follow-up hosted runs checked separately; transitive Python dependencies are not fully locked |
 | 5 | Standard evidence packaging | v0.5.14 Ed25519 DSSE export; explicit trusted-key verifier and separate stdlib/OpenSSL path; ephemeral-key demo and negative tests | Native BR-profile asymmetric verification, trusted signer lifecycle, timestamps/anchors and independent assessment |
 | 6 | Component inventory interoperability | v0.5.14 full pinned CycloneDX 1.7 schema validation and explicit card/profile linking; gaps preserved | Deployed identity, inventory completeness, other formats/versions and actual runtime reach |
-| 7 | Identity and threat coverage | Existing delegation cards and test proposals retained | Live credential revocation/audience tests and selected OWASP scenario mappings |
+| 7 | Identity and threat coverage | v0.5.15 signed-JWT issuer/audience/tenant/scope/time checks, scoped idempotency, live local revocation/expiry races, separate controls and selected OWASP mappings | Real provider interoperability, holder binding, key lifecycle/federation, distributed revocation and independent reproduction; external mandate remains a separate governance concern |
 
 ## ACS: What the Reader Actually Establishes
 

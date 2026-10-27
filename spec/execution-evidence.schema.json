@@ -6,8 +6,8 @@
   "additionalProperties": false,
   "required": ["schema_version", "kind", "generated_at", "scope", "observer", "authority_scope", "signed", "upstream", "artifacts", "cases", "expectations_met", "boundary_violation_cases"],
   "properties": {
-    "schema_version": {"const": "0.1.0"},
-    "kind": {"enum": ["acs_live", "async_boundary"]},
+    "schema_version": {"enum": ["0.1.0", "0.1.1"]},
+    "kind": {"enum": ["acs_live", "async_boundary", "credential_boundary"]},
     "generated_at": {"type": "string", "format": "date-time"},
     "scope": {"const": "local_fixed_proposal_mechanism_test"},
     "observer": {"const": "same_machine_read_only_sqlite"},
@@ -29,6 +29,9 @@
     "boundary_violation_cases": {"type": "integer", "minimum": 0},
     "cases": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/case"}}
   },
+  "allOf": [{"if": {"properties": {"kind": {"const": "credential_boundary"}}},
+             "then": {"required": ["captures"], "properties": {"schema_version": {"const": "0.1.1"},
+                       "cases": {"items": {"required": ["checks"]}}}}}],
   "$defs": {
     "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "case": {

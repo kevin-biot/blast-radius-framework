@@ -34,7 +34,8 @@ The spec defines forms and test procedures. The [local utilities](../tools/READM
 | `acs-evidence.schema.json` | Observed decision/dispatch bundle for the version-pinned ACS adapter. | Local fixture tested; not ACS certification |
 | `acs-trace-evidence.schema.json` | Native ACS OTLP analysis; every record explicitly leaves enforcement unverified. | Reader tested on pinned synthetic upstream sample; tooling v0.5.12 |
 | `evaluation-evidence.schema.json` | Separate task-success and boundary-violation scores with source digest, provenance, counts and unknown/error states. | Native Inspect/OPA integrations; tooling v0.5.12 |
-| `execution-evidence.schema.json` | Fixed-proposal live/async cases separating decisions, durable receipts, violations and residual effects. | Unsigned local mechanism tests; tooling v0.5.13 |
+| `execution-evidence.schema.json` | Fixed-proposal live/async/credential cases separating decisions, durable receipts, violations and residual effects. | Companion 0.1.1 accepts legacy 0.1.0; credential kind requires 0.1.1 |
+| `credential-context.schema.json` | Per-tenant/principal/client credential-test observations and public-key binding; no bearer credentials. | Local fixture context; external mandate not established |
 | `dsse-envelope.schema.json` | DSSE JSON envelope shape with bounded signature count; unknown envelope fields ignored. | Ed25519 companion evidence; tooling v0.5.14 |
 | `evidence-statement.schema.json` | One-subject in-toto Statement v1 with the custom [BRF evidence predicate](./predicates/evidence-v1.md). | Signature/subject integrity only; not native BR-profile signing |
 | `inventory-map.schema.json` | Explicit local CycloneDX `bom-ref` to component-card mappings. | No name guessing or inferred runtime edges |
@@ -131,6 +132,8 @@ Repository/tooling tag `v0.5.12` adds companion evidence schemas and tested read
 Tooling `v0.5.13` adds an independent companion execution-evidence format (format version 0.1.0) and live local experiments; it does not revise profile spec 0.1.1 or claim production conformance.
 
 Tooling `v0.5.14` adds optional DSSE/in-toto evidence packaging and CycloneDX inventory-link companions. These do not replace BRF-JCS-0.1.1, add a trusted-key service, upgrade signed claims into facts or change profile spec 0.1.1.
+
+Tooling `v0.5.15` adds execution-companion format 0.1.1 for `credential_boundary` records and a separate credential-context sidecar. Older execution 0.1.0 and existing profile/card versions remain valid. This companion revision is distinct from profile spec 0.1.1 and does not change framework definitions.
 
 The JSON Schema's `$id` includes the schema filename without a version in the URL, but the `schema_version` field inside a profile identifies the schema version the profile conforms to. This permits evolution without URL churn.
 
