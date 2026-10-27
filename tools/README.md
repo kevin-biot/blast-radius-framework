@@ -56,6 +56,7 @@ python3 tools/install_opa_local.py
 python3 tools/install_acs_runtime.py
 python3 tools/fetch_acs_schemas.py
 python3 tools/fetch_acs_trace_assets.py
+python3 tools/fetch_cyclonedx_schemas.py
 bash tools/check-alignment-local.sh
 ```
 
@@ -111,4 +112,30 @@ python3 tools/opa_comparison.py --output .tools/opa-comparison.json
 
 Actual Rego queries cover eight fixed cases in `unmediated`, `schema_only` and `opa_enforced` modes. Unsafe baselines make the combined bundle a deliberate finding (exit **1**), while the OPA-gated mode is checked separately by integration tests. `schema_only` is not canonical A2A/MCP. See [the worked example](../examples/opa-boundary/README.md) for exact counts and scope.
 
-New exporters refuse existing output unless `--overwrite` is supplied. ACS/Inspect exporters reject replacing their input even with that flag; the OPA comparison protects its policy, fixture, runner and binary. Unknown planned sample counts remain inconclusive. Evidence is created owner-only, never appended or automatically signed. See the [alignment implementation note](../adoption/alignment-implementation.md) for result interpretation and remaining live/independent tests.
+The ACS/Inspect/OPA exporters refuse existing output unless `--overwrite` is supplied. ACS/Inspect exporters reject replacing their input even with that flag; the OPA comparison protects its policy, fixture, runner and binary. Unknown planned sample counts remain inconclusive. Their evidence is created owner-only, never appended or automatically signed. Optional DSSE packaging is a separate operation below. See the [alignment implementation note](../adoption/alignment-implementation.md) for result interpretation and remaining live/independent tests.
+
+## DSSE and CycloneDX Companions
+
+Tooling v0.5.14 adds the remaining [portability and inventory tasks](../adoption/evidence-portability-and-inventory.md). Install the integration runtime (including pinned `cryptography` 50.0.2), fetch the pinned CycloneDX schemas, and ensure `openssl` is OpenSSL 3+ rather than LibreSSL. Set `BRF_OPENSSL` to its executable path when necessary. The full check runner produces and verifies two ephemeral-demo-key envelopes; it retains only the public key and removes the temporary private-key directory on ordinary success or exception.
+
+For an existing evidence file and caller-managed unencrypted Ed25519 PEM key:
+
+```sh
+.tools/integration-env/bin/python tools/dsse_evidence.py export --evidence EVIDENCE.json --evidence-type execution --private-key SIGNING_KEY.pem --output .tools/evidence.dsse.json
+.tools/integration-env/bin/python tools/dsse_evidence.py verify --envelope .tools/evidence.dsse.json --evidence EVIDENCE.json --public-key TRUSTED_PUBLIC_KEY.pem
+python3 tools/verify_dsse_openssl.py --envelope .tools/evidence.dsse.json --evidence EVIDENCE.json --public-key TRUSTED_PUBLIC_KEY.pem --openssl openssl
+```
+
+Supported evidence types are `acs_trace`, `evaluation`, `execution` and `inventory_links`. This utility is not a production key-management/HSM service; do not put real signing keys in the repository. The signer binds the original subject bytes and nested evidence contents. The public key must be trusted out of band: an envelope's key ID or embedded URL never establishes trust. Primary verify exits 0 for signature/subject integrity, 1 for signature or binding failure, 2 for malformed/unsupported input or operational failure. The separate OpenSSL command returns 1 for any failure and checks integrity/binding, not the complete companion schema. Neither command establishes claim truth, current authorization, key revocation, a trusted timestamp or a BR rating. New DSSE exports always refuse existing output paths.
+
+Validate and link a CycloneDX 1.7 inventory:
+
+```sh
+python3 tools/fetch_cyclonedx_schemas.py
+python3 tools/cyclonedx_inventory.py examples/cyclonedx/bom.json --mapping examples/cyclonedx/card-map.json --card spec/examples/example-component-card-tool-legal-db.json --profile spec/examples/example-profile-closed-world-br2.json --output .tools/cyclonedx-links.json
+python3 tools/validate_json_schema.py spec/inventory-links.schema.json .tools/cyclonedx-links.json
+```
+
+The bridge uses the complete official JSON schema set pinned to release 1.7.2, validates offline, refuses unknown remote references and never fetches BOM-Links or endpoints. It projects metadata/top-level/nested components and services, requires reviewed explicit links and exact versions, and resolves each linked card's profile IDs. Other versions/XML are rejected, not converted. Missing dependency declarations, unmapped entries and entries without `bom-ref` remain explicit. The [fictional example](../examples/cyclonedx/README.md) yields four entries and one card link. Exit 0 means inventory/link checks completed, not completeness or reach; errors return 2. Existing output files are never overwritten. File digests and declared links are not identity, permissions or corporate authority.
+
+Successful hosted checks retain the existing fixture artifact plus copied subject evidence, two DSSE envelopes, inventory links and `demo-public.pem` for 14 days. The allowlist does not include private keys. The demo public key is for reproduction only and is not a BRF institutional identity. Original native bundles retain their unsigned/unverified markers even when wrapped in DSSE.

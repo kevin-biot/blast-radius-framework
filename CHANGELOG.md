@@ -2,6 +2,13 @@
 
 All notable changes to the Blast Radius Framework will be documented here. The framework is versioned `vX.Y` with minor revisions preserving section numbering where possible. Patch versions (`vX.Y.Z`) indicate clarifications, worked examples, and extraction of reference content without adding or changing substantive definitions.
 
+## tooling v0.5.14 / framework v0.5.11 / spec v0.1.1 - 2026-10-27
+
+- Completed the remaining evidence-portability and inventory-linking tasks. Added optional Ed25519 DSSE envelopes carrying a one-subject in-toto Statement v1 and a versioned custom BRF evidence predicate. Original evidence bytes are SHA-256-bound; native inconclusive/unsigned observations are not rewritten into verified claims.
+- Added explicit trusted-public-key verification plus a separately executable stdlib/OpenSSL 3+ verifier. Tests reject payload/signature/subject tampering, wrong keys and algorithms, malformed encodings and incompatible predicates; key IDs and embedded key hints never establish trust. The demo labels its ephemeral signing context and removes its private key on ordinary success or failure.
+- Added an offline CycloneDX JSON 1.7 importer using all schemas pinned to upstream release 1.7.2. Explicit sidecar mappings bind exact-version component cards and referenced profile files by digest. Unmapped/unaddressable entries and missing dependency declarations remain visible; inventory edges never become runtime reach, grants, corporate authority or BRF composition edges.
+- Added companion schemas, a fictional inventory example, regression coverage and fixture-only CI artifacts. See the [task list, verification boundary and reproduction guide](./adoption/evidence-portability-and-inventory.md). Framework definitions, profile spec 0.1.1, existing ratings and native BRF-JCS signing rules are unchanged. Key lifecycle, anchors, evidence truth and production identity remain outside scope.
+
 ## tooling v0.5.13 / framework v0.5.11 / spec v0.1.1 - 2026-10-26
 
 - Executed the pinned ACS v0.1.4 Guardian and shipped hook against a separate durable HTTP tool. Eight cases distinguish wire decisions from receipts: allow, honored deny, intentional bypass and outage under default/fail-closed postures. Preserved upstream fail-open behavior rather than replacing it with the local fixture's semantics.

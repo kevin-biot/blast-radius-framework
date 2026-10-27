@@ -30,6 +30,7 @@ jobs:
         run: |
           python3 tools/fetch_acs_schemas.py
           python3 tools/fetch_acs_trace_assets.py
+          python3 tools/fetch_cyclonedx_schemas.py
       - name: Run offline checks and native integrations
         run: bash tools/check-alignment-local.sh
       - name: Retain fixture-only evidence
@@ -50,3 +51,8 @@ jobs:
             .tools/alignment-check.*/acs-live/*/trace.jsonl
             .tools/alignment-check.*/acs-live/*/host-trace.jsonl
             .tools/alignment-check.*/acs-live/*/trace-analysis.json
+            .tools/alignment-check.*/portability/evidence.json
+            .tools/alignment-check.*/portability/evidence.dsse.json
+            .tools/alignment-check.*/portability/inventory-links.json
+            .tools/alignment-check.*/portability/inventory-links.dsse.json
+            .tools/alignment-check.*/portability/demo-public.pem

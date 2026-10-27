@@ -1,0 +1,13 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:5a7344f9-790f-453d-834a-c794b5f964a6",
+  "version": 1,
+  "metadata": {"component": {"type": "application", "bom-ref": "example-system", "name": "Fictional citation assistant", "version": "1.0"}},
+  "components": [
+    {"type": "library", "bom-ref": "parser", "name": "fictional-parser", "version": "0.1", "licenses": [{"license": {"id": "MIT"}}]},
+    {"type": "library", "name": "unaddressed-example", "version": "0.0"}
+  ],
+  "services": [{"bom-ref": "legal-db", "name": "Legal Citation Database Retrieval API", "version": "1.0", "endpoints": ["https://example.org/legal-citation-db"]}],
+  "dependencies": [{"ref": "example-system", "dependsOn": ["parser", "legal-db"]}, {"ref": "parser", "dependsOn": []}, {"ref": "legal-db", "dependsOn": []}]
+}

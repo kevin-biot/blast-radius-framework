@@ -10,6 +10,8 @@ This records implementation status, not only documents delivered. Existing ordin
 
 **Next package:** tooling `v0.5.13` executes the pinned upstream Guardian/shim and a separate durable test tool, plus retry/budget/revocation experiments. See the [approved task list and measured local outcomes](./live-boundary-experiments.md). This advances local mechanism testing, not production conformance, external authority or independent assessment.
 
+**2026-10-27:** tooling `v0.5.14` adds [DSSE/in-toto companion evidence and CycloneDX inventory links](./evidence-portability-and-inventory.md), completing tasks 4 and 5 of that list. Native BR-profile asymmetric/anchor verification, identity trust and deployed reach remain distinct open work; the original baseline rows below are preserved.
+
 | Order | Item | This pass | Remaining exit condition |
 |---|---|---|---|
 | 1 | R01: claims audit | Publication-baseline corrections applied to framework, notation, insurance companion, summaries and templates; historical material explicitly qualified | Independent review of claims and source sufficiency; no coverage finding claimed |

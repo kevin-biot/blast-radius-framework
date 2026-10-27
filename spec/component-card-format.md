@@ -58,6 +58,10 @@ The minimum linking pattern is:
 
 An initial example card is included at [`examples/example-component-card-tool-legal-db.json`](./examples/example-component-card-tool-legal-db.json). It links to the closed-world BR-2 worked example via `related_profile_ids: ["example-br2-closed-world-001"]`.
 
+### CycloneDX inventory linking
+
+Tooling v0.5.14 adds an optional sidecar mapping from a CycloneDX 1.7 `bom-ref` to a `card_id`, without changing this card schema. The [worked example](../examples/cyclonedx/README.md) validates the full pinned upstream schema, requires exact nonempty component/card versions, resolves supplied profile IDs and binds source documents by SHA-256. Unmapped or unaddressable entries remain visible. A declared link is not proof of identity, inventory completeness, deployed permissions, runtime reach or a corporate mandate; dependency edges do not become BRF composition edges.
+
 ---
 
 ## Authority and Delegation Context

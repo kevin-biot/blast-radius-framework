@@ -228,6 +228,10 @@ A trivial re-attestation (no content change, just re-signature with current key)
 
 ## 7. Interoperability notes
 
+### Optional companion evidence in DSSE
+
+Tooling v0.5.14 can package companion evidence files in Ed25519 DSSE envelopes carrying an in-toto Statement v1 and the [custom BRF evidence predicate](./predicates/evidence-v1.md). An explicit trusted-key verifier and a separate stdlib/OpenSSL command check signature/subject integrity. This does not implement this document's native profile-signature verification, key lifecycle, anchoring procedure or a BR certification. The original evidence claims remain unverified where they were unverified before signing. See the [portability guide](../adoption/evidence-portability-and-inventory.md).
+
 ### With SAPP
 
 SAPP's Merkle-anchored evidence infrastructure is the reference anchor for BR-4+ attestations. A BR attestation's `anchor.anchor_commitment` maps directly to the SAPP evidence record's commitment; the SAPP evidence scoring (10 categories, 0–1.0) can supplement the BR profile's `aggregation.cardinal_score.sigma_B`.

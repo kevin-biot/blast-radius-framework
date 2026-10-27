@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kevin-biot/blast-radius-framework/spec/evidence-statement.schema.json",
+  "title": "BRF evidence in-toto Statement v1 (single-subject profile)",
+  "type": "object",
+  "required": ["_type", "subject", "predicateType", "predicate"],
+  "properties": {
+    "_type": {"const": "https://in-toto.io/Statement/v1"},
+    "subject": {"type": "array", "minItems": 1, "maxItems": 1, "items": {
+      "type": "object", "required": ["digest"],
+      "properties": {"name": {"type": "string"}, "digest": {
+        "type": "object", "required": ["sha256"],
+        "properties": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+      }}
+    }},
+    "predicateType": {"const": "https://github.com/kevin-biot/blast-radius-framework/blob/main/spec/predicates/evidence-v1.md"},
+    "predicate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_type", "evidence_schema", "issued_at", "verification_scope", "signing_context", "evidence"],
+      "properties": {
+        "evidence_type": {"enum": ["acs_trace", "evaluation", "execution", "inventory_links"]},
+        "evidence_schema": {"type": "string"},
+        "issued_at": {"type": "string", "format": "date-time"},
+        "verification_scope": {"const": "signature_and_subject_integrity_only"},
+        "signing_context": {"enum": ["caller_supplied_key", "ephemeral_demo_key"]},
+        "evidence": {"type": "object"}
+      }
+    }
+  }
+}

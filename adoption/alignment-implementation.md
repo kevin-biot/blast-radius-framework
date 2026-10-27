@@ -7,6 +7,8 @@ The first package implements native ACS trace ingestion, a native Inspect log ex
 
 **Follow-up:** [live boundary experiments](./live-boundary-experiments.md) in tooling v0.5.13 execute the real pinned Guardian/shim and add durable asynchronous effect tests. The original v0.5.12 verification record below remains historical; the follow-up records its own scope and results.
 
+**2026-10-27 follow-up:** tooling v0.5.14 implements [DSSE/in-toto portability and CycloneDX linking](./evidence-portability-and-inventory.md). These are optional companion formats, not new BR ratings or a key-trust service.
+
 ## Task List and Results
 
 | Order | Work | Implemented and run | Still open |
@@ -15,8 +17,8 @@ The first package implements native ACS trace ingestion, a native Inspect log ex
 | 2 | Native Inspect exporter | Pinned Inspect 0.3.283 API reads both `.eval` and JSON; separate task/violation scores; missing scores, cancelled/truncated/invalidated runs remain inconclusive | AgentDojo importer, model-driven adversarial workload and independently audited scorers |
 | 3 | Non-Lane2 policy example | Digest-pinned OPA 1.21.4 executed real Rego decisions; same eight fixed scenarios in three modes; Inspect produced a real log with no LLM generation; separate v0.5.13 local async race tests | Full canonical A2A/MCP comparison, distributed external effects and independent reproduction |
 | 4 | Repeatable verification | One-command local checks; CI workflow with commit-pinned actions and read-only permissions; v0.5.12 hosted Linux run passed | Follow-up hosted runs checked separately; transitive Python dependencies are not fully locked |
-| 5 | Standard evidence packaging | No change in this pass | Optional in-toto/DSSE export and an independent verification example |
-| 6 | Component inventory interoperability | No change in this pass | CycloneDX import/linking without treating inventory as runtime exposure proof |
+| 5 | Standard evidence packaging | v0.5.14 Ed25519 DSSE export; explicit trusted-key verifier and separate stdlib/OpenSSL path; ephemeral-key demo and negative tests | Native BR-profile asymmetric verification, trusted signer lifecycle, timestamps/anchors and independent assessment |
+| 6 | Component inventory interoperability | v0.5.14 full pinned CycloneDX 1.7 schema validation and explicit card/profile linking; gaps preserved | Deployed identity, inventory completeness, other formats/versions and actual runtime reach |
 | 7 | Identity and threat coverage | Existing delegation cards and test proposals retained | Live credential revocation/audience tests and selected OWASP scenario mappings |
 
 ## ACS: What the Reader Actually Establishes
